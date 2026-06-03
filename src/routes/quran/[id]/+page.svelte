@@ -855,7 +855,7 @@
           {#if expandedTafsirAyah === ayah.nomorAyat}
             <div class="mt-2 p-5 rounded-2xl bg-emerald-500/[0.02] border border-emerald-500/10 space-y-3 animate-slide-up">
               <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tafsir Al-Jalalain</span>
+                <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
                 <button 
                   onclick={() => expandedTafsirAyah = null} 
                   class="text-[10px] font-bold text-zinc-500 hover:text-white"
