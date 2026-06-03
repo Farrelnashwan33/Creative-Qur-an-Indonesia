@@ -29,6 +29,8 @@
   let mounted = $state(false);
   let activeTab = $derived($page.url.pathname);
   let showPremiumBtn = $derived(activeTab === '/' || activeTab === '/settings');
+  let isReaderPage = $derived(activeTab.startsWith('/quran/') && activeTab !== '/quran');
+  let surahId = $derived(Number($page.params.id));
   
   // Theme derived state from store
   let themeMode = $derived(
@@ -443,6 +445,7 @@
   </main>
 
   <!-- MOBILE BOTTOM NAVIGATION -->
+  {#if !isReaderPage}
   <nav class="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/5 px-2 py-3 pb-safe-bottom flex justify-around items-center z-40 backdrop-blur-lg {$isPremium ? 'premium-border' : ''}">
     {#each menuItems as item (item.path)}
       {@const Icon = item.icon}
@@ -462,6 +465,7 @@
       </a>
     {/each}
   </nav>
+  {/if}
 
   <!-- ADZAN ALERT POPUP OVERLAY -->
   {#if showAdzanModal}
@@ -607,7 +611,7 @@
   {/if}
 
   <!-- FLOATING PERSISTENT PLAYER -->
-  {#if $murotal.activeAyahNum !== null && $murotal.surah}
+  {#if $murotal.activeAyahNum !== null && $murotal.surah && (!isReaderPage || $murotal.surah.nomor !== surahId)}
     <div class="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-8 md:w-[360px] glass-emerald border border-emerald-500/30 p-4 rounded-3xl z-40 shadow-2xl flex items-center gap-4 animate-slide-up">
       <div class="w-11 h-11 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg text-white">
         <Volume2 class="w-5.5 h-5.5 animate-bounce" />
