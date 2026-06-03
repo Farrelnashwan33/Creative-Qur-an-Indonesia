@@ -37,6 +37,7 @@
   let error = $state<string | null>(null);
 
   // Track active verse details for audio playback
+  let mounted = $state(false);
   let activeAyahNum = $state<number | null>(null);
   let audioPlayer: HTMLAudioElement | null = null;
   let isPlaying = $state(false);
@@ -462,6 +463,7 @@
   }
 
   onMount(async () => {
+    mounted = true;
     try {
       const surahsList = await fetchSurahs();
       allSurahs = surahsList;
@@ -500,10 +502,44 @@
     return ayah.audio[key] || Object.values(ayah.audio)[0];
   }
 
+  // Reactively switch Qori mid-playback when changed in Settings
+  $effect(() => {
+    const currentQori = $settings.qori;
+    if (mounted && isPlaying && audioPlayer && activeAyahNum !== null && surah) {
+      const currentAyah = surah.ayat.find(a => a.nomorAyat === activeAyahNum);
+      if (currentAyah) {
+        const currentTime = audioPlayer.currentTime;
+        
+        // Pause and fully release the old audio player
+        const oldPlayer = audioPlayer;
+        audioPlayer = null;
+        if (oldPlayer) {
+          oldPlayer.onended = null;
+          oldPlayer.pause();
+          oldPlayer.src = "";
+        }
+        
+        const url = getAudioUrl(currentAyah);
+        const newPlayer = new Audio(url);
+        newPlayer.currentTime = currentTime;
+        newPlayer.play().catch(e => console.warn("Failed to automatically play new Qori audio", e));
+        
+        newPlayer.onended = () => {
+          playNext();
+        };
+        
+        audioPlayer = newPlayer;
+      }
+    }
+  });
+
   // Play a specific verse
   function playVerse(ayah: Ayah) {
     if (audioPlayer) {
+      audioPlayer.onended = null;
       audioPlayer.pause();
+      audioPlayer.src = "";
+      audioPlayer = null;
     }
 
     if (activeAyahNum === ayah.nomorAyat && isPlaying) {
