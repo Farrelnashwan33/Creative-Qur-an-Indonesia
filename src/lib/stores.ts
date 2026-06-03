@@ -61,7 +61,7 @@ export interface AppSettings {
   translationEnabled: boolean;
   translationFontSize: number; // 12 to 24
   qori: 'juhany' | 'qasim' | 'sudais' | 'dossari' | 'afasy' | 'aldosari';
-  theme: 'system' | 'light' | 'dark';
+  theme: 'light' | 'dark';
   keepScreenOn: boolean;
   fullscreen: boolean;
 }
@@ -76,7 +76,7 @@ export const defaultSettings: AppSettings = {
   translationEnabled: true,
   translationFontSize: 16,
   qori: 'afasy',
-  theme: 'system',
+  theme: 'dark',
   keepScreenOn: false,
   fullscreen: false
 };

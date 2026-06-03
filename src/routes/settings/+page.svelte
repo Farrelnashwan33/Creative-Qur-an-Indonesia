@@ -73,18 +73,13 @@
     
     // Side effect for theme changes
     if (key === 'theme') {
-      applyTheme(value as 'system' | 'light' | 'dark');
+      applyTheme(value as 'light' | 'dark');
     }
   }
 
-  function applyTheme(theme: 'system' | 'light' | 'dark') {
+  function applyTheme(theme: 'light' | 'dark') {
     if (typeof window === 'undefined') return;
-    let isDark = true;
-    if (theme === 'system') {
-      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    } else {
-      isDark = theme === 'dark';
-    }
+    let isDark = theme === 'dark';
     const root = document.documentElement;
     if (isDark) {
       root.classList.remove('light-mode');
@@ -475,14 +470,6 @@
             >
               <Moon class="w-3.5 h-3.5" />
               <span>Dark</span>
-            </button>
-            <button 
-              onclick={() => updateSetting('theme', 'system')}
-              class="flex-1 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5
-                {$settings.theme === 'system' ? 'bg-emerald-600 text-white shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
-            >
-              <Laptop class="w-3.5 h-3.5" />
-              <span>Sistem</span>
             </button>
           </div>
         </div>

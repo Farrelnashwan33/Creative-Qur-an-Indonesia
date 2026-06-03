@@ -28,10 +28,7 @@
   
   // Theme derived state from store
   let themeMode = $derived(
-    $settings.theme === 'dark' || 
-    ($settings.theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) 
-      ? 'dark' 
-      : 'light'
+    $settings.theme === 'dark' ? 'dark' : 'light'
   );
 
   let toastMessage = $state<string | null>(null);
@@ -262,15 +259,10 @@
     }
   }
 
-  function applyTheme(theme: 'system' | 'light' | 'dark') {
+  function applyTheme(theme: 'light' | 'dark') {
     if (typeof window === 'undefined') return;
     
-    let isDark = true;
-    if (theme === 'system') {
-      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    } else {
-      isDark = theme === 'dark';
-    }
+    let isDark = theme === 'dark';
 
     const root = document.documentElement;
     if (isDark) {
