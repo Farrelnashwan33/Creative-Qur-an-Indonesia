@@ -120,35 +120,56 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 
 /* Glassmorphism Helpers */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   isolation: isolate;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass:hover {
+  border-color: rgba(16, 185, 129, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.04), 0 4px 20px 0 rgba(0, 0, 0, 0.4);
 }
 
 .light-mode .glass {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(16, 185, 129, 0.08);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
   isolation: isolate;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.light-mode .glass:hover {
+  border-color: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.08);
 }
 
 .glass-emerald {
-  background: linear-gradient(135deg, rgba(6, 78, 59, 0.2) 0%, rgba(2, 44, 34, 0.35) 100%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(16, 185, 129, 0.15);
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.25) 0%, rgba(2, 44, 34, 0.4) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   isolation: isolate;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-emerald:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.08);
 }
 
 .light-mode .glass-emerald {
-  background: linear-gradient(135deg, rgba(209, 250, 229, 0.7) 0%, rgba(240, 253, 244, 0.8) 100%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, rgba(209, 250, 229, 0.75) 0%, rgba(240, 253, 244, 0.85) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.light-mode .glass-emerald:hover {
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
 /* Custom Islamic Patterns & Backgrounds */
@@ -164,10 +185,14 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 
 /* Soft gradients */
 .soft-gradient {
-  background: linear-gradient(135deg, var(--color-emerald-950) 0%, #030712 100%);
+  background: radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.1) 0%, transparent 45%),
+              radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 45%),
+              linear-gradient(135deg, #02110b 0%, #030712 50%, #080312 100%) !important;
 }
 .light-mode .soft-gradient {
-  background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 100%);
+  background: radial-gradient(circle at 10% 10%, rgba(209, 250, 229, 0.4) 0%, transparent 45%),
+              radial-gradient(circle at 90% 90%, rgba(219, 234, 254, 0.3) 0%, transparent 45%),
+              linear-gradient(135deg, #f0fdf4 0%, #f8fafc 50%, #faf5ff 100%) !important;
 }
 
 /* Tajwid Coloring */
@@ -233,9 +258,10 @@ html.light-mode .premium-border {
 
 /* Premium Theme Background and Geometric Patterns */
 .premium-theme {
-  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.08) 0%, transparent 45%),
-              radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
-              linear-gradient(135deg, #022018 0%, #030807 50%, #150f02 100%) !important;
+  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
+              radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+              linear-gradient(135deg, #01140f 0%, #030907 40%, #150f02 100%) !important;
   position: relative;
 }
 
@@ -251,8 +277,9 @@ html.light-mode .premium-border {
 }
 
 html.light-mode .premium-theme {
-  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 45%),
-              radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
+  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.2) 0%, transparent 45%),
+              radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.22) 0%, transparent 45%),
+              radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.15) 0%, transparent 50%),
               linear-gradient(135deg, #f0fdf4 0%, #fffbeb 50%, #fef3c7 100%) !important;
 }
 

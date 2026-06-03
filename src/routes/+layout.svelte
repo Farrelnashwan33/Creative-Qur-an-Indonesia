@@ -430,27 +430,6 @@
         </span>
       </div>
     </div>
-
-    <!-- Premium Action Button in Mobile Header -->
-    <div class="flex items-center gap-2">
-      {#if !$isPremium}
-        <button 
-          onclick={handleActivatePremium}
-          class="p-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer animate-fade-in"
-        >
-          <Crown class="w-4 h-4 fill-amber-400 animate-pulse-slow" />
-          <span class="text-[10px] font-extrabold tracking-wider uppercase">Premium</span>
-        </button>
-      {:else}
-        <a 
-          href="/premium/ebook"
-          class="p-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer animate-fade-in"
-        >
-          <BookMarked class="w-4.5 h-4.5 text-amber-400" />
-          <span class="text-[10px] font-extrabold tracking-wider uppercase">E-Book</span>
-        </a>
-      {/if}
-    </div>
   </header>
 
   <!-- MAIN APP CONTAINER -->
@@ -596,6 +575,29 @@
       </div>
     </div>
   {/if}
+
+  <!-- MOBILE FLOATING PREMIUM BUBBLE -->
+  <div class="md:hidden fixed bottom-[88px] right-4 z-40 animate-float">
+    {#if !$isPremium}
+      <button 
+        onclick={handleActivatePremium}
+        class="w-14 h-14 rounded-full bg-linear-to-tr from-amber-500 to-yellow-300 shadow-xl shadow-amber-500/30 flex items-center justify-center border border-amber-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative group"
+        aria-label="Aktivasi Premium"
+      >
+        <!-- Pulsing gold ring overlay -->
+        <span class="absolute inset-0 rounded-full bg-amber-400/30 animate-ping"></span>
+        <Crown class="w-6 h-6 text-black fill-black relative z-10" />
+      </button>
+    {:else}
+      <a 
+        href="/premium/ebook"
+        class="w-14 h-14 rounded-full bg-linear-to-tr from-amber-500 to-yellow-300 shadow-xl shadow-amber-500/30 flex items-center justify-center border border-amber-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative"
+        aria-label="Buka E-Book"
+      >
+        <BookMarked class="w-6 h-6 text-black relative z-10" />
+      </a>
+    {/if}
+  </div>
 
   <!-- TOAST ALERTS -->
   {#if showToast}
