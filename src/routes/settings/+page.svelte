@@ -22,6 +22,7 @@
     Crown
   } from '@lucide/svelte';
 
+  let mounted = $state(false);
   let wakeLockActive = $state(false);
   let wakeLock: any = null;
 
@@ -32,6 +33,7 @@
   ];
 
   onMount(() => {
+    mounted = true;
     const handleFullscreenChange = () => {
       updateSetting('fullscreen', !!document.fullscreenElement);
     };
@@ -185,6 +187,7 @@
   }
 </script>
 
+{#if mounted}
 <div class="space-y-6 max-w-4xl mx-auto">
   
   <!-- PAGE HEADER -->
@@ -761,3 +764,21 @@
     </div>
   </div>
 {/if}
+
+{:else}
+  <!-- Global Loading / Skeleton Loader prior to Mount -->
+  <div class="space-y-6 max-w-4xl mx-auto animate-pulse">
+    <div class="flex items-center justify-between pb-4">
+      <div class="space-y-2">
+        <div class="h-8 bg-white/5 rounded-xl w-48"></div>
+        <div class="h-4 bg-white/5 rounded-lg w-72"></div>
+      </div>
+      <div class="h-10 bg-white/5 rounded-xl w-36"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="h-[400px] bg-white/5 rounded-3xl"></div>
+      <div class="h-[400px] bg-white/5 rounded-3xl"></div>
+    </div>
+  </div>
+{/if}
+
