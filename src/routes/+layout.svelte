@@ -191,7 +191,30 @@
       const ua = navigator.userAgent;
       const isSamsungBrowser = /SamsungBrowser/i.test(ua);
       const isSamsungDevice = /Samsung/i.test(ua) || /SM-[A-Z0-9]+/i.test(ua);
-      if (isSamsungBrowser || isSamsungDevice) {
+      let isMali = false;
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as any;
+        if (gl) {
+          const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if (debugInfo) {
+            const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_ID_GI || 37446);
+            if (renderer && (/Mali/i.test(renderer) || /Samsung/i.test(renderer))) {
+              isMali = true;
+            }
+          }
+        }
+      } catch (e) {}
+
+      let isSamsungUAData = false;
+      const nav = navigator as any;
+      if (nav.userAgentData && nav.userAgentData.brands) {
+        isSamsungUAData = nav.userAgentData.brands.some((b: any) => /Samsung/i.test(b.brand));
+      }
+
+      const isChromeAndroid = /Chrome/i.test(ua) && /Android/i.test(ua);
+
+      if (isSamsungBrowser || isSamsungDevice || isSamsungUAData || isMali || isChromeAndroid) {
         document.documentElement.classList.add('samsung-device');
       }
     }
@@ -408,11 +431,25 @@
       </div>
     </div>
 
-    <!-- Theme Quick Toggle / Active Route Header -->
+    <!-- Premium Action Button in Mobile Header -->
     <div class="flex items-center gap-2">
-      <a href="/settings" class="p-2 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-zinc-200">
-        <SettingsIcon class="w-4.5 h-4.5" />
-      </a>
+      {#if !$isPremium}
+        <button 
+          onclick={handleActivatePremium}
+          class="p-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer animate-fade-in"
+        >
+          <Crown class="w-4 h-4 fill-amber-400 animate-pulse-slow" />
+          <span class="text-[10px] font-extrabold tracking-wider uppercase">Premium</span>
+        </button>
+      {:else}
+        <a 
+          href="/premium/ebook"
+          class="p-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer animate-fade-in"
+        >
+          <BookMarked class="w-4.5 h-4.5 text-amber-400" />
+          <span class="text-[10px] font-extrabold tracking-wider uppercase">E-Book</span>
+        </a>
+      {/if}
     </div>
   </header>
 
@@ -440,27 +477,6 @@
         {/if}
       </a>
     {/each}
-    {#if !$isPremium}
-      <button 
-        onclick={handleActivatePremium}
-        class="flex flex-col items-center justify-center gap-1.5 w-16 text-amber-400 animate-pulse-slow cursor-pointer animate-fade-in"
-      >
-        <div class="p-1 rounded-xl bg-amber-500/10 text-amber-400">
-          <Crown class="w-5.5 h-5.5 fill-amber-400" />
-        </div>
-        <span class="text-[9px] font-bold tracking-wide">Premium</span>
-      </button>
-    {:else}
-      <a 
-        href="/premium/ebook"
-        class="flex flex-col items-center justify-center gap-1.5 w-16 text-amber-400 animate-pulse-slow cursor-pointer animate-fade-in"
-      >
-        <div class="p-1 rounded-xl bg-amber-500/10 text-amber-400">
-          <BookMarked class="w-5.5 h-5.5 fill-amber-400" />
-        </div>
-        <span class="text-[9px] font-bold tracking-wide">E-Book</span>
-      </a>
-    {/if}
   </nav>
 
   <!-- ADZAN ALERT POPUP OVERLAY -->

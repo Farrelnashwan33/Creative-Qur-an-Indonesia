@@ -5,12 +5,39 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 		<script>
-			// Detect Samsung devices and browsers synchronously before rendering to prevent initial paint GPU compositor crashes
+			// Detect Samsung/Mali devices and browsers synchronously to prevent GPU crashes & text rendering glitches
 			(function() {
 				var ua = navigator.userAgent;
 				var isSamsungBrowser = /SamsungBrowser/i.test(ua);
 				var isSamsungDevice = /Samsung/i.test(ua) || /SM-[A-Z0-9]+/i.test(ua);
-				if (isSamsungBrowser || isSamsungDevice) {
+				var isMali = false;
+
+				// Check via WebGL debug renderer info if available
+				try {
+					var canvas = document.createElement('canvas');
+					var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+					if (gl) {
+						var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+						if (debugInfo) {
+							var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_ID_GI || 37446);
+							if (renderer && (/Mali/i.test(renderer) || /Samsung/i.test(renderer))) {
+								isMali = true;
+							}
+						}
+					}
+				} catch (e) {}
+
+				// Check via modern userAgentData if available
+				var isSamsungUAData = false;
+				if (navigator.userAgentData && navigator.userAgentData.brands) {
+					isSamsungUAData = navigator.userAgentData.brands.some(function(b) {
+						return /Samsung/i.test(b.brand);
+					});
+				}
+
+				var isChromeAndroid = /Chrome/i.test(ua) && /Android/i.test(ua);
+
+				if (isSamsungBrowser || isSamsungDevice || isSamsungUAData || isMali || isChromeAndroid) {
 					document.documentElement.classList.add('samsung-device');
 				}
 			})();

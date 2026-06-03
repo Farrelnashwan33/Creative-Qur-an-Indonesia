@@ -316,3 +316,15 @@ html.light-mode.samsung-device .premium-border {
   background-image: none !important;
   display: none !important;
 }
+
+/* Fallback for premium-gold-text on Samsung/Mali devices to prevent invisible text/black box rendering bugs */
+.samsung-device .premium-gold-text {
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  color: #fbbf24 !important; /* solid gold fallback */
+  text-shadow: none !important;
+}
+
+html.light-mode.samsung-device .premium-gold-text {
+  color: #d97706 !important; /* solid dark gold fallback for light mode */
+}
