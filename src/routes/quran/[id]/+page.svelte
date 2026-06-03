@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { fetchSurahDetail, fetchTafsir, fetchSurahs, fetchPrayerTimes, fetchPrayerTimesByCity, type SurahDetail, type TafsirDetail, type Ayah, type Surah } from '$lib/api';
-  import { settings, lastRead, favorites, readingHistory, readingStats, defaultSettings, type AppSettings, type FavoriteAyah, isPremium, showPremiumPaymentModal } from '$lib/stores';
+  import { settings, lastRead, favorites, readingHistory, readingStats, defaultSettings, type AppSettings, type FavoriteAyah, isPremium, showPremiumPaymentModal, murotal } from '$lib/stores';
   import { 
     ArrowLeft, 
     Play, 
@@ -38,9 +38,14 @@
 
   // Track active verse details for audio playback
   let mounted = $state(false);
-  let activeAyahNum = $state<number | null>(null);
-  let audioPlayer: HTMLAudioElement | null = null;
-  let isPlaying = $state(false);
+  let isCurrentSurahPlaying = $derived($murotal.isPlaying && $murotal.surah?.nomor === surahId);
+  
+  // Auto scroll to active verse
+  $effect(() => {
+    if (mounted && $murotal.activeAyahNum !== null && $murotal.surah?.nomor === surahId) {
+      scrollToVerse($murotal.activeAyahNum);
+    }
+  });
   let expandedTafsirAyah = $state<number | null>(null);
   let expandedPerKataAyah = $state<number | null>(null);
   let perKataCache = $state<Record<number, any[]>>({});
@@ -412,13 +417,6 @@
     loading = true;
     error = null;
 
-    // Reset player and expanded states when changing surah
-    if (audioPlayer) {
-      audioPlayer.pause();
-      audioPlayer = null;
-    }
-    isPlaying = false;
-    activeAyahNum = null;
     expandedTafsirAyah = null;
     expandedPerKataAyah = null;
 
@@ -488,102 +486,27 @@
     });
   }
 
-  // Audio mapping helper for Qori selection
-  function getAudioUrl(ayah: Ayah): string {
-    const qoriMap = {
-      'juhany': '01',
-      'qasim': '02',
-      'sudais': '03',
-      'dossari': '04',
-      'afasy': '05',
-      'aldosari': '06'
-    };
-    const key = qoriMap[$settings.qori] || '05';
-    return ayah.audio[key] || Object.values(ayah.audio)[0];
-  }
-
-  // Reactively switch Qori mid-playback when changed in Settings
-  $effect(() => {
-    const currentQori = $settings.qori;
-    if (mounted && isPlaying && audioPlayer && activeAyahNum !== null && surah) {
-      const currentAyah = surah.ayat.find(a => a.nomorAyat === activeAyahNum);
-      if (currentAyah) {
-        const currentTime = audioPlayer.currentTime;
-        
-        // Pause and fully release the old audio player
-        const oldPlayer = audioPlayer;
-        audioPlayer = null;
-        if (oldPlayer) {
-          oldPlayer.onended = null;
-          oldPlayer.pause();
-          oldPlayer.src = "";
-        }
-        
-        const url = getAudioUrl(currentAyah);
-        const newPlayer = new Audio(url);
-        newPlayer.currentTime = currentTime;
-        newPlayer.play().catch(e => console.warn("Failed to automatically play new Qori audio", e));
-        
-        newPlayer.onended = () => {
-          playNext();
-        };
-        
-        audioPlayer = newPlayer;
-      }
-    }
-  });
-
   // Play a specific verse
   function playVerse(ayah: Ayah) {
-    if (audioPlayer) {
-      audioPlayer.onended = null;
-      audioPlayer.pause();
-      audioPlayer.src = "";
-      audioPlayer = null;
-    }
-
-    if (activeAyahNum === ayah.nomorAyat && isPlaying) {
-      isPlaying = false;
-      return;
-    }
-
-    activeAyahNum = ayah.nomorAyat;
-    const url = getAudioUrl(ayah);
-
-    audioPlayer = new Audio(url);
-    audioPlayer.play();
-    isPlaying = true;
-
-    // Handle end of playback - auto play next verse
-    audioPlayer.onended = () => {
-      playNext();
-    };
-
-    // Auto-scroll to active card
-    scrollToVerse(ayah.nomorAyat);
-  }
-
-  function playNext() {
-    if (!surah || activeAyahNum === null) return;
-    const nextIdx = activeAyahNum; // Index is 0-based, so next verse is index = activeAyahNum
-    if (nextIdx < surah.ayat.length) {
-      const nextAyah = surah.ayat[nextIdx];
-      playVerse(nextAyah);
+    if (!surah) return;
+    if ($murotal.activeAyahNum === ayah.nomorAyat && $murotal.isPlaying && $murotal.surah?.nomor === surahId) {
+      murotal.pause();
+    } else if ($murotal.activeAyahNum === ayah.nomorAyat && !$murotal.isPlaying && $murotal.surah?.nomor === surahId) {
+      murotal.resume();
     } else {
-      isPlaying = false;
-      activeAyahNum = null;
-      triggerToast("Khatam Surah ini.");
+      murotal.play(surah, ayah.nomorAyat, $settings.qori);
     }
   }
 
   function togglePlayAll() {
     if (!surah) return;
-    if (isPlaying) {
-      if (audioPlayer) audioPlayer.pause();
-      isPlaying = false;
+    if (isCurrentSurahPlaying) {
+      murotal.pause();
     } else {
-      const startAyah = activeAyahNum ? surah.ayat[activeAyahNum - 1] : surah.ayat[0];
-      playVerse(startAyah);
+      const startAyahNum = ($murotal.surah?.nomor === surahId && $murotal.activeAyahNum)
+        ? $murotal.activeAyahNum
+        : 1;
+      murotal.play(surah, startAyahNum, $settings.qori);
     }
   }
 
@@ -795,7 +718,7 @@
           onclick={togglePlayAll}
           class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs px-5 py-3 rounded-2xl shadow-lg shadow-emerald-950/30"
         >
-          {#if isPlaying}
+          {#if isCurrentSurahPlaying}
             <Pause class="w-4 h-4 text-white" />
             <span>Pause Murottal</span>
           {:else}
@@ -809,7 +732,7 @@
     <!-- AYAH LIST -->
     <div class="space-y-4">
       {#each surah.ayat as ayah (ayah.nomorAyat)}
-        {@const isActive = activeAyahNum === ayah.nomorAyat}
+        {@const isActive = $murotal.activeAyahNum === ayah.nomorAyat && $murotal.surah?.nomor === surahId}
         <div 
           id={`ayah-${ayah.nomorAyat}`}
           class="glass border rounded-3xl p-5 lg:p-6 transition-all duration-300 flex flex-col gap-6 relative
@@ -832,7 +755,7 @@
                 class="p-2 rounded-xl text-zinc-500 hover:text-emerald-400 hover:bg-white/5 active:scale-90"
                 title="Putar Murottal"
               >
-                {#if isActive && isPlaying}
+                {#if isActive && $murotal.isPlaying}
                   <Pause class="w-4.5 h-4.5 text-emerald-400 animate-pulse" />
                 {:else}
                   <Play class="w-4.5 h-4.5" />
@@ -994,53 +917,6 @@
     </div>
   {/if}
 
-  <!-- FLOATING PERSISTENT PLAYER -->
-  {#if activeAyahNum !== null && surah}
-    <div class="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-8 md:w-[360px] glass-emerald border border-emerald-500/30 p-4 rounded-3xl z-40 shadow-2xl flex items-center gap-4 animate-slide-up">
-      <div class="w-11 h-11 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg text-white">
-        <Volume2 class="w-5.5 h-5.5 animate-bounce" />
-      </div>
-      
-      <div class="flex-1 min-w-0">
-        <h4 class="text-xs font-bold text-white truncate">{surah.namaLatin} • Ayah {activeAyahNum}</h4>
-        <span class="text-[9px] text-zinc-400 font-bold uppercase tracking-wider block mt-0.5">Qori: Sheik {$settings.qori}</span>
-      </div>
-
-      <div class="flex items-center gap-1 shrink-0">
-        <!-- Close Player -->
-        <button 
-          onclick={() => { if(audioPlayer) audioPlayer.pause(); isPlaying = false; activeAyahNum = null; }}
-          class="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5"
-          title="Tutup Player"
-        >
-          <ListRestart class="w-4.5 h-4.5" />
-        </button>
-
-        <!-- Play/Pause Toggle -->
-        <button 
-          onclick={() => {
-            if (audioPlayer) {
-              if (isPlaying) {
-                audioPlayer.pause();
-                isPlaying = false;
-              } else {
-                audioPlayer.play();
-                isPlaying = true;
-              }
-            }
-          }}
-          class="w-10 h-10 rounded-xl bg-white text-emerald-950 flex items-center justify-center hover:scale-105 active:scale-95 shadow-md"
-          title="Mainkan/Jeda"
-        >
-          {#if isPlaying}
-            <Pause class="w-4.5 h-4.5 text-emerald-950" fill="currentColor" />
-          {:else}
-            <Play class="w-4.5 h-4.5 text-emerald-950" fill="currentColor" />
-          {/if}
-        </button>
-      </div>
-    </div>
-  {/if}
 
   <!-- BOTTOM READER TOOLBAR -->
   <div class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 py-3 px-4 flex justify-around items-center z-40 backdrop-blur-lg md:max-w-md md:mx-auto md:bottom-4 md:rounded-2xl md:border">
@@ -1067,9 +943,9 @@
     <button 
       onclick={togglePlayAll}
       class="flex flex-col items-center justify-center gap-1 active:scale-95 transition-all
-        {isPlaying ? 'text-emerald-400 font-extrabold' : 'text-zinc-400 hover:text-emerald-400'}"
+        {isCurrentSurahPlaying ? 'text-emerald-400 font-extrabold' : 'text-zinc-400 hover:text-emerald-400'}"
     >
-      {#if isPlaying}
+      {#if isCurrentSurahPlaying}
         <Pause class="w-5 h-5 animate-pulse" />
       {:else}
         <Play class="w-5 h-5" />

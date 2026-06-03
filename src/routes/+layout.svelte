@@ -2,7 +2,7 @@
   import './layout.css';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { settings, lastRead, type LastRead, adzanVoice, activeAlarms, savedLocation, isPremium, showPremiumPaymentModal, isAdmin, userEmail } from '$lib/stores';
+  import { settings, lastRead, type LastRead, adzanVoice, activeAlarms, savedLocation, isPremium, showPremiumPaymentModal, isAdmin, userEmail, murotal } from '$lib/stores';
   import { fetchPrayerTimes, fetchPrayerTimesByCity, type PrayerTimes } from '$lib/api';
   import { 
     Home, 
@@ -18,7 +18,10 @@
     Volume2,
     Bell,
     VolumeX,
-    Crown
+    Crown,
+    Play,
+    Pause,
+    ListRestart
   } from '@lucide/svelte';
 
   let { children } = $props();
@@ -238,6 +241,13 @@
       } else {
         releaseWakeLock();
       }
+    }
+  });
+
+  // Reactively switch Qori mid-playback when changed in Settings
+  $effect(() => {
+    if (mounted) {
+      murotal.changeQori($settings.qori);
     }
   });
 
@@ -593,6 +603,50 @@
           <BookMarked class="w-6 h-6 text-black relative z-10" />
         </a>
       {/if}
+    </div>
+  {/if}
+
+  <!-- FLOATING PERSISTENT PLAYER -->
+  {#if $murotal.activeAyahNum !== null && $murotal.surah}
+    <div class="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-8 md:w-[360px] glass-emerald border border-emerald-500/30 p-4 rounded-3xl z-40 shadow-2xl flex items-center gap-4 animate-slide-up">
+      <div class="w-11 h-11 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg text-white">
+        <Volume2 class="w-5.5 h-5.5 animate-bounce" />
+      </div>
+      
+      <div class="flex-1 min-w-0">
+        <h4 class="text-xs font-bold text-white truncate">{$murotal.surah.namaLatin} • Ayah {$murotal.activeAyahNum}</h4>
+        <span class="text-[9px] text-zinc-400 font-bold uppercase tracking-wider block mt-0.5">Qori: Sheik {$settings.qori}</span>
+      </div>
+
+      <div class="flex items-center gap-1 shrink-0">
+        <!-- Close Player -->
+        <button 
+          onclick={() => murotal.stop()}
+          class="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5"
+          title="Tutup Player"
+        >
+          <ListRestart class="w-4.5 h-4.5" />
+        </button>
+
+        <!-- Play/Pause Toggle -->
+        <button 
+          onclick={() => {
+            if ($murotal.isPlaying) {
+              murotal.pause();
+            } else {
+              murotal.resume();
+            }
+          }}
+          class="w-10 h-10 rounded-xl bg-white text-emerald-950 flex items-center justify-center hover:scale-105 active:scale-95 shadow-md"
+          title="Mainkan/Jeda"
+        >
+          {#if $murotal.isPlaying}
+            <Pause class="w-4.5 h-4.5 text-emerald-950" fill="currentColor" />
+          {:else}
+            <Play class="w-4.5 h-4.5 text-emerald-950" fill="currentColor" />
+          {/if}
+        </button>
+      </div>
     </div>
   {/if}
 
