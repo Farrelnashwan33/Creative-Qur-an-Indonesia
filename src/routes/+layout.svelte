@@ -263,6 +263,18 @@
     }
   });
 
+  let activationCode = $state('');
+
+  function verifyActivationCode() {
+    if (activationCode.trim().toUpperCase() === 'CREATIVEQURAN2026') {
+      $isPremium = true;
+      $showPremiumPaymentModal = false;
+      triggerToast("Selamat! Royal Gold Premium Berhasil Diaktifkan.");
+    } else {
+      triggerToast("Kode aktivasi salah. Silakan hubungi admin.");
+    }
+  }
+
   function handleActivatePremium() {
     if ($isAdmin) {
       $isPremium = true;
@@ -557,26 +569,40 @@
           <ol class="list-decimal pl-4 space-y-1">
             <li>Buka aplikasi GoPay / E-Wallet Anda.</li>
             <li>Kirim saldo sebesar **Rp 150.000** ke nomor GoPay di atas.</li>
-            <li>Tekan tombol **Konfirmasi & Aktifkan** di bawah untuk langsung memverifikasi simulasi pembayaran Anda secara instan.</li>
+            <li>Kirim bukti transfer ke WhatsApp admin dengan menekan tombol hijau di bawah untuk mendapatkan kode aktivasi Anda.</li>
           </ol>
         </div>
 
-        <div class="space-y-2 pt-2">
-          <button 
-            onclick={() => {
-              $isPremium = true;
-              $showPremiumPaymentModal = false;
-              triggerToast("Selamat! Royal Gold Premium Berhasil Diaktifkan.");
-            }}
-            class="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-amber-500 to-yellow-300 hover:from-amber-400 hover:to-yellow-200 text-black font-black text-xs py-3.5 rounded-2xl shadow-lg shadow-amber-950/20 active:scale-95 transition-all"
+        <div class="space-y-3 pt-2">
+          <a 
+            href="https://wa.me/6281224079173?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp%20150.000%20ke%20GoPay%20081224079173%20untuk%20Creative%20Qur'an%20Premium.%20Mohon%20kirimkan%20kode%20aktivasi."
+            target="_blank"
+            class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all text-center"
           >
-            <Crown class="w-4 h-4 text-black fill-black" />
-            <span>Konfirmasi & Aktifkan (Simulasi)</span>
-          </button>
+            <span>Hubungi Admin & Kirim Bukti Transfer</span>
+          </a>
+
+          <div class="border-t border-white/10 my-3 pt-3">
+            <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block mb-1.5 text-left">Masukkan Kode Aktivasi</span>
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                bind:value={activationCode}
+                placeholder="Masukkan kode..." 
+                class="flex-1 bg-stone-950/40 border border-white/10 text-white text-xs rounded-xl py-2.5 px-3 outline-none focus:border-amber-500/50 transition-all font-semibold uppercase"
+              />
+              <button 
+                onclick={verifyActivationCode}
+                class="px-4 py-2.5 rounded-xl bg-linear-to-r from-amber-500 to-yellow-300 hover:from-amber-400 hover:to-yellow-200 text-black font-black text-xs active:scale-95 transition-all cursor-pointer"
+              >
+                Aktifkan
+              </button>
+            </div>
+          </div>
 
           <button 
             onclick={() => $showPremiumPaymentModal = false}
-            class="w-full inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 active:scale-95 text-zinc-400 font-bold text-xs py-3 rounded-2xl border border-white/5"
+            class="w-full inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 active:scale-95 text-zinc-400 font-bold text-xs py-3 rounded-2xl border border-white/5 cursor-pointer"
           >
             Batal
           </button>
