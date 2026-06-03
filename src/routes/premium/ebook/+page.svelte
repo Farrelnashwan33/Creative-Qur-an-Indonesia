@@ -543,7 +543,7 @@
             class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-300 text-black font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
           >
             <Crown class="w-4 h-4 text-black fill-black" />
-            <span>Aktifkan Premium Sekarang (Rp 150rb)</span>
+            <span>Yuu Langganan Sekarang (Rp 150rb)</span>
           </button>
           
           <button 

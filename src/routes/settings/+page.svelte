@@ -597,7 +597,7 @@
               class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
             >
               <Crown class="w-4 h-4 text-white fill-white" />
-              <span>Aktifkan Fitur Premium (Rp 150rb)</span>
+              <span>Yuu Langganan (Rp 150rb)</span>
             </button>
           </div>
         {/if}

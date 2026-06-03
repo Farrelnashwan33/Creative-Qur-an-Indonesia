@@ -386,7 +386,7 @@
               class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in"
             >
               <Crown class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow" />
-              <span>Aktifkan Premium</span>
+              <span>Yuu Langganan</span>
             </button>
           {:else}
             <a 

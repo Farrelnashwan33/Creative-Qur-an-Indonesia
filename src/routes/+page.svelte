@@ -357,7 +357,7 @@
           class="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-white/5 hover:bg-white/10 text-zinc-300 font-bold text-xs px-5 py-3 rounded-xl border border-white/10 active:scale-95 transition-all cursor-pointer"
         >
           <Crown class="w-4 h-4 text-amber-400 fill-amber-400" />
-          <span>Buka Fitur Premium</span>
+          <span>Yuu Langganan</span>
         </button>
       {/if}
     </div>
