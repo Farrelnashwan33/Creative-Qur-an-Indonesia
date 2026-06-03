@@ -25,6 +25,7 @@
 
   let mounted = $state(false);
   let activeTab = $derived($page.url.pathname);
+  let showPremiumBtn = $derived(activeTab === '/' || activeTab === '/settings');
   
   // Theme derived state from store
   let themeMode = $derived(
@@ -354,22 +355,24 @@
           </a>
         {/each}
 
-        {#if !$isPremium}
-          <button 
-            onclick={handleActivatePremium}
-            class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in"
-          >
-            <Crown class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow" />
-            <span>Aktifkan Premium</span>
-          </button>
-        {:else}
-          <a 
-            href="/premium/ebook"
-            class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in"
-          >
-            <BookMarked class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow" />
-            <span>Buka E-Book Tajwid</span>
-          </a>
+        {#if showPremiumBtn}
+          {#if !$isPremium}
+            <button 
+              onclick={handleActivatePremium}
+              class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in"
+            >
+              <Crown class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow" />
+              <span>Aktifkan Premium</span>
+            </button>
+          {:else}
+            <a 
+              href="/premium/ebook"
+              class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in"
+            >
+              <BookMarked class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow" />
+              <span>Buka E-Book Tajwid</span>
+            </a>
+          {/if}
         {/if}
       </nav>
     </div>
@@ -569,7 +572,7 @@
   {/if}
 
   <!-- MOBILE FLOATING PREMIUM BUBBLE -->
-  {#if !activeTab.startsWith('/quran')}
+  {#if showPremiumBtn}
     <div class="md:hidden fixed bottom-[88px] right-4 z-40 animate-float">
       {#if !$isPremium}
         <button 
