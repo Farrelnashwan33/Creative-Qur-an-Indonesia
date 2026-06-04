@@ -1,10 +1,19 @@
-const CACHE_NAME = 'cqi-cache-v2';
+const CACHE_NAME = 'cqi-cache-v4';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
-  '/favicon.png'
+  '/favicon.png',
+  'https://equran.id/api/v2/surat',
+  'https://equran.id/api/v2/surat/1',
+  'https://equran.id/api/v2/tafsir/1',
+  'https://equran.id/api/v2/surat/18',
+  'https://equran.id/api/v2/tafsir/18',
+  'https://equran.id/api/v2/surat/36',
+  'https://equran.id/api/v2/tafsir/36',
+  'https://equran.id/api/v2/surat/67',
+  'https://equran.id/api/v2/tafsir/67'
 ];
 
 self.addEventListener('install', (event) => {
@@ -35,13 +44,37 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // 1. API Requests: Network-First with Cache Fallback
-  if (url.hostname === 'equran.id' || url.hostname === 'api.aladhan.com') {
+  // 1. Quran API: Cache-First to save mobile quota (Qur'an text is static)
+  if (url.hostname === 'equran.id') {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return caches.open(CACHE_NAME).then((cache) => {
+          return fetch(request)
+            .then((response) => {
+              if (response.status === 200) {
+                cache.put(request, response.clone());
+              }
+              return response;
+            })
+            .catch((err) => {
+              console.warn('SW fetch failed for Quran API, no cache match:', err);
+            });
+        });
+      })
+    );
+  } 
+  // 2. Prayer Times API: Network-First (prayer times change daily)
+  else if (url.hostname === 'api.aladhan.com') {
     event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {
         return fetch(request)
           .then((response) => {
-            cache.put(request, response.clone());
+            if (response.status === 200) {
+              cache.put(request, response.clone());
+            }
             return response;
           })
           .catch(() => {
