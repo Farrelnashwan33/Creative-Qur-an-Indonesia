@@ -1280,17 +1280,6 @@
       </div>
     </div>
   {/if}
-  <!-- FLOATING JUMP TO AYAH FAB -->
-  <div class="fixed bottom-6 right-4 z-40">
-    <button 
-      onclick={() => showNavigationModal = true}
-      class="w-14 h-14 rounded-full bg-linear-to-tr from-emerald-600 to-emerald-400 shadow-xl shadow-emerald-500/30 flex items-center justify-center border border-emerald-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative group"
-      aria-label="Lompat Ayat"
-    >
-      <span class="absolute inset-0 rounded-full bg-emerald-400/20 animate-ping"></span>
-      <Compass class="w-6 h-6 text-white relative z-10" />
-    </button>
-  </div>
 
 </div>
 

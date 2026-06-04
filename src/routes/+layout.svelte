@@ -648,19 +648,6 @@
     </div>
   {/if}
 
-  <!-- MOBILE FLOATING QUICK CONTINUE READING -->
-  {#if $lastRead}
-    <div class="md:hidden fixed bottom-[88px] left-4 z-40 animate-float">
-      <a 
-        href="/quran/{$lastRead.surahNumber}"
-        class="w-14 h-14 rounded-full bg-linear-to-tr from-emerald-600 to-emerald-400 shadow-xl shadow-emerald-500/30 flex items-center justify-center border border-emerald-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative group"
-        aria-label="Lanjutkan Membaca"
-      >
-        <span class="absolute inset-0 rounded-full bg-emerald-400/30 animate-ping"></span>
-        <BookOpen class="w-6 h-6 text-white relative z-10" />
-      </a>
-    </div>
-  {/if}
 
   <!-- MOBILE FLOATING PREMIUM BUBBLE -->
   {#if showPremiumBtn}
