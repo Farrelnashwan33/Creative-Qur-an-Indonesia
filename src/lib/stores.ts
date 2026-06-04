@@ -11,7 +11,14 @@ function createPersistentStore<T>(key: string, initialValue: T) {
       const storedValue = localStorage.getItem(key);
       if (storedValue) {
         try {
-          value = JSON.parse(storedValue);
+          const parsed = JSON.parse(storedValue);
+          if (parsed !== null && parsed !== undefined) {
+            if (typeof initialValue === 'object' && initialValue !== null && typeof parsed === 'object') {
+              value = { ...initialValue, ...parsed } as T;
+            } else {
+              value = parsed as T;
+            }
+          }
         } catch (e) {
           console.error(`Error parsing localStorage key "${key}":`, e);
         }
@@ -20,6 +27,7 @@ function createPersistentStore<T>(key: string, initialValue: T) {
       console.warn(`LocalStorage read failed for key "${key}":`, e);
     }
   }
+
 
   const store = writable<T>(value);
 

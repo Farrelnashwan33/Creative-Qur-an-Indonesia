@@ -266,7 +266,7 @@
   let activationCode = $state('');
 
   function verifyActivationCode() {
-    if (activationCode.trim().toUpperCase() === 'CREATIVEQURAN2026') {
+    if (activationCode.trim() === '9087') {
       $isPremium = true;
       $showPremiumPaymentModal = false;
       triggerToast("Selamat! Royal Gold Premium Berhasil Diaktifkan.");
@@ -276,12 +276,7 @@
   }
 
   function handleActivatePremium() {
-    if ($isAdmin) {
-      $isPremium = true;
-      triggerToast("Selamat! Royal Gold Premium Berhasil Diaktifkan.");
-    } else {
-      $showPremiumPaymentModal = true;
-    }
+    $showPremiumPaymentModal = true;
   }
 
   function applyTheme(theme: 'light' | 'dark') {
@@ -368,7 +363,7 @@
             <!-- Hover highlight element -->
             <div class="absolute inset-0 bg-linear-to-r transition-opacity duration-300
               {$isPremium ? 'from-amber-500/5' : 'from-emerald-600/5'} to-transparent opacity-0 group-hover:opacity-100"></div>
-            <Icon class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 
+            <svelte:component this={Icon} class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 
               {isActive(item.path) 
                 ? ($isPremium ? 'text-amber-400' : 'text-emerald-400') 
                 : 'text-zinc-400 group-hover:text-zinc-200'}" />
@@ -453,7 +448,9 @@
 
   <!-- MAIN APP CONTAINER -->
   <main class="flex-1 min-w-0 pb-[120px] md:pb-6 overflow-y-auto px-4 md:px-8 py-6 max-w-7xl mx-auto w-full">
-    {@render children()}
+    {#if children}
+      {@render children()}
+    {/if}
   </main>
 
   <!-- MOBILE BOTTOM NAVIGATION -->
@@ -468,7 +465,7 @@
       >
         <div class="p-1 rounded-xl transition-all duration-300 
           {isActive(item.path) ? ($isPremium ? 'bg-amber-500/10 scale-110 text-amber-400' : 'bg-emerald-500/10 scale-110 text-emerald-400') : ''}">
-          <Icon class="w-5.5 h-5.5" />
+          <svelte:component this={Icon} class="w-5.5 h-5.5" />
         </div>
         <span class="text-[9px] font-bold tracking-wide">{item.name}</span>
         {#if isActive(item.path)}
@@ -556,7 +553,7 @@
           </div>
           <div class="flex items-center justify-between text-xs">
             <span class="text-zinc-400 font-semibold">Nomor GoPay</span>
-            <span class="font-extrabold select-all text-amber-300">081224079173</span>
+            <span class="font-extrabold select-all text-amber-300">085720387781</span>
           </div>
           <div class="flex items-center justify-between text-xs">
             <span class="text-zinc-400 font-semibold">Jumlah Transfer</span>
@@ -575,7 +572,7 @@
 
         <div class="space-y-3 pt-2">
           <a 
-            href="https://wa.me/6281224079173?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp%20150.000%20ke%20GoPay%20081224079173%20untuk%20Creative%20Qur'an%20Premium.%20Mohon%20kirimkan%20kode%20aktivasi."
+            href="https://wa.me/6285720387781?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp%20150.000%20ke%20GoPay%20085720387781%20untuk%20Creative%20Qur'an%20Premium.%20Mohon%20kirimkan%20kode%20aktivasi."
             target="_blank"
             class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all text-center"
           >
