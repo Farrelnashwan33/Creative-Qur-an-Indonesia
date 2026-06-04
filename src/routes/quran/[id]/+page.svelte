@@ -936,15 +936,6 @@
             </p>
           {/if}
 
-          <!-- TRANSLITERATION (LATIN) -->
-          {#if $settings.latinEnabled}
-            <p 
-              class="text-emerald-400/90 font-medium italic leading-relaxed"
-              style="font-size: {$settings.latinFontSize}px"
-            >
-              {ayah.teksLatin}
-            </p>
-          {/if}
 
           <!-- EXPANDABLE TAFSIR SECTION -->
           {#if expandedTafsirAyah === ayah.nomorAyat}
