@@ -19,6 +19,12 @@
   let loading = $state(true);
   let error = $state<string | null>(null);
 
+  // Countdown timer for next prayer
+  let nextPrayerName = $state('');
+  let nextPrayerTime = $state('');
+  let nextPrayerCountdown = $state('');
+  let countdownTimer = $state<any>(null);
+
   // Default coordinate setup (Jakarta)
   let latitude = $state(-6.2088);
   let longitude = $state(106.8456);
@@ -50,8 +56,69 @@
       if (typeof window !== 'undefined') {
         window.removeEventListener('deviceorientation', handleOrientation);
       }
+      if (countdownTimer) clearInterval(countdownTimer);
     };
   });
+
+  function calculateNextPrayer(timings: any) {
+    if (countdownTimer) clearInterval(countdownTimer);
+
+    const prayerOrder = [
+      { name: 'Subuh', key: 'Fajr' },
+      { name: 'Dzuhur', key: 'Dhuhr' },
+      { name: 'Ashar', key: 'Asr' },
+      { name: 'Maghrib', key: 'Maghrib' },
+      { name: 'Isya', key: 'Isha' }
+    ];
+
+    countdownTimer = setInterval(() => {
+      const now = new Date();
+      const nowMs = now.getTime();
+      let foundNext = false;
+
+      for (let i = 0; i < prayerOrder.length; i++) {
+        const prayer = prayerOrder[i];
+        const timeStr = timings[prayer.key as keyof typeof timings];
+        if (!timeStr) continue;
+
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        const prayerTimeDate = new Date();
+        prayerTimeDate.setHours(hours, minutes, 0, 0);
+
+        if (prayerTimeDate.getTime() > nowMs) {
+          nextPrayerName = prayer.name;
+          nextPrayerTime = timeStr;
+          
+          const diffMs = prayerTimeDate.getTime() - nowMs;
+          const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+          const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+          const diffSecs = Math.floor((diffMs % (1000 * 60)) / 1000);
+          
+          nextPrayerCountdown = `${diffHrs.toString().padStart(2, '0')}:${diffMins.toString().padStart(2, '0')}:${diffSecs.toString().padStart(2, '0')}`;
+          foundNext = true;
+          break;
+        }
+      }
+
+      if (!foundNext) {
+        nextPrayerName = 'Subuh (Besok)';
+        const timeStr = timings.Fajr;
+        nextPrayerTime = timeStr;
+        
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        const prayerTimeDate = new Date();
+        prayerTimeDate.setDate(prayerTimeDate.getDate() + 1);
+        prayerTimeDate.setHours(hours, minutes, 0, 0);
+
+        const diffMs = prayerTimeDate.getTime() - nowMs;
+        const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const diffSecs = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+        nextPrayerCountdown = `${diffHrs.toString().padStart(2, '0')}:${diffMins.toString().padStart(2, '0')}:${diffSecs.toString().padStart(2, '0')}`;
+      }
+    }, 1000);
+  }
 
   async function loadData() {
     loading = true;
@@ -60,10 +127,12 @@
       qiblaAngle = calculateQibla(latitude, longitude);
       const data = await fetchPrayerTimes(latitude, longitude);
       prayerData = data;
+      calculateNextPrayer(data.timings);
     } catch (e) {
       try {
         const data = await fetchPrayerTimesByCity(city);
         prayerData = data;
+        calculateNextPrayer(data.timings);
       } catch (err) {
         error = "Gagal memuat jadwal sholat. Silakan periksa koneksi atau pilih lokasi manual.";
       }
@@ -205,9 +274,9 @@
         <!-- Loading Skeleton -->
         <div class="glass border border-white/5 rounded-3xl p-6 space-y-4 animate-pulse">
           <div class="h-6 bg-white/5 rounded w-1/3"></div>
-          <div class="space-y-3">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {#each Array(6) as _, i (i)}
-              <div class="h-12 bg-white/5 rounded-xl"></div>
+              <div class="h-28 bg-white/5 rounded-3xl"></div>
             {/each}
           </div>
         </div>
@@ -220,43 +289,64 @@
           </button>
         </div>
       {:else}
-        <!-- DATES AND HIJRI INFO -->
-        <div class="glass border border-white/5 rounded-3xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-              <CalendarIcon class="w-5 h-5" />
+        <!-- NEXT PRAYER COUNTDOWN BANNER -->
+        <div class="glass border border-white/5 rounded-3xl p-6 relative overflow-hidden group shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="absolute inset-0 opacity-5 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
+          <div class="flex items-center gap-4 relative z-10">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-600/10 flex items-center justify-center text-emerald-400 shrink-0">
+              <Clock class="w-6 h-6 animate-pulse-slow" />
             </div>
             <div>
-              <h3 class="font-bold text-sm text-zinc-200">{prayerData.date.hijri.day} {prayerData.date.hijri.month.en} {prayerData.date.hijri.year} H</h3>
-              <p class="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mt-0.5">{prayerData.date.readable}</p>
+              <span class="text-[10px] text-zinc-400 font-extrabold uppercase tracking-wider block">Menuju Sholat {nextPrayerName}</span>
+              <h3 class="text-2xl lg:text-3xl font-extrabold text-white tracking-wide mt-0.5">{nextPrayerCountdown}</h3>
             </div>
           </div>
-          <div class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+          <div class="text-right relative z-10">
+            <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Waktu Mulai</span>
+            <span class="text-base font-extrabold text-emerald-400">{nextPrayerTime} WIB</span>
+          </div>
+        </div>
+
+        <!-- DATES AND HIJRI INFO / CALENDAR WIDGET -->
+        <div class="glass border border-white/5 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+              <CalendarIcon class="w-6 h-6" />
+            </div>
+            <div>
+              <h3 class="font-bold text-base text-zinc-200">{prayerData.date.hijri.day} {prayerData.date.hijri.month.en} {prayerData.date.hijri.year} H</h3>
+              <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wider mt-0.5">{prayerData.date.readable}</p>
+            </div>
+          </div>
+          <div class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-4 py-2 rounded-2xl border border-emerald-500/20">
             Kalkulasi Kemenag RI (Method: 20)
           </div>
         </div>
 
-        <!-- PRAYER ROWS -->
-        <div class="glass border border-white/5 rounded-3xl overflow-hidden divide-y divide-white/5">
+        <!-- PRAYER CARDS GRID -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {#each prayers as prayer (prayer.key)}
             {@const time = prayerData.timings[prayer.key as keyof typeof prayerData.timings]}
-            <div class="flex items-center justify-between p-4.5 hover:bg-white/1 transition-colors">
-              <div class="flex items-center gap-3">
-                <span class="font-bold text-sm text-zinc-300">{prayer.label}</span>
+            {@const isNext = nextPrayerName.includes(prayer.label)}
+            <div class="glass border rounded-3xl p-5 flex flex-col justify-between min-h-[140px] transition-all duration-300 relative overflow-hidden
+              {isNext ? 'border-emerald-500/35 bg-emerald-950/10 shadow-lg shadow-emerald-500/5' : 'border-white/5 hover:border-white/10'}">
+              {#if isNext}
+                <div class="absolute top-0 right-0 px-2 py-0.5 rounded-bl-xl bg-emerald-500 text-[8px] font-black text-black uppercase tracking-wider">Selanjutnya</div>
+              {/if}
+              <div>
+                <span class="font-bold text-xs text-zinc-400 block">{prayer.label}</span>
+                <span class="text-base font-black text-white tracking-wide block mt-1">{time} WIB</span>
               </div>
-
-              <div class="flex items-center gap-4">
-                <span class="text-base font-extrabold text-white tracking-wide">{time} WIB</span>
-                
+              <div class="flex items-center justify-between mt-4 pt-2 border-t border-white/5">
+                <span class="text-[9px] text-zinc-500 font-semibold">Alarm Adzan</span>
                 {#if prayer.key !== 'Imsak'}
-                  <!-- Alarm/Adzan Notification toggle -->
                   <button 
                     onclick={() => toggleAlarm(prayer.key)}
-                    class="p-2 rounded-xl transition-all duration-300
+                    class="p-2 rounded-xl transition-all duration-300 active:scale-90
                       {$activeAlarms[prayer.key as keyof AlarmSettings] 
                         ? 'text-emerald-400 bg-emerald-500/10' 
-                        : 'text-zinc-600 hover:text-zinc-400'}"
-                    title="Nyalakan Notifikasi Adzan"
+                        : 'text-zinc-500 hover:text-zinc-300'}"
+                    title="Toggle Adzan"
                   >
                     {#if $activeAlarms[prayer.key as keyof AlarmSettings]}
                       <Bell class="w-4 h-4" />
@@ -264,6 +354,8 @@
                       <BellOff class="w-4 h-4" />
                     {/if}
                   </button>
+                {:else}
+                  <span class="text-[8px] text-zinc-500 font-bold uppercase">Non-Aktif</span>
                 {/if}
               </div>
             </div>

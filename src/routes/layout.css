@@ -24,27 +24,33 @@ canvas {
   --font-arabic-utsmani: 'Amiri', 'Scheherazade New', serif;
   --font-arabic-indopak: 'Lateef', serif;
 
+  --color-primary: #1E7A5C;
+  --color-secondary: #2BAE85;
+  --color-accent: #F4C542;
+  --color-bg-light: #F8FAFC;
+  --color-bg-dark: #0F172A;
+
   --color-primary-50: #f0fdf4;
   --color-primary-100: #dcfce7;
   --color-primary-200: #bbf7d0;
-  --color-primary-600: #16a34a;
-  --color-primary-700: #15803d;
+  --color-primary-600: #1e7a5c;
+  --color-primary-700: #175e46;
   
   --color-emerald-50: #ecfdf5;
   --color-emerald-100: #d1fae5;
-  --color-emerald-500: #10b981;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
-  --color-emerald-800: #065f46;
-  --color-emerald-900: #064e3b;
-  --color-emerald-950: #022c22;
+  --color-emerald-500: #2bae85;
+  --color-emerald-600: #1e7a5c;
+  --color-emerald-700: #175e46;
+  --color-emerald-800: #0f3d2e;
+  --color-emerald-900: #0a291f;
+  --color-emerald-950: #04120e;
   
   --color-gold-50: #fffbeb;
   --color-gold-100: #fef3c7;
-  --color-gold-400: #fbbf24;
-  --color-gold-500: #f59e0b;
-  --color-gold-600: #d97706;
-  --color-gold-700: #b45309;
+  --color-gold-400: #f4c542;
+  --color-gold-500: #e5b32f;
+  --color-gold-600: #c2931b;
+  --color-gold-700: #9e7410;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -77,7 +83,7 @@ canvas {
 /* Global Styles */
 html, body {
   font-family: var(--font-sans);
-  background-color: #030712; /* Default dark background */
+  background-color: #0f172a; /* Background dark #0F172A */
   color: #f3f4f6;
   min-height: 100vh;
   margin: 0;
@@ -95,11 +101,11 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(16, 185, 129, 0.2);
+  background: rgba(43, 174, 133, 0.2);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.4);
+  background: rgba(43, 174, 133, 0.4);
 }
 
 /* Light Mode Override */
@@ -112,53 +118,53 @@ html.light-mode body {
   color: #0f172a !important;
 }
 html.light-mode ::-webkit-scrollbar-thumb {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(30, 122, 92, 0.15);
 }
 html.light-mode ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.35);
+  background: rgba(30, 122, 92, 0.35);
 }
 
 /* Glassmorphism Helpers */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   isolation: isolate;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .glass:hover {
-  border-color: rgba(16, 185, 129, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.04), 0 4px 20px 0 rgba(0, 0, 0, 0.4);
+  border-color: rgba(43, 174, 133, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(43, 174, 133, 0.04), 0 4px 20px 0 rgba(0, 0, 0, 0.4);
 }
 
 .light-mode .glass {
   background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(16, 185, 129, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(30, 122, 92, 0.08);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
   isolation: isolate;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .light-mode .glass:hover {
-  border-color: rgba(16, 185, 129, 0.25);
-  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.08);
+  border-color: rgba(30, 122, 92, 0.25);
+  box-shadow: 0 8px 30px rgba(30, 122, 92, 0.08);
 }
 
 .glass-emerald {
-  background: linear-gradient(135deg, rgba(6, 78, 59, 0.25) 0%, rgba(2, 44, 34, 0.4) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, rgba(30, 122, 92, 0.25) 0%, rgba(15, 61, 46, 0.4) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(43, 174, 133, 0.2);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   isolation: isolate;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .glass-emerald:hover {
-  border-color: rgba(16, 185, 129, 0.35);
-  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.08);
+  border-color: rgba(43, 174, 133, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(43, 174, 133, 0.08);
 }
 
 .light-mode .glass-emerald {

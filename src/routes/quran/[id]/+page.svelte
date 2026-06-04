@@ -631,7 +631,7 @@
   {/if}
 
   <!-- TOP BAR BACK NAVIGATION -->
-  <div class="flex items-center justify-between pb-2">
+  <div class="sticky top-[72px] md:top-6 z-30 py-3 px-1 -mx-1 bg-[#0f172a]/95 light-mode:bg-[#f8fafc]/95 backdrop-blur-md transition-all duration-300 border-b border-white/5 flex items-center justify-between">
     <a href="/quran" class="inline-flex items-center gap-2.5 text-zinc-400 hover:text-zinc-200 group">
       <div class="w-9 h-9 rounded-xl glass border border-white/5 flex items-center justify-center group-hover:border-emerald-500/20">
         <ArrowLeft class="w-4.5 h-4.5" />
@@ -849,10 +849,10 @@
           </div>
 
           <!-- ARABIC TEXT -->
-          <div class="text-right py-2 leading-loose">
+          <div class="text-center py-2 leading-loose">
             {#if $settings.perKataEnabled && perKataCache[ayah.nomorAyat]}
               <!-- Flowing word-by-word text block directly integrated -->
-              <div class="flex flex-wrap gap-x-6 gap-y-8 justify-end py-3" dir="rtl">
+              <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center py-3" dir="rtl">
                 {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
                   <div class="flex flex-col items-center justify-start text-center space-y-2 min-w-[70px] max-w-[150px]">
                     <!-- Arabic Word -->
@@ -892,7 +892,7 @@
               </div>
             {:else}
               <p 
-                class="text-white font-arabic-utsmani" 
+                class="text-white font-arabic-utsmani text-center" 
                 style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
                 dir="rtl"
               >

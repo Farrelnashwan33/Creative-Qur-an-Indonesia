@@ -2,8 +2,10 @@
   import { onMount } from 'svelte';
   import { fetchSurahs, type Surah } from '$lib/api';
   import { Search, BookOpen, Compass, Bookmark, Clock, ArrowRight, Heart } from '@lucide/svelte';
+  import { favorites, lastRead } from '$lib/stores';
 
   let surahs = $state<Surah[]>([]);
+  let favoritedSurahIds = $derived(new Set($favorites.map(f => f.surahNumber)));
   let loading = $state(true);
   let error = $state<string | null>(null);
   let searchQuery = $state('');
@@ -116,22 +118,24 @@
 
   <!-- SEARCH BAR (Surah only) -->
   {#if activeTab === 'surah'}
-    <div class="relative w-full">
-      <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-      <input 
-        type="text" 
-        bind:value={searchQuery}
-        placeholder="Cari nama surah, terjemahan, atau nomor surah..." 
-        class="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-white/5 bg-transparent text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 text-white transition-all placeholder:text-zinc-500"
-      />
-      {#if searchQuery}
-        <button 
-          onclick={() => searchQuery = ''} 
-          class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-zinc-500 hover:text-white"
-        >
-          Bersihkan
-        </button>
-      {/if}
+    <div class="sticky top-[72px] md:top-6 z-30 pb-4 bg-[#0f172a]/90 light-mode:bg-[#f8fafc]/90 backdrop-blur-md transition-colors duration-300">
+      <div class="relative w-full">
+        <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+        <input 
+          type="text" 
+          bind:value={searchQuery}
+          placeholder="Cari nama surah, terjemahan, atau nomor surah..." 
+          class="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-white/5 bg-transparent text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 text-white transition-all placeholder:text-zinc-500"
+        />
+        {#if searchQuery}
+          <button 
+            onclick={() => searchQuery = ''} 
+            class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-zinc-500 hover:text-white"
+          >
+            Bersihkan
+          </button>
+        {/if}
+      </div>
     </div>
   {/if}
 
@@ -174,17 +178,30 @@
       {:else}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {#each filteredSurahs as surah (surah.nomor)}
+            {@const isLastReadSurah = $lastRead && $lastRead.surahNumber === surah.nomor}
+            {@const isFavorited = favoritedSurahIds.has(surah.nomor)}
             <a 
               href="/quran/{surah.nomor}" 
-              class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 hover:shadow-lg hover:shadow-emerald-950/10 cursor-pointer"
+              class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 hover:shadow-lg hover:shadow-emerald-950/10 cursor-pointer relative overflow-hidden"
             >
+              {#if isLastReadSurah}
+                <div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>
+              {/if}
               <div class="flex items-center gap-4 min-w-0">
-                <!-- Surah index number container (hexagon lookalike or rounded) -->
+                <!-- Surah index number container -->
                 <div class="w-10 h-10 rounded-xl bg-emerald-600/10 flex items-center justify-center font-bold text-xs text-emerald-400 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                   {surah.nomor}
                 </div>
                 <div class="min-w-0">
-                  <h3 class="font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition-colors">{surah.namaLatin}</h3>
+                  <h3 class="font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                    <span>{surah.namaLatin}</span>
+                    {#if isFavorited}
+                      <Heart class="w-3.5 h-3.5 text-red-500 fill-red-500 shrink-0" />
+                    {/if}
+                    {#if isLastReadSurah}
+                      <span class="text-[8px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-extrabold uppercase tracking-wide shrink-0">Terakhir</span>
+                    {/if}
+                  </h3>
                   <p class="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mt-0.5">{surah.tempatTurun} • {surah.jumlahAyat} Ayat</p>
                 </div>
               </div>
@@ -204,7 +221,7 @@
         {#each juzList as item (item.juz)}
           <a 
             href="/quran/{juzRouteMap[item.juz]}" 
-            class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 hover:shadow-lg hover:shadow-emerald-950/10 cursor-pointer"
+            class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 hover:shadow-lg hover:shadow-emerald-950/10 cursor-pointer relative overflow-hidden"
           >
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-emerald-600/10 flex items-center justify-center font-extrabold text-xs text-emerald-400 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">

@@ -15,7 +15,8 @@
     Calendar,
     Sparkles,
     Crown,
-    Lock
+    Lock,
+    Heart
   } from '@lucide/svelte';
 
   // Derived counts from stores
@@ -217,13 +218,50 @@
 
   let weeklyStats = $derived(getWeeklyStats());
   let maxStatVal = $derived(Math.max(...weeklyStats.map(s => s.count), 5));
+
+  let totalAyatDibaca = $derived($readingStats.reduce((sum, s) => sum + s.count, 0));
+  let totalSurahDibaca = $derived(new Set($readingHistory.map(h => h.surahNumber)).size);
+  
+  function getDailyStreak() {
+    let streak = 0;
+    const sorted = [...$readingStats].sort((a, b) => b.date.localeCompare(a.date));
+    if (sorted.length === 0) return 0;
+    
+    let expectedDate = new Date();
+    const todayStr = expectedDate.toISOString().split('T')[0];
+    
+    let latest = sorted[0];
+    let latestDate = new Date(latest.date);
+    let today = new Date(todayStr);
+    let diffDays = Math.floor((today.getTime() - latestDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays > 1) {
+      return 0;
+    }
+    
+    let cursor = latestDate;
+    for (const stat of sorted) {
+      let statDate = new Date(stat.date);
+      let diff = Math.floor((cursor.getTime() - statDate.getTime()) / (1000 * 60 * 60 * 24));
+      if (diff === 0 || diff === 1) {
+        if (stat.count > 0) {
+          streak++;
+          cursor = statDate;
+        }
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+  let streakHarian = $derived(getDailyStreak());
 </script>
 
-<div class="space-y-8 animate-fade-in">
+<div class="space-y-8 animate-fade-in pb-12">
   
-  <!-- HERO GREETING & MOTIVATIONAL BANNER -->
+  <!-- HERO GREETING & INTEGRATED CONTINUE READING BANNER -->
   <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 relative overflow-hidden rounded-3xl p-6 lg:p-8 flex flex-col justify-between min-h-[220px] transition-all duration-300
+    <div class="lg:col-span-2 relative overflow-hidden rounded-3xl p-6 lg:p-8 flex flex-col justify-between min-h-[260px] transition-all duration-300
       {$isPremium 
         ? 'bg-gradient-to-tr from-emerald-950 via-amber-950 to-stone-950 border border-amber-500/35 shadow-amber-950/20' 
         : 'bg-gradient-to-tr from-emerald-900 via-emerald-800 to-emerald-950 border border-emerald-500/20 shadow-emerald-900/10'} shadow-xl group">
@@ -240,7 +278,7 @@
       {/if}
       
       <div class="relative z-10 space-y-2">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider
           {$isPremium 
             ? 'bg-amber-500/10 border border-amber-400/30 text-amber-400' 
             : 'bg-emerald-500/10 border border-emerald-400/20 text-emerald-400'}">
@@ -256,28 +294,57 @@
         <p class="text-zinc-300 text-sm max-w-lg leading-relaxed mt-2 font-medium">
           "{dailyQuote.text}"
         </p>
-        <span class="block text-xs font-semibold mt-1 {$isPremium ? 'text-amber-400' : 'text-emerald-400'}">{dailyQuote.surah}</span>
+        <span class="block text-xs font-bold mt-1 {$isPremium ? 'text-amber-400' : 'text-emerald-400'}">{dailyQuote.surah}</span>
       </div>
 
-      <!-- Quick Stats overview -->
-      <div class="relative z-10 grid grid-cols-3 gap-4 pt-6 border-t border-white/10 mt-6">
-        <div>
-          <span class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">Favorit</span>
-          <span class="text-lg font-extrabold text-white mt-0.5 block">{favoritesCount} <span class="text-xs text-zinc-400 font-normal">Ayat</span></span>
-        </div>
-        <div>
-          <span class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">Riwayat</span>
-          <span class="text-lg font-extrabold text-white mt-0.5 block">{historyCount} <span class="text-xs text-zinc-400 font-normal">Baca</span></span>
-        </div>
-        <div>
-          <span class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">Target Khatam</span>
-          <span class="text-lg font-extrabold mt-0.5 block {$isPremium ? 'text-amber-400' : 'text-emerald-400'}">100% <span class="text-xs text-zinc-400 font-normal">Progress</span></span>
-        </div>
+      <!-- CONTINUE READING CARD (Inside Hero Section) -->
+      <div class="relative z-10 mt-6 pt-6 border-t border-white/10">
+        {#if $lastRead}
+          <div class="flex items-center justify-between gap-4 p-4.5 rounded-2xl bg-white/5 border border-white/5 hover:border-emerald-500/20 transition-all duration-300">
+            <div class="space-y-1">
+              <span class="text-[9px] text-zinc-400 font-extrabold uppercase tracking-wider">Lanjutkan Bacaan</span>
+              <h4 class="text-base font-extrabold text-white">{$lastRead.surahName}</h4>
+              <p class="text-xs text-zinc-300 font-medium">Surah ke-{$lastRead.surahNumber} • Ayat Ke-{$lastRead.ayahNumber}</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+              <!-- Visual Progress Ring -->
+              <div class="relative w-12 h-12 flex items-center justify-center shrink-0">
+                <svg class="w-12 h-12 transform -rotate-90">
+                  <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.06)" stroke-width="3.5" fill="transparent" />
+                  <circle cx="24" cy="24" r="20" stroke="{$isPremium ? '#f4c542' : '#2bae85'}" stroke-width="3.5" fill="transparent" stroke-dasharray="125.66" stroke-dashoffset={125.66 * (1 - 74/100)} />
+                </svg>
+                <span class="absolute text-[10px] font-black text-white">74%</span>
+              </div>
+
+              <a 
+                href="/quran/{$lastRead.surahNumber}" 
+                class="inline-flex items-center justify-center p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs active:scale-95 transition-all shadow-md"
+              >
+                <ArrowRight class="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        {:else}
+          <div class="flex items-center justify-between gap-4 p-4.5 rounded-2xl bg-white/5 border border-white/5">
+            <div>
+              <h4 class="text-sm font-bold text-white">Belum ada riwayat bacaan</h4>
+              <p class="text-xs text-zinc-400 font-medium">Mulailah membaca Al-Qur'an hari ini.</p>
+            </div>
+            <a 
+              href="/quran" 
+              class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs active:scale-95 transition-all"
+            >
+              <span>Mulai</span>
+              <ArrowRight class="w-3.5 h-3.5" />
+            </a>
+          </div>
+        {/if}
       </div>
     </div>
 
     <!-- PRAYER TIME COUNTDOWN CARD -->
-    <div class="rounded-3xl p-6 glass flex flex-col justify-between min-h-[220px] relative overflow-hidden group shadow-lg transition-all duration-300
+    <div class="rounded-3xl p-6 glass flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-lg transition-all duration-300
       {$isPremium ? 'premium-border' : 'border border-white/5'}">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -307,7 +374,7 @@
       <div class="flex gap-2">
         <a href="/sholat" class="flex-1 inline-flex items-center justify-center gap-2 active:scale-95 text-white font-bold text-xs py-3.5 rounded-2xl shadow-lg transition-all
           {$isPremium 
-            ? 'bg-amber-505 bg-amber-500 hover:bg-amber-400 text-black shadow-amber-950/20' 
+            ? 'bg-amber-500 hover:bg-amber-400 text-black shadow-amber-950/20' 
             : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-950/20'}">
           <Compass class="w-4 h-4" />
           <span>Jadwal & Arah Kiblat</span>
@@ -365,125 +432,131 @@
 
   <!-- QUICK ACCESS MENU -->
   <section class="space-y-4">
-    <h3 class="font-bold text-sm text-zinc-400 tracking-wider uppercase px-1">Menu Utama</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <a href="/quran" class="glass border border-white/5 p-4.5 rounded-2xl flex items-center gap-4 hover:border-emerald-500/20 group">
+    <h3 class="font-bold text-xs text-zinc-400 tracking-wider uppercase px-1">Menu Utama</h3>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <a href="/quran" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
         <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-all duration-300 text-emerald-400">
           <BookOpen class="w-6 h-6" />
         </div>
         <div>
-          <h4 class="font-bold text-sm text-zinc-200">Baca Qur'an</h4>
-          <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Surah & Juz</p>
+          <h4 class="font-bold text-xs text-zinc-200">Baca Qur'an</h4>
+          <p class="text-[9px] text-zinc-500 font-semibold mt-0.5">Surah & Juz</p>
         </div>
       </a>
 
-      <a href="/search" class="glass border border-white/5 p-4.5 rounded-2xl flex items-center gap-4 hover:border-emerald-500/20 group">
-        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-all duration-300 text-amber-400">
-          <Search class="w-6 h-6" />
-        </div>
-        <div>
-          <h4 class="font-bold text-sm text-zinc-200">Pencarian</h4>
-          <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Cari Kata/Ayat</p>
-        </div>
-      </a>
-
-      <a href="/sholat" class="glass border border-white/5 p-4.5 rounded-2xl flex items-center gap-4 hover:border-emerald-500/20 group">
-        <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-all duration-300 text-blue-400">
-          <Compass class="w-6 h-6" />
-        </div>
-        <div>
-          <h4 class="font-bold text-sm text-zinc-200">Jadwal Sholat</h4>
-          <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Kompas Kiblat</p>
-        </div>
-      </a>
-
-      <a href="/settings" class="glass border border-white/5 p-4.5 rounded-2xl flex items-center gap-4 hover:border-emerald-500/20 group">
-        <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-all duration-300 text-purple-400">
+      <a href="/sholat" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
+        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-all duration-300 text-emerald-400">
           <Clock class="w-6 h-6" />
         </div>
         <div>
-          <h4 class="font-bold text-sm text-zinc-200">Pengaturan</h4>
-          <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Audio & Teks</p>
+          <h4 class="font-bold text-xs text-zinc-200">Jadwal Sholat</h4>
+          <p class="text-[9px] text-zinc-500 font-semibold mt-0.5">Waktu Adzan</p>
+        </div>
+      </a>
+
+      <a href="/sholat" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-all duration-300 text-amber-400">
+          <Compass class="w-6 h-6" />
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-zinc-200">Arah Kiblat</h4>
+          <p class="text-[9px] text-zinc-500 font-semibold mt-0.5">Kompas Ka'bah</p>
+        </div>
+      </a>
+
+      <a href="/sholat" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-all duration-300 text-blue-400">
+          <Calendar class="w-6 h-6" />
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-zinc-200">Kalender Hijriah</h4>
+          <p class="text-[9px] text-zinc-500 font-semibold mt-0.5">Kalender Islam</p>
+        </div>
+      </a>
+
+      <a href="/quran" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
+        <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-all duration-300 text-red-400">
+          <Heart class="w-6 h-6" />
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-zinc-200">Bookmark</h4>
+          <p class="text-[9px] text-zinc-500 font-semibold mt-0.5">Ayat Favorit</p>
+        </div>
+      </a>
+
+      <a href="#stats-section" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-all duration-300 text-purple-400">
+          <Sparkles class="w-6 h-6" />
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-zinc-200">Statistik</h4>
+          <p class="text-[9px] text-zinc-500 font-semibold mt-0.5">Grafik Tilawah</p>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- CONTINUE READING & STATS -->
-  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <!-- STATISTICS SECTION -->
+  <section id="stats-section" class="space-y-6 scroll-mt-24">
+    <h3 class="font-bold text-xs text-zinc-400 tracking-wider uppercase px-1">Statistik Tilawah</h3>
     
-    <!-- CONTINUE READING CARD -->
-    <div class="glass border border-white/5 rounded-3xl p-6 flex flex-col justify-between shadow-lg relative overflow-hidden">
-      <div>
-        <div class="flex items-center justify-between pb-4 border-b border-white/5">
-          <h3 class="font-bold text-base text-zinc-300">Melanjutkan Bacaan</h3>
-          <span class="text-xs font-semibold text-emerald-400">PWA Offline</span>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="glass border border-white/5 rounded-3xl p-5 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-600/10 flex items-center justify-center text-emerald-400">
+          <BookOpen class="w-6 h-6" />
         </div>
-        
-        {#if $lastRead}
-          <div class="py-6 flex items-center justify-between">
-            <div class="space-y-1">
-              <h4 class="text-xl font-extrabold text-white">{$lastRead.surahName}</h4>
-              <p class="text-xs text-zinc-400 font-medium">Surah ke-{$lastRead.surahNumber} • {$lastRead.surahTranslation}</p>
-              <div class="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold mt-3">
-                <Check class="w-3.5 h-3.5" />
-                <span>Ayat Ke-{$lastRead.ayahNumber}</span>
-              </div>
-            </div>
-            
-            <div class="w-20 h-20 rounded-full border-4 border-emerald-500/10 border-t-emerald-500 flex items-center justify-center">
-              <span class="text-sm font-black text-white">74%</span>
-            </div>
-          </div>
-        {:else}
-          <div class="py-10 text-center space-y-3">
-            <BookMarked class="w-10 h-10 text-zinc-600 mx-auto" />
-            <h4 class="font-bold text-sm text-zinc-400">Belum ada riwayat bacaan</h4>
-            <p class="text-xs text-zinc-500 max-w-xs mx-auto">Silahkan jelajahi Surah Al-Qur'an dan tandai ayat favorit Anda.</p>
-          </div>
-        {/if}
+        <div>
+          <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Total Ayat Dibaca</span>
+          <span class="text-xl font-extrabold text-white mt-0.5 block">{totalAyatDibaca} <span class="text-xs text-zinc-400 font-normal">Ayat</span></span>
+        </div>
       </div>
 
-      <a 
-        href={$lastRead ? `/quran/${$lastRead.surahNumber}` : '/quran'}
-        class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 border border-emerald-500/20 active:scale-95 font-bold text-xs py-3.5 rounded-2xl"
-      >
-        <span>{$lastRead ? 'Lanjutkan Membaca' : 'Mulai Membaca'}</span>
-        <ArrowRight class="w-4 h-4" />
-      </a>
+      <div class="glass border border-white/5 rounded-3xl p-5 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-blue-600/10 flex items-center justify-center text-blue-400">
+          <BookMarked class="w-6 h-6" />
+        </div>
+        <div>
+          <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Total Surah Dibaca</span>
+          <span class="text-xl font-extrabold text-white mt-0.5 block">{totalSurahDibaca} <span class="text-xs text-zinc-400 font-normal">Surah</span></span>
+        </div>
+      </div>
+
+      <div class="glass border border-white/5 rounded-3xl p-5 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+          <Sparkles class="w-6 h-6" />
+        </div>
+        <div>
+          <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Streak Harian</span>
+          <span class="text-xl font-extrabold text-white mt-0.5 block">{streakHarian} <span class="text-xs text-zinc-400 font-normal">Hari Aktif</span></span>
+        </div>
+      </div>
     </div>
 
     <!-- READING STATS GRAPH -->
-    <div class="glass border border-white/5 rounded-3xl p-6 flex flex-col justify-between shadow-lg">
-      <div>
-        <div class="flex items-center justify-between pb-4 border-b border-white/5">
-          <h3 class="font-bold text-base text-zinc-300">Aktivitas Membaca</h3>
-          <span class="text-xs font-semibold text-zinc-500">7 Hari Terakhir</span>
-        </div>
-
-        <!-- Mini graphic bar chart -->
-        <div class="flex items-end justify-between h-40 pt-6 px-2">
-          {#each weeklyStats as item (item.dayName)}
-            {@const heightPercent = Math.min(100, Math.max(10, (item.count / maxStatVal) * 100))}
-            <div class="flex flex-col items-center gap-2 w-10">
-              <span class="text-[9px] font-bold text-emerald-400">{item.count > 0 ? `${item.count}a` : ''}</span>
-              <div 
-                style="height: {heightPercent}%; min-height: 8px;" 
-                class="w-4 rounded-t-lg bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-lg shadow-emerald-500/10 group relative transition-all duration-500 hover:from-emerald-500 hover:to-emerald-300"
-              >
-                <!-- Tooltip -->
-                <div class="absolute -top-8 left-1/2 -translate-x-1/2 glass border border-white/10 px-2 py-0.5 rounded text-[8px] font-extrabold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                  {item.count} Ayat
-                </div>
-              </div>
-              <span class="text-[10px] text-zinc-500 font-semibold">{item.dayName}</span>
-            </div>
-          {/each}
-        </div>
+    <div class="glass border border-white/5 rounded-3xl p-6 shadow-lg">
+      <div class="flex items-center justify-between pb-4 border-b border-white/5">
+        <h3 class="font-bold text-sm text-zinc-300">Grafik Aktivitas Qur'an</h3>
+        <span class="text-xs font-semibold text-zinc-500">7 Hari Terakhir</span>
       </div>
 
-      <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-medium text-zinc-500 px-1">
-        <span>Semoga harimu dipenuhi keberkahan Al-Qur'an.</span>
+      <!-- Mini graphic bar chart -->
+      <div class="flex items-end justify-between h-44 pt-8 px-4">
+        {#each weeklyStats as item (item.dayName)}
+          {@const heightPercent = Math.min(100, Math.max(10, (item.count / maxStatVal) * 100))}
+          <div class="flex flex-col items-center gap-2.5 w-12">
+            <span class="text-[10px] font-bold text-emerald-400">{item.count > 0 ? `${item.count}a` : ''}</span>
+            <div 
+              style="height: {heightPercent}%; min-height: 8px;" 
+              class="w-5 rounded-t-xl bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-lg shadow-emerald-500/10 group relative transition-all duration-500 hover:from-emerald-500 hover:to-emerald-300"
+            >
+              <!-- Tooltip -->
+              <div class="absolute -top-8 left-1/2 -translate-x-1/2 glass border border-white/10 px-2 py-0.5 rounded text-[8px] font-extrabold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                {item.count} Ayat
+              </div>
+            </div>
+            <span class="text-xs text-zinc-500 font-semibold">{item.dayName}</span>
+          </div>
+        {/each}
       </div>
     </div>
   </section>

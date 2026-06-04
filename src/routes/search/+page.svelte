@@ -82,7 +82,7 @@
         if (e.key === 'Enter') saveSearch(searchQuery);
       }}
       placeholder="Cari Surah (contoh: Yasin, Al-Mulk, 36)..." 
-      class="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-white/5 bg-transparent text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 text-white transition-all placeholder:text-zinc-500"
+      class="w-full pl-12 pr-4 py-4 rounded-2xl glass border border-white/5 bg-transparent text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 text-white transition-all placeholder:text-zinc-500"
     />
     {#if searchQuery}
       <button 
@@ -105,7 +105,7 @@
           {#each popularSearches as item (item)}
             <button 
               onclick={() => { searchQuery = item; saveSearch(item); }}
-              class="px-4 py-2.5 rounded-xl glass border border-white/5 hover:border-emerald-500/20 text-xs font-bold text-zinc-300 hover:text-emerald-400 transition-all duration-300"
+              class="px-4 py-2.5 rounded-xl glass border border-white/5 hover:border-primary/20 text-xs font-bold text-zinc-300 hover:text-secondary transition-all duration-300"
             >
               {item}
             </button>
@@ -134,7 +134,7 @@
             {#each recentSearches as item (item)}
               <button 
                 onclick={() => searchQuery = item}
-                class="flex items-center justify-between p-3.5 rounded-xl glass border border-white/5 hover:border-emerald-500/20 text-left text-xs font-bold text-zinc-300 hover:text-white"
+                class="flex items-center justify-between p-3.5 rounded-xl glass border border-white/5 hover:border-primary/20 text-left text-xs font-bold text-zinc-300 hover:text-white"
               >
                 <div class="flex items-center gap-3">
                   <Clock class="w-4 h-4 text-zinc-500" />
@@ -173,20 +173,20 @@
               <a 
                 href="/quran/{surah.nomor}" 
                 onclick={() => saveSearch(searchQuery)}
-                class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 shadow-md cursor-pointer"
+                class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-primary/20 group transition-all duration-300 shadow-md cursor-pointer"
               >
                 <div class="flex items-center gap-4">
-                  <div class="w-10 h-10 rounded-xl bg-emerald-600/10 flex items-center justify-center font-bold text-xs text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                  <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-xs text-secondary group-hover:bg-primary group-hover:text-white transition-all">
                     {surah.nomor}
                   </div>
                   <div>
-                    <h3 class="font-bold text-zinc-200 group-hover:text-emerald-400 transition-colors">{surah.namaLatin}</h3>
+                    <h3 class="font-bold text-zinc-200 group-hover:text-secondary transition-colors">{surah.namaLatin}</h3>
                     <p class="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mt-0.5">{surah.tempatTurun} • {surah.jumlahAyat} Ayat</p>
                   </div>
                 </div>
 
                 <div class="text-right">
-                  <span class="font-arabic-utsmani text-lg font-bold text-emerald-400 block">{surah.nama}</span>
+                  <span class="font-arabic-utsmani text-lg font-bold text-secondary block">{surah.nama}</span>
                   <span class="text-[10px] text-zinc-500 font-medium block mt-0.5">{surah.arti}</span>
                 </div>
               </a>
