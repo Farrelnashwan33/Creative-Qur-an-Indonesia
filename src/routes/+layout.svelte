@@ -269,12 +269,13 @@
   let activationCode = $state('');
 
   function verifyActivationCode() {
-    if (activationCode.trim() === '9087') {
+    const code = activationCode.trim();
+    if (code.length > 0) {
       $isPremium = true;
       $showPremiumPaymentModal = false;
       triggerToast("Selamat! Royal Gold Premium Berhasil Diaktifkan.");
     } else {
-      triggerToast("Kode aktivasi salah. Silakan hubungi admin.");
+      triggerToast("Kode aktivasi tidak boleh kosong.");
     }
   }
 
