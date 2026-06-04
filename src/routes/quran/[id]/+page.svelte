@@ -850,46 +850,66 @@
 
           <!-- ARABIC TEXT -->
           <div class="text-center py-2 leading-loose">
-            {#if $settings.perKataEnabled && perKataCache[ayah.nomorAyat]}
-              <!-- Flowing word-by-word text block directly integrated -->
-              <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center py-3" dir="rtl">
-                {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
-                  <div class="flex flex-col items-center justify-start text-center space-y-2 min-w-[70px] max-w-[150px]">
-                    <!-- Arabic Word -->
-                    <span 
-                      style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'};" 
-                      class="text-white select-none leading-none mb-1"
-                    >
-                      {word.text_uthmani || word.text}
-                    </span>
-                    <!-- Transliteration -->
-                    {#if word.transliteration && word.transliteration.text}
+            {#if ($settings.perKataEnabled || expandedPerKataAyah === ayah.nomorAyat)}
+              {#if loadingPerKata && !perKataCache[ayah.nomorAyat]}
+                <div class="flex flex-col items-center justify-center py-6 gap-2">
+                  <div class="w-8 h-8 rounded-full border-3 border-t-emerald-400 border-emerald-500/20 animate-spin"></div>
+                  <span class="text-xs text-zinc-500 font-semibold animate-pulse">Memuat arti kata...</span>
+                </div>
+              {:else if perKataCache[ayah.nomorAyat]}
+                <!-- Flowing word-by-word text block directly integrated -->
+                <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center py-3" dir="rtl">
+                  {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
+                    <div class="flex flex-col items-center justify-start text-center space-y-2 min-w-[70px] max-w-[150px]">
+                      <!-- Arabic Word -->
                       <span 
-                        style="font-size: {($settings.perKataFontSize || 16) * 0.75}px" 
-                        class="text-emerald-400/90 font-medium italic select-none leading-tight" 
+                        style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'};" 
+                        class="text-white select-none leading-none mb-1"
+                      >
+                        {word.text_uthmani || word.text}
+                      </span>
+                      <!-- Transliteration -->
+                      {#if word.transliteration && word.transliteration.text}
+                        <span 
+                          style="font-size: {($settings.perKataFontSize || 16) * 0.75}px" 
+                          class="text-emerald-400/90 font-medium italic select-none leading-tight" 
+                          dir="ltr"
+                        >
+                          {word.transliteration.text}
+                        </span>
+                      {/if}
+                      <!-- Indonesian Translation -->
+                      <span 
+                        style="font-size: {($settings.perKataFontSize || 16) * 0.85}px" 
+                        class="text-zinc-300 font-bold leading-tight select-none" 
                         dir="ltr"
                       >
-                        {word.transliteration.text}
+                        {word.translation ? word.translation.text : ''}
                       </span>
-                    {/if}
-                    <!-- Indonesian Translation -->
-                    <span 
-                      style="font-size: {($settings.perKataFontSize || 16) * 0.85}px" 
-                      class="text-zinc-300 font-bold leading-tight select-none" 
-                      dir="ltr"
-                    >
-                      {word.translation ? word.translation.text : ''}
-                    </span>
-                  </div>
-                {/each}
-                {#if $settings.arabicNumberVisible}
-                  <div class="flex items-center align-middle self-start mt-2 mr-2">
-                    <span class="inline-flex items-center justify-center font-sans text-xs border border-emerald-500/30 text-emerald-400 w-6.5 h-6.5 rounded-full select-none" dir="ltr">
+                    </div>
+                  {/each}
+                  {#if $settings.arabicNumberVisible}
+                    <div class="flex items-center align-middle self-start mt-2 mr-2">
+                      <span class="inline-flex items-center justify-center font-sans text-xs border border-emerald-500/30 text-emerald-400 w-6.5 h-6.5 rounded-full select-none" dir="ltr">
+                        {ayah.nomorAyat}
+                      </span>
+                    </div>
+                  {/if}
+                </div>
+              {:else}
+                <p 
+                  class="text-white font-arabic-utsmani text-center" 
+                  style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
+                  dir="rtl"
+                >
+                  {@html processTajwid(ayah.teksArab, $settings.tajwidColored)}
+                  {#if $settings.arabicNumberVisible}
+                    <span class="inline-flex items-center justify-center font-sans text-xs border border-emerald-500/30 text-emerald-400 w-6.5 h-6.5 rounded-full mr-2 select-none" dir="ltr">
                       {ayah.nomorAyat}
                     </span>
-                  </div>
-                {/if}
-              </div>
+                  {/if}
+                </p>
+              {/if}
             {:else}
               <p 
                 class="text-white font-arabic-utsmani text-center" 
@@ -941,63 +961,6 @@
               <p class="text-xs text-zinc-400 leading-relaxed font-medium">
                 {getTafsirText(ayah.nomorAyat)}
               </p>
-            </div>
-          {/if}
-
-          <!-- EXPANDABLE PER KATA (WORD BY WORD) SECTION -->
-          {#if expandedPerKataAyah === ayah.nomorAyat}
-            <div class="mt-2 p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/10 space-y-3 animate-slide-up">
-              <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tafsir / Terjemahan Per Kata</span>
-                <button 
-                  onclick={() => expandedPerKataAyah = null} 
-                  class="text-[10px] font-bold text-zinc-500 hover:text-white"
-                >
-                  Tutup
-                </button>
-              </div>
-
-              {#if loadingPerKata && !perKataCache[ayah.nomorAyat]}
-                <div class="flex items-center gap-2 py-4 justify-center">
-                  <div class="w-4 h-4 rounded-full border-2 border-t-emerald-400 border-emerald-500/20 animate-spin"></div>
-                  <span class="text-xs text-zinc-500 font-semibold animate-pulse">Memuat arti kata...</span>
-                </div>
-              {:else if perKataCache[ayah.nomorAyat]}
-                <!-- Clean borderless flowing word-by-word layout -->
-                <div class="flex flex-wrap gap-x-4 gap-y-6 justify-end py-3" dir="rtl">
-                  {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
-                    <div class="flex flex-col items-center justify-start text-center space-y-1.5 min-w-[70px] max-w-[150px]">
-                      <!-- Arabic Word -->
-                      <span 
-                        style="font-size: {($settings.perKataFontSize || 16) * 1.5}px; font-family: var(--font-arabic-utsmani);" 
-                        class="text-white select-none leading-none mb-1"
-                      >
-                        {word.text_uthmani || word.text}
-                      </span>
-                      <!-- Transliteration -->
-                      {#if word.transliteration && word.transliteration.text}
-                        <span 
-                          style="font-size: {($settings.perKataFontSize || 16) * 0.75}px" 
-                          class="text-emerald-400/90 font-medium italic select-none leading-tight" 
-                          dir="ltr"
-                        >
-                          {word.transliteration.text}
-                        </span>
-                      {/if}
-                      <!-- Indonesian Translation -->
-                      <span 
-                        style="font-size: {($settings.perKataFontSize || 16) * 0.85}px" 
-                        class="text-zinc-300 font-bold leading-tight select-none" 
-                        dir="ltr"
-                      >
-                        {word.translation ? word.translation.text : ''}
-                      </span>
-                    </div>
-                  {/each}
-                </div>
-              {:else}
-                <p class="text-xs text-rose-400 text-center font-bold py-2">Gagal memuat tafsir per kata.</p>
-              {/if}
             </div>
           {/if}
         </div>
