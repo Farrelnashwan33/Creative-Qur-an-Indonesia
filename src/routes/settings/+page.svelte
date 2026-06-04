@@ -373,6 +373,22 @@
           </div>
         {/if}
 
+        <!-- Per Kata Font Size Slider -->
+        <div class="flex flex-col gap-2 pt-4 border-t border-white/5">
+          <div class="flex items-center justify-between text-xs font-bold text-zinc-400">
+            <span>Ukuran Font Tafsir Per Kata</span>
+            <span class="text-emerald-400">{$settings.perKataFontSize || 16}px</span>
+          </div>
+          <input 
+            type="range" 
+            min="12" 
+            max="28" 
+            value={$settings.perKataFontSize || 16} 
+            oninput={(e) => updateSetting('perKataFontSize', Number((e.target as HTMLInputElement).value))}
+            class="w-full h-1.5 bg-emerald-500/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+          />
+        </div>
+
       </div>
 
     </div>

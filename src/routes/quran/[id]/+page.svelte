@@ -888,20 +888,33 @@
                   <span class="text-xs text-zinc-500 font-semibold animate-pulse">Memuat arti kata...</span>
                 </div>
               {:else if perKataCache[ayah.nomorAyat]}
-                <!-- Removed nested .glass class below and replaced with clean bg-white/5 transparent card -->
-                <div class="flex flex-wrap gap-2 justify-end py-2" dir="rtl">
+                <!-- Clean borderless flowing word-by-word layout -->
+                <div class="flex flex-wrap gap-x-4 gap-y-6 justify-end py-3" dir="rtl">
                   {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
-                    <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 flex flex-col items-center justify-center min-w-[75px] text-center space-y-1">
+                    <div class="flex flex-col items-center justify-start text-center space-y-1.5 min-w-[70px] max-w-[150px]">
                       <!-- Arabic Word -->
-                      <span class="text-base font-arabic-utsmani text-white select-none">{word.text_uthmani || word.text}</span>
+                      <span 
+                        style="font-size: {($settings.perKataFontSize || 16) * 1.5}px; font-family: var(--font-arabic-utsmani);" 
+                        class="text-white select-none leading-none mb-1"
+                      >
+                        {word.text_uthmani || word.text}
+                      </span>
                       <!-- Transliteration -->
                       {#if word.transliteration && word.transliteration.text}
-                        <span class="text-[8px] text-emerald-400/85 font-medium italic select-none" dir="ltr">
+                        <span 
+                          style="font-size: {($settings.perKataFontSize || 16) * 0.75}px" 
+                          class="text-emerald-400/90 font-medium italic select-none leading-tight" 
+                          dir="ltr"
+                        >
                           {word.transliteration.text}
                         </span>
                       {/if}
                       <!-- Indonesian Translation -->
-                      <span class="text-[9px] text-zinc-400 font-bold leading-tight select-none" dir="ltr">
+                      <span 
+                        style="font-size: {($settings.perKataFontSize || 16) * 0.85}px" 
+                        class="text-zinc-300 font-bold leading-tight select-none" 
+                        dir="ltr"
+                      >
                         {word.translation ? word.translation.text : ''}
                       </span>
                     </div>
