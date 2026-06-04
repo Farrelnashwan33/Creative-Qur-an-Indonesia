@@ -50,6 +50,35 @@
   let expandedPerKataAyah = $state<number | null>(null);
   let perKataCache = $state<Record<number, any[]>>({});
   let loadingPerKata = $state(false);
+  let loadingAllPerKata = $state(false);
+
+  async function loadAllPerKata(id: number) {
+    if (!$settings.perKataEnabled) return;
+    loadingAllPerKata = true;
+    try {
+      const res = await fetch(`https://api.quran.com/api/v4/verses/by_chapter/${id}?language=id&words=true&word_fields=text_uthmani&per_page=300`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.verses) {
+          const cache: Record<number, any[]> = {};
+          data.verses.forEach((v: any) => {
+            cache[v.verse_number] = v.words.filter((w: any) => w.char_type_name === 'word');
+          });
+          perKataCache = cache;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to fetch all word-by-word data:", e);
+    } finally {
+      loadingAllPerKata = false;
+    }
+  }
+
+  $effect(() => {
+    if ($settings.perKataEnabled && surah && Object.keys(perKataCache).length === 0) {
+      loadAllPerKata(surah.nomor);
+    }
+  });
 
   // Premium Quick Jump states
   let showQuickJump = $state(false);
@@ -453,6 +482,10 @@
 
       // Update reading statistics count for today
       updateStats();
+
+      if ($settings.perKataEnabled) {
+        loadAllPerKata(id);
+      }
     } catch (e) {
       error = "Gagal memuat detail surah atau tafsir.";
     } finally {
@@ -817,18 +850,60 @@
 
           <!-- ARABIC TEXT -->
           <div class="text-right py-2 leading-loose">
-            <p 
-              class="text-white font-arabic-utsmani" 
-              style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
-              dir="rtl"
-            >
-              {@html processTajwid(ayah.teksArab, $settings.tajwidColored)}
-              {#if $settings.arabicNumberVisible}
-                <span class="inline-flex items-center justify-center font-sans text-xs border border-emerald-500/30 text-emerald-400 w-6.5 h-6.5 rounded-full mr-2 select-none" dir="ltr">
-                  {ayah.nomorAyat}
-                </span>
-              {/if}
-            </p>
+            {#if $settings.perKataEnabled && perKataCache[ayah.nomorAyat]}
+              <!-- Flowing word-by-word text block directly integrated -->
+              <div class="flex flex-wrap gap-x-6 gap-y-8 justify-end py-3" dir="rtl">
+                {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
+                  <div class="flex flex-col items-center justify-start text-center space-y-2 min-w-[70px] max-w-[150px]">
+                    <!-- Arabic Word -->
+                    <span 
+                      style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'};" 
+                      class="text-white select-none leading-none mb-1"
+                    >
+                      {word.text_uthmani || word.text}
+                    </span>
+                    <!-- Transliteration -->
+                    {#if word.transliteration && word.transliteration.text}
+                      <span 
+                        style="font-size: {($settings.perKataFontSize || 16) * 0.75}px" 
+                        class="text-emerald-400/90 font-medium italic select-none leading-tight" 
+                        dir="ltr"
+                      >
+                        {word.transliteration.text}
+                      </span>
+                    {/if}
+                    <!-- Indonesian Translation -->
+                    <span 
+                      style="font-size: {($settings.perKataFontSize || 16) * 0.85}px" 
+                      class="text-zinc-300 font-bold leading-tight select-none" 
+                      dir="ltr"
+                    >
+                      {word.translation ? word.translation.text : ''}
+                    </span>
+                  </div>
+                {/each}
+                {#if $settings.arabicNumberVisible}
+                  <div class="flex items-center align-middle self-start mt-2 mr-2">
+                    <span class="inline-flex items-center justify-center font-sans text-xs border border-emerald-500/30 text-emerald-400 w-6.5 h-6.5 rounded-full select-none" dir="ltr">
+                      {ayah.nomorAyat}
+                    </span>
+                  </div>
+                {/if}
+              </div>
+            {:else}
+              <p 
+                class="text-white font-arabic-utsmani" 
+                style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
+                dir="rtl"
+              >
+                {@html processTajwid(ayah.teksArab, $settings.tajwidColored)}
+                {#if $settings.arabicNumberVisible}
+                  <span class="inline-flex items-center justify-center font-sans text-xs border border-emerald-500/30 text-emerald-400 w-6.5 h-6.5 rounded-full mr-2 select-none" dir="ltr">
+                    {ayah.nomorAyat}
+                  </span>
+                {/if}
+              </p>
+            {/if}
           </div>
 
           <!-- INDONESIAN TRANSLATION -->

@@ -81,6 +81,7 @@ export interface AppSettings {
   translationEnabled: boolean;
   translationFontSize: number; // 12 to 24
   perKataFontSize: number; // 12 to 28
+  perKataEnabled: boolean;
   qori: 'juhany' | 'qasim' | 'sudais' | 'dossari' | 'afasy' | 'aldosari';
   theme: 'light' | 'dark';
   keepScreenOn: boolean;
@@ -97,6 +98,7 @@ export const defaultSettings: AppSettings = {
   translationEnabled: true,
   translationFontSize: 16,
   perKataFontSize: 16,
+  perKataEnabled: false,
   qori: 'afasy',
   theme: 'dark',
   keepScreenOn: false,

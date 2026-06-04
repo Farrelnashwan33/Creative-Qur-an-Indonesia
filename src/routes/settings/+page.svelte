@@ -373,6 +373,22 @@
           </div>
         {/if}
 
+        <!-- Per Kata Toggle -->
+        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+          <div>
+            <h4 class="text-xs font-bold text-zinc-300">Terjemahan Per Kata (Langsung)</h4>
+            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Tampilkan arti per kata langsung di bawah lafal Arab</p>
+          </div>
+          <button 
+            onclick={() => updateSetting('perKataEnabled', !$settings.perKataEnabled)}
+            class="w-11 h-6 rounded-full transition-colors relative
+              {$settings.perKataEnabled ? 'bg-emerald-600' : 'bg-white/10'}"
+            aria-label="Toggle Terjemahan Per Kata"
+          >
+            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.perKataEnabled ? 'left-6' : 'left-1'}"></span>
+          </button>
+        </div>
+
         <!-- Per Kata Font Size Slider -->
         <div class="flex flex-col gap-2 pt-4 border-t border-white/5">
           <div class="flex items-center justify-between text-xs font-bold text-zinc-400">
