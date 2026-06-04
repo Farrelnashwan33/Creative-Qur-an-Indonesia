@@ -11,9 +11,20 @@ function createPersistentStore<T>(key: string, initialValue: T) {
       const storedValue = localStorage.getItem(key);
       if (storedValue) {
         try {
-          const parsed = JSON.parse(storedValue);
+          let parsed = JSON.parse(storedValue);
           if (parsed !== null && parsed !== undefined) {
-            if (typeof initialValue === 'object' && initialValue !== null && typeof parsed === 'object') {
+            // Repair corrupted arrays that were saved as objects by previous versions
+            if (Array.isArray(initialValue) && !Array.isArray(parsed)) {
+              if (typeof parsed === 'object') {
+                parsed = Object.values(parsed);
+              } else {
+                parsed = [];
+              }
+            }
+
+            if (Array.isArray(initialValue)) {
+              value = parsed as T;
+            } else if (typeof initialValue === 'object' && initialValue !== null && typeof parsed === 'object') {
               value = { ...initialValue, ...parsed } as T;
             } else {
               value = parsed as T;

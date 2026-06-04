@@ -42,14 +42,49 @@
 				if (isSamsungBrowser || isSamsungDevice || isSamsungUAData || isMali || isChromeAndroid) {
 					document.documentElement.classList.add('samsung-device');
 				}
+
+				// Svelte 5 polyfill for browsers/webview environments missing standard Node prototype property descriptors
+				try {
+					var proto = Node.prototype;
+					var desc1 = Object.getOwnPropertyDescriptor(proto, 'firstChild');
+					if (!desc1 || !desc1.get) {
+						Object.defineProperty(proto, 'firstChild', {
+							get: function() { return this.childNodes[0] || null; },
+							configurable: true,
+							enumerable: true
+						});
+					}
+					var desc2 = Object.getOwnPropertyDescriptor(proto, 'nextSibling');
+					if (!desc2 || !desc2.get) {
+						Object.defineProperty(proto, 'nextSibling', {
+							get: function() {
+								var sibs = this.parentNode ? this.parentNode.childNodes : [];
+								var idx = Array.prototype.indexOf.call(sibs, this);
+								return idx !== -1 ? sibs[idx + 1] || null : null;
+							},
+							configurable: true,
+							enumerable: true
+						});
+					}
+				} catch (e) {
+					console.warn("Node prototype descriptor polyfill failed:", e);
+				}
 			})();
 		</script>
 		<script>
 			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', () => {
-					navigator.serviceWorker.register('/service-worker.js')
-						.catch(err => console.log('Service Worker registration failed', err));
-				});
+				if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.startsWith('192.168.')) {
+					navigator.serviceWorker.getRegistrations().then(function(registrations) {
+						for (var registration of registrations) {
+							registration.unregister();
+						}
+					});
+				} else {
+					window.addEventListener('load', () => {
+						navigator.serviceWorker.register('/service-worker.js')
+							.catch(err => console.log('Service Worker registration failed', err));
+					});
+				}
 			}
 		</script>
 	</head>
