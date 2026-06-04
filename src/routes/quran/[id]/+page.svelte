@@ -639,53 +639,40 @@
       <span class="text-xs font-bold hidden sm:inline">Kembali ke Daftar</span>
     </a>
 
-    <!-- Premium Quick Surah Jump Selector -->
+    <!-- Quick Surah Jump Selector (Free) -->
     <div class="relative">
-      {#if $isPremium}
-        <button 
-          onclick={() => showQuickJump = !showQuickJump}
-          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-amber-500/25 bg-amber-500/10 text-amber-400 font-bold text-xs hover:bg-amber-500/20 active:scale-95 transition-all cursor-pointer shadow-sm"
-        >
-          <Crown class="w-3.5 h-3.5 fill-amber-400" />
-          <span>Lompat Surah</span>
-          <ChevronDown class="w-3.5 h-3.5" />
-        </button>
-        
-        {#if showQuickJump}
-          <div class="absolute top-11 left-1/2 -translate-x-1/2 w-60 bg-zinc-950/95 border border-amber-500/25 rounded-2xl shadow-2xl p-2.5 z-50 animate-slide-up">
-            <div class="bg-zinc-950 pb-2 border-b border-white/5 mb-1.5">
-              <input 
-                type="text" 
-                bind:value={quickJumpSearch}
-                placeholder="Cari surah..." 
-                class="w-full bg-white/5 border border-white/10 text-white text-xs rounded-lg py-1.5 px-2.5 outline-none focus:border-amber-500/50 font-semibold"
-              />
-            </div>
-            <div class="space-y-0.5 max-h-56 overflow-y-auto pr-0.5">
-              {#each allSurahs.filter(s => s.namaLatin.toLowerCase().includes(quickJumpSearch.toLowerCase())) as s (s.nomor)}
-                <a 
-                  href={`/quran/${s.nomor}`}
-                  onclick={() => showQuickJump = false}
-                  class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left text-xs font-semibold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 transition-all
-                    {s.nomor === surahId ? 'bg-amber-500/10 text-amber-400 font-bold' : ''}"
-                >
-                  <span>{s.nomor}. {s.namaLatin}</span>
-                  <span class="text-[9px] text-zinc-500 font-bold">{s.jumlahAyat} Ayat</span>
-                </a>
-              {/each}
-            </div>
+      <button 
+        onclick={() => showQuickJump = !showQuickJump}
+        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/5 bg-white/5 text-zinc-300 font-bold text-xs hover:bg-white/10 active:scale-95 transition-all cursor-pointer shadow-sm"
+      >
+        <span>Lompat Surah</span>
+        <ChevronDown class="w-3.5 h-3.5" />
+      </button>
+      
+      {#if showQuickJump}
+        <div class="absolute top-11 left-1/2 -translate-x-1/2 w-60 bg-zinc-950/95 border border-white/10 rounded-2xl shadow-2xl p-2.5 z-50 animate-slide-up">
+          <div class="bg-zinc-950 pb-2 border-b border-white/5 mb-1.5">
+            <input 
+              type="text" 
+              bind:value={quickJumpSearch}
+              placeholder="Cari surah..." 
+              class="w-full bg-white/5 border border-white/10 text-white text-xs rounded-lg py-1.5 px-2.5 outline-none focus:border-emerald-500/50 font-semibold"
+            />
           </div>
-        {/if}
-      {:else}
-        <!-- Show locked option for non-premium to upsell -->
-        <button 
-          onclick={() => showPremiumPaymentModal.set(true)}
-          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/5 bg-white/5 text-zinc-400 font-bold text-xs hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
-        >
-          <Crown class="w-3.5 h-3.5 text-zinc-500" />
-          <span>Lompat Surah</span>
-          <ChevronDown class="w-3.5 h-3.5" />
-        </button>
+          <div class="space-y-0.5 max-h-56 overflow-y-auto pr-0.5">
+            {#each allSurahs.filter(s => s.namaLatin.toLowerCase().includes(quickJumpSearch.toLowerCase())) as s (s.nomor)}
+              <a 
+                href={`/quran/${s.nomor}`}
+                onclick={() => showQuickJump = false}
+                class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left text-xs font-semibold text-zinc-300 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all
+                  {s.nomor === surahId ? 'bg-emerald-500/10 text-emerald-400 font-bold' : ''}"
+              >
+                <span>{s.nomor}. {s.namaLatin}</span>
+                <span class="text-[9px] text-zinc-500 font-bold">{s.jumlahAyat} Ayat</span>
+              </a>
+            {/each}
+          </div>
+        </div>
       {/if}
     </div>
     
