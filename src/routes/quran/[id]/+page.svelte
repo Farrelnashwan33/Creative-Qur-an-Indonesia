@@ -831,16 +831,6 @@
             </p>
           </div>
 
-          <!-- TRANSLITERATION (LATIN) -->
-          {#if $settings.latinEnabled}
-            <p 
-              class="text-emerald-400/90 font-medium italic leading-relaxed"
-              style="font-size: {$settings.latinFontSize}px"
-            >
-              {ayah.teksLatin}
-            </p>
-          {/if}
-
           <!-- INDONESIAN TRANSLATION -->
           {#if $settings.translationEnabled}
             <p 
@@ -848,6 +838,16 @@
               style="font-size: {$settings.translationFontSize}px"
             >
               {ayah.teksIndonesia}
+            </p>
+          {/if}
+
+          <!-- TRANSLITERATION (LATIN) -->
+          {#if $settings.latinEnabled}
+            <p 
+              class="text-emerald-400/90 font-medium italic leading-relaxed"
+              style="font-size: {$settings.latinFontSize}px"
+            >
+              {ayah.teksLatin}
             </p>
           {/if}
 
