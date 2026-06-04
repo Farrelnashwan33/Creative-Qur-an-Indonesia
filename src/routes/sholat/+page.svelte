@@ -12,7 +12,8 @@
     Bell,
     BellOff,
     Check,
-    ArrowLeft
+    ArrowLeft,
+    Clock
   } from '@lucide/svelte';
 
   let prayerData = $state<PrayerData | null>(null);
