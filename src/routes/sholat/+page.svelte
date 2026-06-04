@@ -240,7 +240,7 @@
         <div class="glass border border-white/5 rounded-3xl overflow-hidden divide-y divide-white/5">
           {#each prayers as prayer (prayer.key)}
             {@const time = prayerData.timings[prayer.key as keyof typeof prayerData.timings]}
-            <div class="flex items-center justify-between p-4.5 hover:bg-white/[0.01] transition-colors">
+            <div class="flex items-center justify-between p-4.5 hover:bg-white/1 transition-colors">
               <div class="flex items-center gap-3">
                 <span class="font-bold text-sm text-zinc-300">{prayer.label}</span>
               </div>
@@ -291,9 +291,9 @@
         >
           <!-- Cardinal directions indicator inside compass -->
           <span class="absolute top-2.5 text-[10px] font-black text-rose-500">U</span>
-          <span class="absolute right-2.5 text-[10px] font-black text-zinc-500 font-semibold">T</span>
-          <span class="absolute bottom-2.5 text-[10px] font-black text-zinc-500 font-semibold">S</span>
-          <span class="absolute left-2.5 text-[10px] font-black text-zinc-500 font-semibold">B</span>
+          <span class="absolute right-2.5 text-[10px] font-black text-zinc-500">T</span>
+          <span class="absolute bottom-2.5 text-[10px] font-black text-zinc-500">S</span>
+          <span class="absolute left-2.5 text-[10px] font-black text-zinc-500">B</span>
         </div>
 
         <!-- Separate Kiblat icon needle pointing to Mecca (rotated by Qibla Angle - device heading) -->
@@ -305,7 +305,7 @@
             <!-- Glow indicator on top -->
             <div class="absolute top-4 w-4 h-4 rounded-full bg-amber-500/30 animate-ping"></div>
             <!-- Needle line -->
-            <div class="w-0.5 h-32 bg-gradient-to-b from-amber-400 via-emerald-500 to-transparent"></div>
+            <div class="w-0.5 h-32 bg-linear-to-b from-amber-400 via-emerald-500 to-transparent"></div>
             <!-- 3D SVG Kaaba Icon at the tip of the needle pointing to Kaaba -->
             <svg class="w-8 h-8 absolute -top-3.5 drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Top roof -->
