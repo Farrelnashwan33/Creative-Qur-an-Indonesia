@@ -19,7 +19,9 @@
     Maximize2,
     Bell,
     ArrowLeft,
-    Crown
+    Crown,
+    Smartphone,
+    X
   } from '@lucide/svelte';
 
   let mounted = $state(false);
@@ -148,6 +150,7 @@
   // Sharing & Rating states
   let showRatingModal = $state(false);
   let showPrivacyModal = $state(false);
+  let showStoreNotification = $state(false);
   let ratingStars = $state(5);
   let ratingComment = $state('');
 
@@ -677,6 +680,14 @@
           </button>
 
           <button 
+            onclick={() => showStoreNotification = true}
+            class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-emerald-500/20 hover:bg-white/10 text-left text-xs font-bold text-zinc-300 hover:text-white"
+          >
+            <Smartphone class="w-4.5 h-4.5 text-zinc-500" />
+            <span>Pasang di Play Store / App Store</span>
+          </button>
+
+          <button 
             onclick={() => showPrivacyModal = true}
             class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-emerald-500/20 hover:bg-white/10 text-left text-xs font-bold text-zinc-300 hover:text-white"
           >
@@ -813,6 +824,46 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="h-[400px] bg-white/5 rounded-3xl"></div>
       <div class="h-[400px] bg-white/5 rounded-3xl"></div>
+    </div>
+  </div>
+{/if}
+
+<!-- STORE COMING SOON MODAL -->
+{#if showStoreNotification}
+  <div class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-[100] animate-fade-in">
+    <div class="bg-zinc-950 border border-emerald-500/30 p-6 rounded-3xl max-w-sm w-full space-y-5 shadow-2xl relative text-center">
+      <button 
+        onclick={() => showStoreNotification = false} 
+        class="absolute top-4 right-4 text-zinc-400 hover:text-white"
+      >
+        <X class="w-4 h-4" />
+      </button>
+
+      <div class="space-y-2">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mx-auto">
+          <Smartphone class="w-6 h-6 text-amber-400" />
+        </div>
+        <h3 class="font-extrabold text-sm text-white tracking-wide">Segera Hadir di Play Store & App Store</h3>
+        <p class="text-[11px] text-zinc-400 leading-relaxed font-semibold">
+          Aplikasi resmi Creative Qur'an Indonesia saat ini sedang dalam proses peninjauan oleh tim Google dan Apple.
+        </p>
+      </div>
+
+      <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3 text-xs text-zinc-300 font-semibold">
+        <p>
+          Untuk pengalaman terbaik saat ini, Anda dapat langsung memasang versi <strong>PWA (Progressive Web App)</strong> kami melalui tombol instalasi di halaman utama.
+        </p>
+        <p class="text-[10px] text-emerald-400">
+          ✓ Hemat Memori • ✓ Update Otomatis • ✓ Responsif & Ringan
+        </p>
+      </div>
+
+      <button 
+        onclick={() => showStoreNotification = false}
+        class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-2xl active:scale-95 transition-all cursor-pointer"
+      >
+        Tutup
+      </button>
     </div>
   </div>
 {/if}

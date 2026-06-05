@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { fetchSurahs, type Surah } from '$lib/api';
-  import { Search, BookOpen, Compass, Bookmark, Clock, ArrowRight, Heart, Download, X } from '@lucide/svelte';
+  import { Search, BookOpen, Compass, Bookmark, Clock, ArrowRight, Heart, Download, X, Smartphone } from '@lucide/svelte';
   import { favorites, lastRead } from '$lib/stores';
 
   let surahs = $state<Surah[]>([]);
@@ -18,6 +18,7 @@
   let isAlreadyInstalled = $state(false);
   let showIOSInstructions = $state(false);
   let userDismissed = $state(false);
+  let showStoreNotification = $state(false);
 
   onMount(async () => {
     // Check if dismissed previously
@@ -180,7 +181,10 @@
         </div>
         <div>
           <h4 class="text-xs font-bold text-white">Unduh Aplikasi Creative Qur'an</h4>
-          <p class="text-[10px] text-zinc-400 font-semibold mt-0.5">Pasang aplikasi di layar utama HP/PC Anda untuk akses instan dan offline.</p>
+          <p class="text-[10px] text-zinc-400 font-semibold mt-0.5">
+            Pasang di layar utama HP/PC Anda, atau dapatkan di 
+            <button onclick={() => showStoreNotification = true} class="text-emerald-400 underline hover:text-emerald-300 font-bold transition-all cursor-pointer bg-transparent border-none p-0 inline">Play Store / App Store</button>.
+          </p>
         </div>
       </div>
       
@@ -363,6 +367,46 @@
           class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-2xl active:scale-95 transition-all cursor-pointer"
         >
           Saya Mengerti
+        </button>
+      </div>
+    </div>
+  {/if}
+
+  <!-- STORE COMING SOON MODAL -->
+  {#if showStoreNotification}
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-[100] animate-fade-in">
+      <div class="bg-zinc-950 border border-emerald-500/30 p-6 rounded-3xl max-w-sm w-full space-y-5 shadow-2xl relative text-center">
+        <button 
+          onclick={() => showStoreNotification = false} 
+          class="absolute top-4 right-4 text-zinc-400 hover:text-white"
+        >
+          <X class="w-4 h-4" />
+        </button>
+
+        <div class="space-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mx-auto">
+            <Smartphone class="w-6 h-6 text-amber-400" />
+          </div>
+          <h3 class="font-extrabold text-sm text-white tracking-wide">Segera Hadir di Play Store & App Store</h3>
+          <p class="text-[11px] text-zinc-400 leading-relaxed font-semibold">
+            Aplikasi resmi Creative Qur'an Indonesia saat ini sedang dalam proses peninjauan oleh tim Google dan Apple.
+          </p>
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3 text-xs text-zinc-300 font-semibold">
+          <p>
+            Untuk pengalaman terbaik saat ini, Anda dapat langsung memasang versi <strong>PWA (Progressive Web App)</strong> kami melalui tombol instalasi di atas.
+          </p>
+          <p class="text-[10px] text-emerald-400">
+            ✓ Hemat Memori • ✓ Update Otomatis • ✓ Responsif & Ringan
+          </p>
+        </div>
+
+        <button 
+          onclick={() => showStoreNotification = false}
+          class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-2xl active:scale-95 transition-all cursor-pointer"
+        >
+          Tutup
         </button>
       </div>
     </div>
