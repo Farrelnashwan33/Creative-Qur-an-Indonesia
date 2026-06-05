@@ -26,7 +26,8 @@
     Calendar,
     Compass,
     Languages,
-    Crown
+    Crown,
+    SkipForward
   } from '@lucide/svelte';
 
   const surahId = $derived(Number($page.params.id));
@@ -439,6 +440,15 @@
       if (tafsirMode) {
         expandedTafsirAyah = selectedAyahNumInput;
       }
+    }
+  }
+
+  function jumpToNextSurah() {
+    const nextSurahNum = surahId + 1;
+    if (nextSurahNum <= 114) {
+      goto(`/quran/${nextSurahNum}`);
+    } else {
+      triggerToast("Ini adalah surah terakhir (An-Nas).");
     }
   }
 
@@ -983,47 +993,57 @@
 
 
   <!-- BOTTOM READER TOOLBAR -->
-  <div class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 py-3 px-4 flex justify-around items-center z-40 backdrop-blur-lg md:max-w-md md:mx-auto md:bottom-4 md:rounded-2xl md:border">
+  <div class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 py-4.5 px-3 flex justify-around items-center z-40 backdrop-blur-lg md:max-w-xl md:mx-auto md:bottom-4 md:rounded-2xl md:border shadow-2xl">
     <!-- Isi (Index) -->
     <button 
       onclick={() => showNavigationModal = true}
-      class="flex flex-col items-center justify-center gap-1 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all"
+      class="flex flex-col items-center justify-center gap-1.5 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all cursor-pointer"
     >
-      <List class="w-5 h-5" />
-      <span class="text-[9px] font-bold">Isi</span>
+      <List class="w-6 h-6" />
+      <span class="text-[11px] sm:text-xs font-bold mt-1">Isi</span>
     </button>
 
     <!-- Scroll Otomatis -->
     <button 
       onclick={toggleAutoScroll}
-      class="flex flex-col items-center justify-center gap-1 active:scale-95 transition-all
+      class="flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer
         {autoScrollActive ? 'text-emerald-400 font-extrabold' : 'text-zinc-400 hover:text-emerald-400'}"
     >
-      <ChevronsDown class="w-5 h-5 {autoScrollActive ? 'animate-bounce' : ''}" />
-      <span class="text-[9px] font-bold">Scroll Otomatis</span>
+      <ChevronsDown class="w-6 h-6 {autoScrollActive ? 'animate-bounce' : ''}" />
+      <span class="text-[11px] sm:text-xs font-bold mt-1">Scroll Otomatis</span>
     </button>
 
     <!-- Putar Audio (Murottal toggle) -->
     <button 
       onclick={togglePlayAll}
-      class="flex flex-col items-center justify-center gap-1 active:scale-95 transition-all
+      class="flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer
         {isCurrentSurahPlaying ? 'text-emerald-400 font-extrabold' : 'text-zinc-400 hover:text-emerald-400'}"
     >
       {#if isCurrentSurahPlaying}
-        <Pause class="w-5 h-5 animate-pulse" />
+        <Pause class="w-6 h-6 animate-pulse" />
       {:else}
-        <Play class="w-5 h-5" />
+        <Play class="w-6 h-6" />
       {/if}
-      <span class="text-[9px] font-bold">Putar Audio</span>
+      <span class="text-[11px] sm:text-xs font-bold mt-1">Putar Audio</span>
+    </button>
+
+    <!-- Lanjut Surah (Lompat Surah) -->
+    <button 
+      onclick={jumpToNextSurah}
+      class="flex flex-col items-center justify-center gap-1.5 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all cursor-pointer"
+      title="Lanjut ke surah berikutnya"
+    >
+      <SkipForward class="w-6 h-6" />
+      <span class="text-[11px] sm:text-xs font-bold mt-1">Lanjut Surah</span>
     </button>
 
     <!-- Agenda (Jadwal Sholat popup) -->
     <button 
       onclick={() => showAgendaModal = true}
-      class="flex flex-col items-center justify-center gap-1 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all"
+      class="flex flex-col items-center justify-center gap-1.5 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all cursor-pointer"
     >
-      <Calendar class="w-5 h-5" />
-      <span class="text-[9px] font-bold">Agenda</span>
+      <Calendar class="w-6 h-6" />
+      <span class="text-[11px] sm:text-xs font-bold mt-1">Agenda</span>
     </button>
   </div>
 
