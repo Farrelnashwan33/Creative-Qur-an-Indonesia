@@ -928,7 +928,27 @@
           {#if expandedTafsirAyah === ayah.nomorAyat}
             <div class="mt-2 p-5 rounded-2xl bg-emerald-500/[0.02] border border-emerald-500/10 space-y-3 animate-slide-up">
               <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
+                  <!-- Size adjustment buttons -->
+                  <div class="flex items-center gap-1 bg-white/5 rounded-lg px-1 py-0.5 border border-white/5">
+                    <button 
+                      onclick={() => $settings.tafsirFontSize = Math.max(12, ($settings.tafsirFontSize || 14) - 1)}
+                      class="text-[9px] font-extrabold text-zinc-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-white/5 transition-all"
+                      title="Perkecil teks tafsir"
+                    >
+                      A-
+                    </button>
+                    <span class="text-[9px] font-bold text-zinc-500 px-0.5">{$settings.tafsirFontSize || 14}</span>
+                    <button 
+                      onclick={() => $settings.tafsirFontSize = Math.min(28, ($settings.tafsirFontSize || 14) + 1)}
+                      class="text-[9px] font-extrabold text-zinc-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-white/5 transition-all"
+                      title="Perbesar teks tafsir"
+                    >
+                      A+
+                    </button>
+                  </div>
+                </div>
                 <button 
                   onclick={() => expandedTafsirAyah = null} 
                   class="text-[10px] font-bold text-zinc-500 hover:text-white"
@@ -936,7 +956,10 @@
                   Tutup
                 </button>
               </div>
-              <p class="text-xs text-zinc-400 leading-relaxed font-medium">
+              <p 
+                style="font-size: {$settings.tafsirFontSize || 14}px"
+                class="text-zinc-400 leading-relaxed font-medium"
+              >
                 {getTafsirText(ayah.nomorAyat)}
               </p>
             </div>

@@ -80,6 +80,7 @@ export interface AppSettings {
   latinFontSize: number; // 12 to 24
   translationEnabled: boolean;
   translationFontSize: number; // 12 to 24
+  tafsirFontSize: number; // 12 to 28
   perKataFontSize: number; // 12 to 28
   perKataEnabled: boolean;
   qori: 'juhany' | 'qasim' | 'sudais' | 'dossari' | 'afasy' | 'aldosari';
@@ -97,6 +98,7 @@ export const defaultSettings: AppSettings = {
   latinFontSize: 16,
   translationEnabled: true,
   translationFontSize: 16,
+  tafsirFontSize: 14,
   perKataFontSize: 16,
   perKataEnabled: false,
   qori: 'afasy',

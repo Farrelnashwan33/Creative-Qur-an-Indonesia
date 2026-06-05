@@ -405,6 +405,22 @@
           />
         </div>
 
+        <!-- Tafsir Font Size Slider -->
+        <div class="flex flex-col gap-2 pt-4 border-t border-white/5">
+          <div class="flex items-center justify-between text-xs font-bold text-zinc-400">
+            <span>Ukuran Font Tafsir Ringkas</span>
+            <span class="text-emerald-400">{$settings.tafsirFontSize || 14}px</span>
+          </div>
+          <input 
+            type="range" 
+            min="12" 
+            max="28" 
+            value={$settings.tafsirFontSize || 14} 
+            oninput={(e) => updateSetting('tafsirFontSize', Number((e.target as HTMLInputElement).value))}
+            class="w-full h-1.5 bg-emerald-500/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+          />
+        </div>
+
       </div>
 
     </div>
