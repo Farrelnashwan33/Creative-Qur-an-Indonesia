@@ -927,26 +927,26 @@
           <!-- EXPANDABLE TAFSIR SECTION -->
           {#if expandedTafsirAyah === ayah.nomorAyat}
             <div class="mt-2 p-5 rounded-2xl bg-emerald-500/[0.02] border border-emerald-500/10 space-y-3 animate-slide-up">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/5">
-                <div class="flex flex-wrap items-center gap-4">
-                  <span class="text-base sm:text-lg font-black tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
+              <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-white/10">
+                <div class="flex flex-wrap items-center gap-5">
+                  <span class="text-lg sm:text-xl md:text-2xl font-black tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
                   <!-- Size adjustment buttons -->
-                  <div class="flex items-center gap-2">
-                    <span class="text-xs sm:text-sm font-bold text-zinc-200">Ukuran Huruf:</span>
-                    <div class="flex items-center gap-1 bg-white/5 rounded-xl p-1 border border-white/5 shadow-inner">
+                  <div class="flex items-center gap-3">
+                    <span class="text-sm sm:text-base font-bold text-zinc-100">Ukuran Huruf:</span>
+                    <div class="flex items-center gap-1.5 bg-white/5 rounded-2xl p-1.5 border border-white/10 shadow-inner">
                       <button 
                         onclick={() => $settings.tafsirFontSize = Math.max(12, ($settings.tafsirFontSize || 14) - 1)}
-                        class="w-10 h-10 flex items-center justify-center text-sm font-extrabold text-zinc-200 hover:text-white hover:bg-white/10 rounded-lg transition-all active:scale-90 cursor-pointer"
+                        class="w-12 h-12 flex items-center justify-center text-base font-black text-zinc-100 hover:text-white hover:bg-white/20 rounded-xl transition-all active:scale-90 cursor-pointer"
                         title="Perkecil teks tafsir (A-)"
                       >
                         A-
                       </button>
-                      <span class="text-sm font-extrabold text-emerald-400 px-3.5 min-w-[2.5rem] text-center bg-zinc-950/40 rounded-md py-1.5 border border-white/5">
+                      <span class="text-base font-black text-emerald-400 px-4 min-w-[3rem] text-center bg-zinc-950/60 rounded-xl py-2 border border-white/10">
                         {$settings.tafsirFontSize || 14}px
                       </span>
                       <button 
                         onclick={() => $settings.tafsirFontSize = Math.min(28, ($settings.tafsirFontSize || 14) + 1)}
-                        class="w-10 h-10 flex items-center justify-center text-sm font-extrabold text-zinc-200 hover:text-white hover:bg-white/10 rounded-lg transition-all active:scale-90 cursor-pointer"
+                        class="w-12 h-12 flex items-center justify-center text-base font-black text-zinc-100 hover:text-white hover:bg-white/20 rounded-xl transition-all active:scale-90 cursor-pointer"
                         title="Perbesar teks tafsir (A+)"
                       >
                         A+
@@ -956,7 +956,7 @@
                 </div>
                 <button 
                   onclick={() => expandedTafsirAyah = null} 
-                  class="text-xs sm:text-sm font-bold text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-xl border border-white/5 active:scale-95 transition-all self-end sm:self-auto cursor-pointer"
+                  class="text-xs sm:text-sm md:text-base font-extrabold text-white bg-emerald-600 hover:bg-emerald-500 px-5 py-3.5 rounded-2xl active:scale-95 transition-all shadow-md cursor-pointer self-start lg:self-auto border border-emerald-500/25"
                 >
                   Tutup Tafsir
                 </button>
