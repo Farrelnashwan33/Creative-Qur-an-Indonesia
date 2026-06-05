@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { fetchSurahs, type Surah } from '$lib/api';
-  import { Search, BookOpen, Compass, Bookmark, Clock, ArrowRight, Heart } from '@lucide/svelte';
+  import { Search, BookOpen, Compass, Bookmark, Clock, ArrowRight, Heart, Download, X } from '@lucide/svelte';
   import { favorites, lastRead } from '$lib/stores';
 
   let surahs = $state<Surah[]>([]);
@@ -11,7 +11,39 @@
   let searchQuery = $state('');
   let activeTab = $state<'surah' | 'juz'>('surah');
 
+  // PWA Install states
+  let deferredPrompt = $state<any>(null);
+  let showInstallButton = $state(false);
+  let isIOS = $state(false);
+  let isAlreadyInstalled = $state(false);
+  let showIOSInstructions = $state(false);
+  let userDismissed = $state(false);
+
   onMount(async () => {
+    // Check if dismissed previously
+    try {
+      userDismissed = localStorage.getItem('pwa_install_dismissed') === 'true';
+    } catch (e) {
+      console.warn(e);
+    }
+
+    if (typeof window !== 'undefined') {
+      isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      isAlreadyInstalled = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallButton = true;
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        showInstallButton = false;
+        isAlreadyInstalled = true;
+      });
+    }
+
     try {
       surahs = await fetchSurahs();
     } catch (e) {
@@ -20,6 +52,28 @@
       loading = false;
     }
   });
+
+  async function handleInstallClick() {
+    if (isIOS) {
+      showIOSInstructions = true;
+    } else if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        showInstallButton = false;
+      }
+      deferredPrompt = null;
+    }
+  }
+
+  function dismissInstall() {
+    userDismissed = true;
+    try {
+      localStorage.setItem('pwa_install_dismissed', 'true');
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
   // Filter surahs based on search query
   let filteredSurahs = $derived(
@@ -115,6 +169,37 @@
       </button>
     </div>
   </div>
+
+  <!-- PWA INSTALL BANNER -->
+  {#if (showInstallButton || (isIOS && !isAlreadyInstalled)) && !userDismissed}
+    <div class="relative overflow-hidden rounded-2xl p-4.5 bg-gradient-to-r from-emerald-950/80 via-emerald-900/60 to-zinc-950/80 border border-emerald-500/20 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-fade-in">
+      <div class="absolute inset-0 opacity-5 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
+      <div class="relative z-10 flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+          <Download class="w-5 h-5 text-emerald-400" />
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white">Unduh Aplikasi Creative Qur'an</h4>
+          <p class="text-[10px] text-zinc-400 font-semibold mt-0.5">Pasang aplikasi di layar utama HP/PC Anda untuk akses instan dan offline.</p>
+        </div>
+      </div>
+      
+      <div class="relative z-10 flex items-center gap-2.5 self-end sm:self-auto">
+        <button 
+          onclick={dismissInstall}
+          class="px-3.5 py-2 text-[10px] font-bold text-zinc-400 hover:text-white transition-all cursor-pointer bg-white/5 hover:bg-white/10 rounded-xl border border-white/5"
+        >
+          Nanti Saja
+        </button>
+        <button 
+          onclick={handleInstallClick}
+          class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-[10px] rounded-xl shadow-lg transition-all cursor-pointer"
+        >
+          {isIOS ? 'Petunjuk Pasang' : 'Instal Sekarang'}
+        </button>
+      </div>
+    </div>
+  {/if}
 
   <!-- SEARCH BAR (Surah only) -->
   {#if activeTab === 'surah'}
@@ -237,6 +322,50 @@
         {/each}
       </div>
     {/if}
+  {/if}
+
+  <!-- iOS INSTALL INSTRUCTIONS MODAL -->
+  {#if showIOSInstructions}
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-[100] animate-fade-in">
+      <div class="bg-zinc-950 border border-emerald-500/30 p-6 rounded-3xl max-w-sm w-full space-y-5 shadow-2xl relative">
+        <button 
+          onclick={() => showIOSInstructions = false} 
+          class="absolute top-4 right-4 text-zinc-400 hover:text-white"
+        >
+          <X class="w-4 h-4" />
+        </button>
+
+        <div class="text-center space-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-600/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto">
+            <Download class="w-6 h-6 text-emerald-400" />
+          </div>
+          <h3 class="font-extrabold text-sm text-white tracking-wide">Cara Pasang di iOS</h3>
+          <p class="text-[11px] text-zinc-400 leading-relaxed font-semibold">Ikuti langkah mudah ini untuk menambahkan aplikasi ke Layar Utama perangkat Apple Anda:</p>
+        </div>
+
+        <ol class="space-y-3 text-xs text-zinc-300 bg-white/[0.02] border border-white/5 rounded-2xl p-4 text-left font-semibold">
+          <li class="flex gap-2">
+            <span class="text-emerald-400 font-extrabold">1.</span>
+            <span>Buka situs ini di browser <strong>Safari</strong> bawaan iOS.</span>
+          </li>
+          <li class="flex gap-2">
+            <span class="text-emerald-400 font-extrabold">2.</span>
+            <span>Ketuk tombol <strong>Bagikan (Share)</strong> <span class="px-1.5 py-0.5 rounded bg-zinc-800 text-[10px] border border-zinc-700">⎋</span> di bilah navigasi Safari.</span>
+          </li>
+          <li class="flex gap-2">
+            <span class="text-emerald-400 font-extrabold">3.</span>
+            <span>Gulir ke bawah dan ketuk pilihan <strong>Tambahkan ke Layar Utama (Add to Home Screen)</strong>.</span>
+          </li>
+        </ol>
+
+        <button 
+          onclick={() => showIOSInstructions = false}
+          class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-2xl active:scale-95 transition-all cursor-pointer"
+        >
+          Saya Mengerti
+        </button>
+      </div>
+    </div>
   {/if}
 
 </div>
