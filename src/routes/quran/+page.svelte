@@ -145,9 +145,17 @@
   <!-- PAGE HEADER & TABS -->
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
     <div>
-      <h2 class="text-2xl font-extrabold text-white tracking-wide flex items-center gap-2">
+      <h2 class="text-2xl font-extrabold text-white tracking-wide flex flex-wrap items-center gap-2">
         <BookOpen class="w-6 h-6 text-emerald-400" />
-        Daftar Al-Qur'an
+        <span>Daftar Al-Qur'an</span>
+        <button 
+          onclick={() => showStoreNotification = true}
+          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-[9px] font-extrabold tracking-wider uppercase hover:bg-emerald-500/20 active:scale-95 transition-all cursor-pointer"
+          title="Unduh Aplikasi Mobile"
+        >
+          <Smartphone class="w-3 h-3 text-emerald-400" />
+          <span>Dapatkan Aplikasi</span>
+        </button>
       </h2>
       <p class="text-xs text-zinc-500 font-semibold mt-1">Silahkan pilih Surah atau Juz yang ingin dibaca</p>
     </div>
