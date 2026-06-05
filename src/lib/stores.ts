@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store';
-import type { SurahDetail, Ayah } from './api';
+import { fetchSurahDetail, type SurahDetail, type Ayah } from './api';
 
 function createPersistentStore<T>(key: string, initialValue: T) {
   // Check if window is defined (browser side)
@@ -257,7 +257,7 @@ function createMurotalStore() {
     };
   }
 
-  function playNext(qori: string) {
+  async function playNext(qori: string) {
     const currentStore = get(store);
     
     if (!currentStore || !currentStore.surah || currentStore.activeAyahNum === null) return;
@@ -268,7 +268,18 @@ function createMurotalStore() {
       const nextAyah = surahDetail.ayat[nextIdx];
       play(surahDetail, nextAyah.nomorAyat, qori);
     } else {
-      stop();
+      const nextSurahNum = surahDetail.nomor + 1;
+      if (nextSurahNum <= 114) {
+        try {
+          const nextSurahDetail = await fetchSurahDetail(nextSurahNum);
+          play(nextSurahDetail, 1, qori);
+        } catch (e) {
+          console.error("Failed to play next surah automatically:", e);
+          stop();
+        }
+      } else {
+        stop();
+      }
     }
   }
 

@@ -271,7 +271,7 @@
         <div class="flex items-center justify-between pt-2">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Tajwid Berwarna</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Aktifkan warna panduan hukum tajwid</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Aktifkan warna panduan hukum tajwid</p>
           </div>
           <button 
             onclick={() => updateSetting('tajwidColored', !$settings.tajwidColored)}
@@ -287,7 +287,7 @@
         <div class="flex items-center justify-between pt-2">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Nomor Ayat Arab</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Tampilkan nomor di dalam baris ayat</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Tampilkan nomor di dalam baris ayat</p>
           </div>
           <button 
             onclick={() => updateSetting('arabicNumberVisible', !$settings.arabicNumberVisible)}
@@ -312,7 +312,7 @@
         <div class="flex items-center justify-between">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Transliterasi (Latin)</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Tampilkan teks latin ejaan bacaan</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Tampilkan teks latin ejaan bacaan</p>
           </div>
           <button 
             onclick={() => updateSetting('latinEnabled', !$settings.latinEnabled)}
@@ -346,7 +346,7 @@
         <div class="flex items-center justify-between pt-2">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Terjemahan Indonesia</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Tampilkan makna terjemahan Kemenag RI</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Tampilkan makna terjemahan Kemenag RI</p>
           </div>
           <button 
             onclick={() => updateSetting('translationEnabled', !$settings.translationEnabled)}
@@ -380,7 +380,7 @@
         <div class="flex items-center justify-between pt-4 border-t border-white/5">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Terjemahan Per Kata (Langsung)</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Tampilkan arti per kata langsung di bawah lafal Arab</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Tampilkan arti per kata langsung di bawah lafal Arab</p>
           </div>
           <button 
             onclick={() => updateSetting('perKataEnabled', !$settings.perKataEnabled)}
@@ -529,7 +529,7 @@
         <div class="flex items-center justify-between pt-2">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Biarkan Layar Tetap Aktif</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Mencegah layar padam saat membaca Qur'an</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Mencegah layar padam saat membaca Qur'an</p>
           </div>
           <button 
             onclick={toggleWakeLock}
@@ -545,7 +545,7 @@
         <div class="flex items-center justify-between pt-2">
           <div>
             <h4 class="text-xs font-bold text-zinc-300">Mode Layar Penuh</h4>
-            <p class="text-[10px] text-zinc-500 font-semibold mt-0.5">Sembunyikan bilah browser untuk fokus membaca</p>
+            <p class="text-xs font-bold text-zinc-400 mt-1">Sembunyikan bilah browser untuk fokus membaca</p>
           </div>
           <button 
             onclick={toggleFullscreen}
@@ -615,7 +615,7 @@
               <Crown class="w-4 h-4 text-amber-400 fill-amber-400" />
               <span>Status: Premium Aktif (Royal Gold)</span>
             </div>
-            <p class="text-[10px] text-zinc-400 leading-relaxed font-semibold">Terima kasih atas kontribusi Anda! Seluruh tema premium emas, performa lancar, dan badge Pro telah terbuka.</p>
+            <p class="text-xs text-zinc-300 leading-relaxed font-bold">Terima kasih atas kontribusi Anda! Seluruh tema premium emas, performa lancar, dan badge Pro telah terbuka.</p>
             <button 
               onclick={() => {
                 $isPremium = false;
@@ -628,18 +628,18 @@
           </div>
         {:else}
           <div class="space-y-3">
-            <p class="text-[11px] text-zinc-400 leading-relaxed font-semibold">Nikmati berbagai fitur premium eksklusif untuk mendukung tilawah harian Anda:</p>
-            <ul class="space-y-2 text-[11px] text-zinc-300 bg-white/[0.02] border border-white/5 rounded-2xl p-3.5 text-left">
+            <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-bold">Nikmati berbagai fitur premium eksklusif untuk mendukung tilawah harian Anda:</p>
+            <ul class="space-y-2 text-xs sm:text-sm text-zinc-200 bg-white/[0.02] border border-white/5 rounded-2xl p-3.5 text-left">
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 text-[10px] mt-0.5">✦</span>
+                <span class="text-amber-400 text-xs mt-0.5">✦</span>
                 <span>Bisa akses e-book lengkap belajar tajwid</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 text-[10px] mt-0.5">✦</span>
+                <span class="text-amber-400 text-xs mt-0.5">✦</span>
                 <span>Pengoreksi makhraj huruf menggunakan sistem pintar <strong>AI Islamic Correction</strong></span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 text-[10px] mt-0.5">✦</span>
+                <span class="text-amber-400 text-xs mt-0.5">✦</span>
                 <span>Tampilan jadwal sholat yang lebih bagus</span>
               </li>
             </ul>

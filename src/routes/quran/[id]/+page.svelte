@@ -46,6 +46,13 @@
       scrollToVerse($murotal.activeAyahNum);
     }
   });
+
+  // Auto navigate to the next surah page if audio transitions to another surah
+  $effect(() => {
+    if (mounted && $murotal.isPlaying && $murotal.surah && $murotal.surah.nomor !== surahId) {
+      goto(`/quran/${$murotal.surah.nomor}`);
+    }
+  });
   let expandedTafsirAyah = $state<number | null>(null);
   let expandedPerKataAyah = $state<number | null>(null);
   let perKataCache = $state<Record<number, any[]>>({});
