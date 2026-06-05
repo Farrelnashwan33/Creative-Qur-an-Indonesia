@@ -927,33 +927,38 @@
           <!-- EXPANDABLE TAFSIR SECTION -->
           {#if expandedTafsirAyah === ayah.nomorAyat}
             <div class="mt-2 p-5 rounded-2xl bg-emerald-500/[0.02] border border-emerald-500/10 space-y-3 animate-slide-up">
-              <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                <div class="flex items-center gap-2">
-                  <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/5">
+                <div class="flex flex-wrap items-center gap-4">
+                  <span class="text-[11px] font-extrabold tracking-wider text-emerald-400 uppercase">Tafsir Ibnu Katsir</span>
                   <!-- Size adjustment buttons -->
-                  <div class="flex items-center gap-1 bg-white/5 rounded-lg px-1 py-0.5 border border-white/5">
-                    <button 
-                      onclick={() => $settings.tafsirFontSize = Math.max(12, ($settings.tafsirFontSize || 14) - 1)}
-                      class="text-[9px] font-extrabold text-zinc-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-white/5 transition-all"
-                      title="Perkecil teks tafsir"
-                    >
-                      A-
-                    </button>
-                    <span class="text-[9px] font-bold text-zinc-500 px-0.5">{$settings.tafsirFontSize || 14}</span>
-                    <button 
-                      onclick={() => $settings.tafsirFontSize = Math.min(28, ($settings.tafsirFontSize || 14) + 1)}
-                      class="text-[9px] font-extrabold text-zinc-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-white/5 transition-all"
-                      title="Perbesar teks tafsir"
-                    >
-                      A+
-                    </button>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-bold text-zinc-500">Ukuran Huruf:</span>
+                    <div class="flex items-center gap-1 bg-white/5 rounded-xl p-1 border border-white/5 shadow-inner">
+                      <button 
+                        onclick={() => $settings.tafsirFontSize = Math.max(12, ($settings.tafsirFontSize || 14) - 1)}
+                        class="w-8 h-8 flex items-center justify-center text-xs font-extrabold text-zinc-300 hover:text-white hover:bg-white/10 rounded-lg transition-all active:scale-90 cursor-pointer"
+                        title="Perkecil teks tafsir (A-)"
+                      >
+                        A-
+                      </button>
+                      <span class="text-xs font-extrabold text-emerald-400 px-2 min-w-[2.2rem] text-center bg-zinc-950/40 rounded-md py-0.5 border border-white/5">
+                        {$settings.tafsirFontSize || 14}px
+                      </span>
+                      <button 
+                        onclick={() => $settings.tafsirFontSize = Math.min(28, ($settings.tafsirFontSize || 14) + 1)}
+                        class="w-8 h-8 flex items-center justify-center text-xs font-extrabold text-zinc-300 hover:text-white hover:bg-white/10 rounded-lg transition-all active:scale-90 cursor-pointer"
+                        title="Perbesar teks tafsir (A+)"
+                      >
+                        A+
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <button 
                   onclick={() => expandedTafsirAyah = null} 
-                  class="text-[10px] font-bold text-zinc-500 hover:text-white"
+                  class="text-xs font-bold text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-3.5 py-2 rounded-xl border border-white/5 active:scale-95 transition-all self-end sm:self-auto cursor-pointer"
                 >
-                  Tutup
+                  Tutup Tafsir
                 </button>
               </div>
               <p 
