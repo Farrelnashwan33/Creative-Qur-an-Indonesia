@@ -737,13 +737,13 @@
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-[10px] font-bold tracking-widest uppercase">
           {surah.tempatTurun} • {surah.jumlahAyat} Ayat
         </span>
-        <h2 class="text-3xl font-extrabold text-white tracking-wide mt-3">{surah.namaLatin}</h2>
+        <h2 class="text-3xl font-extrabold text-content-primary tracking-wide mt-3">{surah.namaLatin}</h2>
         <p class="text-sm text-zinc-300 font-medium">{surah.arti}</p>
         
         <!-- Bismillah Header -->
         {#if surahId !== 1 && surahId !== 9}
           <div class="pt-6 pb-2">
-            <span class="font-arabic-utsmani text-2xl text-white font-medium block">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
+            <span class="font-arabic-utsmani text-2xl text-content-primary font-medium block">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
             <span class="text-[10px] text-zinc-500 font-semibold block mt-1">Dengan nama Allah Yang Maha Pengasih, Maha Penyayang</span>
           </div>
         {/if}
@@ -868,7 +868,7 @@
                       <!-- Arabic Word -->
                       <span 
                         style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'};" 
-                        class="text-white select-none leading-none mb-1"
+                        class="text-content-primary select-none leading-none mb-1"
                       >
                         {word.text_uthmani || word.text}
                       </span>
@@ -885,7 +885,7 @@
                       <!-- Indonesian Translation -->
                       <span 
                         style="font-size: {($settings.perKataFontSize || 16) * 0.85}px" 
-                        class="text-zinc-300 font-bold leading-tight select-none" 
+                        class="text-content-secondary font-bold leading-tight select-none" 
                         dir="ltr"
                       >
                         {word.translation ? word.translation.text : ''}
@@ -902,7 +902,7 @@
                 </div>
               {:else}
                 <p 
-                  class="text-white font-arabic-utsmani text-center" 
+                  class="text-content-primary font-arabic-utsmani text-center" 
                   style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
                   dir="rtl"
                 >
@@ -916,7 +916,7 @@
               {/if}
             {:else}
               <p 
-                class="text-white font-arabic-utsmani text-center" 
+                class="text-content-primary font-arabic-utsmani text-center" 
                 style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
                 dir="rtl"
               >
@@ -933,7 +933,7 @@
           <!-- INDONESIAN TRANSLATION -->
           {#if $settings.translationEnabled}
             <p 
-              class="text-zinc-300 leading-relaxed font-normal"
+              class="text-content-secondary leading-relaxed font-normal"
               style="font-size: {$settings.translationFontSize}px"
             >
               {ayah.teksIndonesia}

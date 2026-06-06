@@ -111,6 +111,20 @@ html, body {
   background: rgba(43, 174, 133, 0.4);
 }
 
+/* Typography Adapters */
+.text-content-primary {
+  color: #ffffff;
+}
+.text-content-secondary {
+  color: #d4d4d8; /* zinc-300 */
+}
+html.light-mode .text-content-primary {
+  color: #0f172a !important;
+}
+html.light-mode .text-content-secondary {
+  color: #334155 !important;
+}
+
 /* Light Mode Override */
 html.light-mode {
   background-color: #f8fafc !important;
