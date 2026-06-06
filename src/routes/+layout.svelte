@@ -568,42 +568,44 @@
     </aside>
 
     <!-- MOBILE TOP BAR -->
-    <header
-      class="flex md:hidden items-center justify-between px-5 py-4 glass border-b border-white/5 sticky top-0 z-30 backdrop-blur-md {$isPremium
-        ? 'premium-border'
-        : ''}"
-    >
-      <div class="flex items-center gap-2.5">
-        <div
-          class="w-8 h-8 rounded-lg flex items-center justify-center
-        {$isPremium
-            ? 'bg-linear-to-tr from-amber-500 to-yellow-300'
-            : 'bg-linear-to-tr from-emerald-600 to-emerald-400'}"
-        >
-          {#if $isPremium}
-            <Crown class="w-4.5 h-4.5 text-black fill-black" />
-          {:else}
-            <BookOpen class="w-4.5 h-4.5 text-white" />
-          {/if}
-        </div>
-        <div>
-          <h1
-            class="font-bold text-xs tracking-wider flex items-center gap-1
+    {#if !isReaderPage}
+      <header
+        class="flex md:hidden items-center justify-between px-5 pb-4 pt-[calc(1rem+env(safe-area-inset-top,0px))] glass border-b border-white/5 sticky top-0 z-30 backdrop-blur-md {$isPremium
+          ? 'premium-border'
+          : ''}"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center
           {$isPremium
-              ? 'premium-gold-text'
-              : 'text-emerald-500 dark:text-emerald-400'}"
+              ? 'bg-linear-to-tr from-amber-500 to-yellow-300'
+              : 'bg-linear-to-tr from-emerald-600 to-emerald-400'}"
           >
-            CREATIVE QUR'AN
-          </h1>
-          <span
-            class="text-[8px] font-bold uppercase tracking-widest block -mt-0.5 transition-all duration-300
-          {$isPremium ? 'premium-gold-text' : 'text-zinc-500'}"
-          >
-            {$isPremium ? "PREMIUM" : "INDONESIA"}
-          </span>
+            {#if $isPremium}
+              <Crown class="w-4.5 h-4.5 text-black fill-black" />
+            {:else}
+              <BookOpen class="w-4.5 h-4.5 text-white" />
+            {/if}
+          </div>
+          <div>
+            <h1
+              class="font-bold text-xs tracking-wider flex items-center gap-1
+            {$isPremium
+                ? 'premium-gold-text'
+                : 'text-emerald-500 dark:text-emerald-400'}"
+            >
+              CREATIVE QUR'AN
+            </h1>
+            <span
+              class="text-[8px] font-bold uppercase tracking-widest block -mt-0.5 transition-all duration-300
+            {$isPremium ? 'premium-gold-text' : 'text-zinc-500'}"
+            >
+              {$isPremium ? "PREMIUM" : "INDONESIA"}
+            </span>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    {/if}
 
     <!-- MAIN APP CONTAINER -->
     <main
@@ -617,19 +619,19 @@
     <!-- MOBILE BOTTOM NAVIGATION -->
     {#if !isReaderPage}
       <nav
-        class="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/5 px-2 py-3 pb-safe-bottom flex justify-around items-center z-40 backdrop-blur-lg {$isPremium
-          ? 'premium-border'
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 px-2 pt-2.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,12px))] flex justify-around items-center z-40 {$isPremium
+          ? 'border-t border-amber-500/20'
           : ''}"
       >
         {#each menuItems as item (item.path)}
           {@const Icon = item.icon}
           <a
             href={item.path}
-            class="flex flex-col items-center justify-center gap-1.5 w-16 transition-all duration-300 relative group
+            class="flex flex-col items-center justify-center gap-1 w-16 transition-all duration-300 relative group
           {isActive(item.path)
               ? $isPremium
-                ? 'text-amber-400'
-                : 'text-emerald-400'
+                ? 'text-amber-400 font-extrabold'
+                : 'text-emerald-400 font-extrabold'
               : 'text-zinc-500'}"
           >
             <div
@@ -638,11 +640,11 @@
                 ? $isPremium
                   ? 'bg-amber-500/10 scale-110 text-amber-400'
                   : 'bg-emerald-500/10 scale-110 text-emerald-400'
-                : ''}"
+                : 'group-hover:text-zinc-350'}"
             >
-              <svelte:component this={Icon} class="w-5.5 h-5.5" />
+              <svelte:component this={Icon} class="w-5.5 h-5.5 transition-transform duration-300 active:scale-90" />
             </div>
-            <span class="text-[9px] font-bold tracking-wide">{item.name}</span>
+            <span class="text-[9px] font-semibold tracking-wide">{item.name}</span>
             {#if isActive(item.path)}
               <span
                 class="absolute -top-1.5 w-1 h-1 rounded-full {$isPremium

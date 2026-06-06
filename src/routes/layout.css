@@ -85,11 +85,14 @@ html, body {
   font-family: var(--font-sans);
   background-color: #0f172a; /* Background dark #0F172A */
   color: #f3f4f6;
-  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Scrollbar Styles */
@@ -362,4 +365,82 @@ html.light-mode.samsung-device .premium-border {
 
 html.light-mode.samsung-device .premium-gold-text {
   color: #d97706 !important; /* solid dark gold fallback for light mode */
+}
+
+/* iOS Safe Area Helper Utilities */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* iOS Settings App Styling */
+.ios-list-group {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.light-mode .ios-list-group {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ios-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background-color 0.2s ease;
+}
+.ios-list-item:last-child {
+  border-bottom: none;
+}
+.light-mode .ios-list-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.ios-list-item-clickable:active {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.light-mode .ios-list-item-clickable:active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* iOS Toggle Switch Switch styles */
+.ios-switch {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+  background-color: rgba(120, 120, 128, 0.32);
+  border-radius: 16px;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.ios-switch-active {
+  background-color: #34c759 !important; /* iOS Green color */
+}
+.ios-switch-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ios-switch-handle-active {
+  transform: translateX(20px);
 }

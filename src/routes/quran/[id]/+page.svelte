@@ -648,7 +648,7 @@
   {/if}
 
   <!-- TOP BAR BACK NAVIGATION -->
-  <div class="sticky top-[72px] md:top-6 z-30 py-3 px-1 -mx-1 bg-[#0f172a]/95 light-mode:bg-[#f8fafc]/95 backdrop-blur-md transition-all duration-300 border-b border-white/5 flex items-center justify-between">
+  <div class="sticky top-0 md:top-6 z-30 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] md:pt-3 pb-3 px-4 md:px-1 -mx-4 md:-mx-1 bg-[#0f172a]/90 light-mode:bg-[#f8fafc]/90 backdrop-blur-xl transition-all duration-300 border-b border-white/5 flex items-center justify-between">
     <a href="/quran" class="inline-flex items-center gap-2.5 text-zinc-400 hover:text-zinc-200 group">
       <div class="w-9 h-9 rounded-xl glass border border-white/5 flex items-center justify-center group-hover:border-emerald-500/20">
         <ArrowLeft class="w-4.5 h-4.5" />
@@ -993,7 +993,7 @@
 
 
   <!-- BOTTOM READER TOOLBAR -->
-  <div class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 py-4.5 px-3 flex justify-around items-center z-40 backdrop-blur-lg md:max-w-xl md:mx-auto md:bottom-4 md:rounded-2xl md:border shadow-2xl">
+  <div class="fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 pt-3 pb-[calc(0.5rem+env(safe-area-inset-bottom,12px))] px-3 flex justify-around items-center z-40 md:max-w-xl md:mx-auto md:bottom-4 md:rounded-2xl md:border md:pb-4.5 shadow-2xl">
     <!-- Isi (Index) -->
     <button 
       onclick={() => showNavigationModal = true}

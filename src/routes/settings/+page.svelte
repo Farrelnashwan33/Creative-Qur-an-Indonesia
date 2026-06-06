@@ -275,11 +275,10 @@
           </div>
           <button 
             onclick={() => updateSetting('tajwidColored', !$settings.tajwidColored)}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.tajwidColored ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.tajwidColored ? 'ios-switch-active' : ''}"
             aria-label="Toggle Tajwid Berwarna"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.tajwidColored ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.tajwidColored ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
 
@@ -291,11 +290,10 @@
           </div>
           <button 
             onclick={() => updateSetting('arabicNumberVisible', !$settings.arabicNumberVisible)}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.arabicNumberVisible ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.arabicNumberVisible ? 'ios-switch-active' : ''}"
             aria-label="Toggle Nomor Ayat Arab"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.arabicNumberVisible ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.arabicNumberVisible ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
 
@@ -316,11 +314,10 @@
           </div>
           <button 
             onclick={() => updateSetting('latinEnabled', !$settings.latinEnabled)}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.latinEnabled ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.latinEnabled ? 'ios-switch-active' : ''}"
             aria-label="Toggle Transliterasi Latin"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.latinEnabled ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.latinEnabled ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
 
@@ -350,11 +347,10 @@
           </div>
           <button 
             onclick={() => updateSetting('translationEnabled', !$settings.translationEnabled)}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.translationEnabled ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.translationEnabled ? 'ios-switch-active' : ''}"
             aria-label="Toggle Terjemahan Indonesia"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.translationEnabled ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.translationEnabled ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
 
@@ -384,11 +380,10 @@
           </div>
           <button 
             onclick={() => updateSetting('perKataEnabled', !$settings.perKataEnabled)}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.perKataEnabled ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.perKataEnabled ? 'ios-switch-active' : ''}"
             aria-label="Toggle Terjemahan Per Kata"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.perKataEnabled ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.perKataEnabled ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
 
@@ -533,11 +528,10 @@
           </div>
           <button 
             onclick={toggleWakeLock}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.keepScreenOn ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.keepScreenOn ? 'ios-switch-active' : ''}"
             aria-label="Toggle Layar Tetap Aktif"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.keepScreenOn ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.keepScreenOn ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
 
@@ -549,11 +543,10 @@
           </div>
           <button 
             onclick={toggleFullscreen}
-            class="w-11 h-6 rounded-full transition-colors relative
-              {$settings.fullscreen ? 'bg-emerald-600' : 'bg-white/10'}"
+            class="ios-switch {$settings.fullscreen ? 'ios-switch-active' : ''}"
             aria-label="Toggle Mode Layar Penuh"
           >
-            <span class="w-4 h-4 bg-white rounded-full absolute top-1 transition-all {$settings.fullscreen ? 'left-6' : 'left-1'}"></span>
+            <span class="ios-switch-handle {$settings.fullscreen ? 'ios-switch-handle-active' : ''}"></span>
           </button>
         </div>
       </div>
@@ -574,10 +567,10 @@
                   $isAdmin = !$isAdmin;
                   triggerToast(!$isAdmin ? "Mode Admin Dinonaktifkan (Pengguna Biasa)." : "Mode Admin Diaktifkan.");
                 }}
-                class="w-8 h-4.5 rounded-full transition-colors relative {!$isAdmin ? 'bg-zinc-700' : 'bg-emerald-600'}"
+                class="ios-switch {$isAdmin ? 'ios-switch-active' : ''}"
                 aria-label="Toggle Mode Admin"
               >
-                <span class="w-3 h-3 bg-white rounded-full absolute top-0.75 transition-all {$isAdmin ? 'left-4.25' : 'left-0.75'}"></span>
+                <span class="ios-switch-handle {$isAdmin ? 'ios-switch-handle-active' : ''}"></span>
               </button>
             </div>
           {/if}
