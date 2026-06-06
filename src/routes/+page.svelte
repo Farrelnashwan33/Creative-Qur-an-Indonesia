@@ -388,7 +388,7 @@
     <h3 class="font-bold text-xs text-zinc-400 tracking-wider uppercase px-1">Ayat Hari Ini</h3>
     <div class="glass border border-white/5 rounded-3xl p-6 relative overflow-hidden shadow-lg text-center space-y-4">
       <div class="absolute inset-0 opacity-5 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-505 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-widest uppercase">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-widest uppercase">
         QS. Al-Baqarah: 255 (Ayat Kursi)
       </span>
       <p class="font-arabic-utsmani text-2xl lg:text-3xl text-white leading-relaxed text-center" dir="rtl">

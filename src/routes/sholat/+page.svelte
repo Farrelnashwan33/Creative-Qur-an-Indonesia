@@ -197,22 +197,48 @@
     return Math.round((qiblaDeg + 360) % 360);
   }
 
+  let requiresIOSPermission = $state(false);
+  let iosPermissionGranted = $state(false);
+
   // Compass orientation handlers
   function setupCompass() {
     const win = typeof window !== 'undefined' ? (window as any) : null;
     if (!win) return;
     
-    if ('ondeviceorientationabsolute' in win) {
-      win.addEventListener('deviceorientationabsolute', handleOrientation);
-      supportsCompass = true;
-    } else if ('ondeviceorientation' in win) {
-      win.addEventListener('deviceorientation', handleOrientation);
-      supportsCompass = true;
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      requiresIOSPermission = true;
+    } else {
+      if ('ondeviceorientationabsolute' in win) {
+        win.addEventListener('deviceorientationabsolute', handleOrientation);
+        supportsCompass = true;
+      } else if ('ondeviceorientation' in win) {
+        win.addEventListener('deviceorientation', handleOrientation);
+        supportsCompass = true;
+      }
+    }
+  }
+
+  async function requestIOSCompassPermission() {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      try {
+        const response = await (DeviceOrientationEvent as any).requestPermission();
+        if (response === 'granted') {
+          iosPermissionGranted = true;
+          window.addEventListener('deviceorientation', handleOrientation);
+          supportsCompass = true;
+          error = null;
+        } else {
+          error = "Izin sensor arah ditolak oleh pengguna.";
+        }
+      } catch (err) {
+        console.error("Error requesting DeviceOrientation permission:", err);
+        error = "Gagal mengaktifkan sensor kompas.";
+      }
     }
   }
 
   function handleOrientation(e: DeviceOrientationEvent) {
-    const heading = (e as any).webkitCompassHeading || e.alpha;
+    const heading = (e as any).webkitCompassHeading || (360 - (e.alpha || 0));
     if (heading !== null && heading !== undefined) {
       deviceHeading = Math.round(heading);
     }
@@ -419,6 +445,15 @@
       </div>
 
       <div class="w-full text-center space-y-2">
+        {#if requiresIOSPermission && !iosPermissionGranted}
+          <button 
+            onclick={requestIOSCompassPermission}
+            class="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-amber-500 to-yellow-300 hover:from-amber-400 hover:to-yellow-200 text-black font-black text-xs py-3 px-4 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer mb-2"
+          >
+            <Navigation class="w-3.5 h-3.5" />
+            <span>Aktifkan Kompas (iOS)</span>
+          </button>
+        {/if}
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold">
           <Navigation class="w-3 h-3 rotate-45" />
           Ka'bah (Makkah): 21.42° N, 39.82° E

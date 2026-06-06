@@ -137,6 +137,7 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 .glass:hover {
   border-color: rgba(43, 174, 133, 0.15);
   box-shadow: 0 8px 32px 0 rgba(43, 174, 133, 0.04), 0 4px 20px 0 rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 .light-mode .glass {
@@ -151,6 +152,7 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 .light-mode .glass:hover {
   border-color: rgba(30, 122, 92, 0.25);
   box-shadow: 0 8px 30px rgba(30, 122, 92, 0.08);
+  transform: translateY(-2px);
 }
 
 .glass-emerald {

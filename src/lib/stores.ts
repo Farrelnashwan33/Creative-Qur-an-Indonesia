@@ -201,6 +201,9 @@ function createMurotalStore() {
   });
 
   let audio: HTMLAudioElement | null = null;
+  if (typeof window !== 'undefined') {
+    audio = new Audio();
+  }
 
   function getAudioUrl(ayah: Ayah, qori: string): string {
     const qoriMap = {
@@ -220,7 +223,6 @@ function createMurotalStore() {
       audio.onended = null;
       audio.pause();
       audio.src = "";
-      audio = null;
     }
     store.set({ isPlaying: false, activeAyahNum: null, surah: null });
   }
@@ -233,17 +235,20 @@ function createMurotalStore() {
   }
 
   function play(surahDetail: SurahDetail, ayahNum: number, qori: string) {
-    if (audio) {
+    if (typeof window === 'undefined') return;
+    if (!audio) {
+      audio = new Audio();
+    } else {
       audio.onended = null;
       audio.pause();
-      audio.src = "";
     }
 
     const ayah = surahDetail.ayat.find(a => a.nomorAyat === ayahNum);
     if (!ayah) return;
 
     const url = getAudioUrl(ayah, qori);
-    audio = new Audio(url);
+    audio.src = url;
+    audio.load();
     audio.play().catch(err => console.warn("Failed to play audio:", err));
     
     store.set({
@@ -301,7 +306,8 @@ function createMurotalStore() {
         audio.pause();
         
         const url = getAudioUrl(currentAyah, qori);
-        audio = new Audio(url);
+        audio.src = url;
+        audio.load();
         audio.currentTime = currentTime;
         audio.play().catch(e => console.warn("Failed to automatically play new Qori audio", e));
         
