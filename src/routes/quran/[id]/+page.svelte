@@ -27,7 +27,8 @@
     Compass,
     Languages,
     Crown,
-    SkipForward
+    SkipForward,
+    SkipBack
   } from '@lucide/svelte';
 
   const surahId = $derived(Number($page.params.id));
@@ -42,9 +43,12 @@
   let isCurrentSurahPlaying = $derived($murotal.isPlaying && $murotal.surah?.nomor === surahId);
   
   // Auto scroll to active verse
+  let currentActiveAyah = $derived($murotal.activeAyahNum);
+  let currentPlayingSurah = $derived($murotal.surah?.nomor === surahId);
+  
   $effect(() => {
-    if (mounted && $murotal.activeAyahNum !== null && $murotal.surah?.nomor === surahId) {
-      scrollToVerse($murotal.activeAyahNum);
+    if (mounted && currentActiveAyah !== null && currentPlayingSurah) {
+      scrollToVerse(currentActiveAyah);
     }
   });
 
@@ -155,6 +159,7 @@
   let showNavigationModal = $state(false);
   let showAgendaModal = $state(false);
   let selectedSurahNum = $state(0);
+  let surahInputText = $state("");
   let selectedAyahNumInput = $state(1);
   let selectedHalamanNum = $state(26);
 
@@ -367,6 +372,18 @@
     }
   });
 
+  $effect(() => {
+    if (showNavigationModal && selectedSurahNum && allSurahs.length > 0) {
+      const s = allSurahs.find(x => x.nomor === selectedSurahNum);
+      if (s) {
+        const expected = `${s.nomor}. ${s.namaLatin}`;
+        if (!surahInputText.startsWith(s.nomor.toString())) {
+          surahInputText = expected;
+        }
+      }
+    }
+  });
+
   // Auto scroll states
   let autoScrollActive = $state(false);
   let autoScrollIntervalId: any = null;
@@ -449,6 +466,15 @@
       goto(`/quran/${nextSurahNum}`);
     } else {
       triggerToast("Ini adalah surah terakhir (An-Nas).");
+    }
+  }
+
+  function jumpToPreviousSurah() {
+    const prevSurahNum = surahId - 1;
+    if (prevSurahNum >= 1) {
+      goto(`/quran/${prevSurahNum}`);
+    } else {
+      triggerToast("Ini adalah surah pertama (Al-Fatihah).");
     }
   }
 
@@ -564,9 +590,14 @@
     setTimeout(() => {
       const el = document.getElementById(`ayah-${num}`);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        try {
+          const y = el.getBoundingClientRect().top + window.scrollY - (window.innerHeight / 2) + (el.clientHeight / 2);
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        } catch (e) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
-    }, 100);
+    }, 150);
   }
 
   // Clipboard functionality
@@ -772,7 +803,7 @@
         {@const isActive = $murotal.activeAyahNum === ayah.nomorAyat && $murotal.surah?.nomor === surahId}
         <div 
           id={`ayah-${ayah.nomorAyat}`}
-          class="md3-card p-5 lg:p-6 transition-all duration-300 flex flex-col gap-6 relative
+          class="md3-card px-5 py-6 sm:px-6 sm:py-8 lg:p-10 transition-all duration-300 flex flex-col gap-6 relative
             {isActive 
               ? 'border-emerald-500/30 bg-emerald-950/10 shadow-lg shadow-emerald-500/5' 
               : 'border-white/5 hover:border-white/10 bg-white/[0.02]'}"
@@ -862,13 +893,13 @@
                 </div>
               {:else if perKataCache[ayah.nomorAyat]}
                 <!-- Flowing word-by-word text block directly integrated -->
-                <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center py-3" dir="rtl">
+                <div class="flex flex-wrap gap-x-8 gap-y-10 justify-center py-5" dir="rtl">
                   {#each perKataCache[ayah.nomorAyat] as word, i (word.position || word.text_uthmani + '-' + i)}
-                    <div class="flex flex-col items-center justify-start text-center space-y-2 min-w-[70px] max-w-[150px]">
+                    <div class="flex flex-col items-center justify-end text-center space-y-3 min-w-[80px] max-w-[150px]">
                       <!-- Arabic Word -->
                       <span 
                         style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'};" 
-                        class="text-content-primary select-none leading-none mb-1"
+                        class="text-content-primary select-none leading-none mb-1 font-bold"
                       >
                         {word.text_uthmani || word.text}
                       </span>
@@ -902,8 +933,8 @@
                 </div>
               {:else}
                 <p 
-                  class="text-content-primary font-arabic-utsmani text-center" 
-                  style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
+                  class="text-content-primary font-arabic-utsmani text-center font-bold" 
+                  style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.6;"
                   dir="rtl"
                 >
                   {@html processTajwid(ayah.teksArab, $settings.tajwidColored)}
@@ -916,8 +947,8 @@
               {/if}
             {:else}
               <p 
-                class="text-content-primary font-arabic-utsmani text-center" 
-                style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.2;"
+                class="text-content-primary font-arabic-utsmani text-center font-bold" 
+                style="font-size: {$settings.arabicFontSize}px; font-family: {$settings.arabicScript === 'utsmani' ? 'var(--font-arabic-utsmani)' : 'var(--font-arabic-indopak)'}; line-height: 2.6;"
                 dir="rtl"
               >
                 {@html processTajwid(ayah.teksArab, $settings.tajwidColored)}
@@ -930,10 +961,9 @@
             {/if}
           </div>
 
-          <!-- INDONESIAN TRANSLATION -->
           {#if $settings.translationEnabled}
             <p 
-              class="text-content-secondary leading-relaxed font-normal"
+              class="text-content-secondary leading-[1.8] font-normal mt-3"
               style="font-size: {$settings.translationFontSize}px"
             >
               {ayah.teksIndonesia}
@@ -978,12 +1008,14 @@
                   Tutup Tafsir
                 </button>
               </div>
-              <p 
+              <div 
                 style="font-size: {$settings.tafsirFontSize || 14}px"
-                class="text-zinc-400 leading-relaxed font-medium"
+                class="text-zinc-400 leading-[1.8] font-medium space-y-4"
               >
-                {getTafsirText(ayah.nomorAyat)}
-              </p>
+                {#each getTafsirText(ayah.nomorAyat).split('\n').filter(p => p.trim() !== '') as paragraph}
+                  <p>{paragraph}</p>
+                {/each}
+              </div>
             </div>
           {/if}
         </div>
@@ -992,59 +1024,73 @@
   {/if}
 
 
-  <!-- BOTTOM READER TOOLBAR -->
-  <div class="fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 pt-3 pb-[calc(0.5rem+env(safe-area-inset-bottom,12px))] px-3 flex justify-around items-center z-40 md:max-w-xl md:mx-auto md:bottom-4 md:rounded-2xl md:border md:pb-4.5 shadow-2xl">
-    <!-- Isi (Index) -->
-    <button 
-      onclick={() => showNavigationModal = true}
-      class="flex flex-col items-center justify-center gap-1.5 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all cursor-pointer"
-    >
-      <List class="w-6 h-6" />
-      <span class="text-[11px] sm:text-xs font-bold mt-1">Isi</span>
-    </button>
+  <!-- BOTTOM READER TOOLBAR (REDESIGNED) -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 md:max-w-xl md:mx-auto md:bottom-4 md:px-3 transition-transform duration-300">
+    <div class="bg-[#121820]/90 backdrop-blur-3xl border-t border-white/10 md:border md:rounded-[28px] shadow-[0_-10px_40px_rgba(0,0,0,0.3)] px-2 pt-3 pb-[calc(0.8rem+env(safe-area-inset-bottom,0px))] md:pb-3 flex justify-between items-center relative overflow-hidden">
+      
+      <!-- Isi (Index) -->
+      <button 
+        onclick={() => showNavigationModal = true}
+        class="flex flex-col items-center justify-center gap-1 w-12 sm:w-14 text-zinc-400 hover:text-emerald-400 active:scale-90 transition-all cursor-pointer"
+      >
+        <List class="w-[26px] h-[26px]" />
+        <span class="text-[9px] sm:text-[10px] font-bold tracking-wide">Isi</span>
+      </button>
 
-    <!-- Scroll Otomatis -->
-    <button 
-      onclick={toggleAutoScroll}
-      class="flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer
-        {autoScrollActive ? 'text-emerald-400 font-extrabold' : 'text-zinc-400 hover:text-emerald-400'}"
-    >
-      <ChevronsDown class="w-6 h-6 {autoScrollActive ? 'animate-bounce' : ''}" />
-      <span class="text-[11px] sm:text-xs font-bold mt-1">Scroll Otomatis</span>
-    </button>
+      <!-- Scroll Otomatis -->
+      <button 
+        onclick={toggleAutoScroll}
+        class="flex flex-col items-center justify-center gap-1 w-12 sm:w-14 active:scale-90 transition-all cursor-pointer
+          {autoScrollActive ? 'text-emerald-400' : 'text-zinc-400 hover:text-emerald-400'}"
+      >
+        <ChevronsDown class="w-[26px] h-[26px] {autoScrollActive ? 'animate-bounce' : ''}" />
+        <span class="text-[9px] sm:text-[10px] font-bold tracking-wide">Scroll</span>
+      </button>
 
-    <!-- Putar Audio (Murottal toggle) -->
-    <button 
-      onclick={togglePlayAll}
-      class="flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer
-        {isCurrentSurahPlaying ? 'text-emerald-400 font-extrabold' : 'text-zinc-400 hover:text-emerald-400'}"
-    >
-      {#if isCurrentSurahPlaying}
-        <Pause class="w-6 h-6 animate-pulse" />
-      {:else}
-        <Play class="w-6 h-6" />
-      {/if}
-      <span class="text-[11px] sm:text-xs font-bold mt-1">Putar Audio</span>
-    </button>
+      <!-- Surah Sebelumnya -->
+      <button 
+        onclick={jumpToPreviousSurah}
+        class="flex flex-col items-center justify-center gap-1 w-12 sm:w-14 text-zinc-400 hover:text-emerald-400 active:scale-90 transition-all cursor-pointer"
+        title="Surah Sebelumnya"
+      >
+        <SkipBack class="w-[26px] h-[26px]" />
+        <span class="text-[9px] sm:text-[10px] font-bold tracking-wide">Prev</span>
+      </button>
 
-    <!-- Lanjut Surah (Lompat Surah) -->
-    <button 
-      onclick={jumpToNextSurah}
-      class="flex flex-col items-center justify-center gap-1.5 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all cursor-pointer"
-      title="Lanjut ke surah berikutnya"
-    >
-      <SkipForward class="w-6 h-6" />
-      <span class="text-[11px] sm:text-xs font-bold mt-1">Lanjut Surah</span>
-    </button>
+      <!-- Putar Audio (Murottal toggle - PRIMARY ACTION) -->
+      <button 
+        onclick={togglePlayAll}
+        class="flex flex-col items-center justify-center w-[52px] h-[52px] rounded-full active:scale-90 transition-all cursor-pointer shadow-lg shadow-emerald-950/50 flex-shrink-0 relative overflow-hidden md3-ripple
+          {isCurrentSurahPlaying ? 'bg-emerald-500 text-zinc-950 scale-105' : 'bg-emerald-600 text-white hover:bg-emerald-500'}"
+      >
+        {#if isCurrentSurahPlaying}
+          <Pause class="w-7 h-7 fill-current" />
+          <div class="absolute inset-0 rounded-full border-2 border-emerald-300 animate-ping opacity-20"></div>
+        {:else}
+          <Play class="w-7 h-7 fill-current ml-1" />
+        {/if}
+      </button>
 
-    <!-- Agenda (Jadwal Sholat popup) -->
-    <button 
-      onclick={() => showAgendaModal = true}
-      class="flex flex-col items-center justify-center gap-1.5 text-zinc-400 hover:text-emerald-400 active:scale-95 transition-all cursor-pointer"
-    >
-      <Calendar class="w-6 h-6" />
-      <span class="text-[11px] sm:text-xs font-bold mt-1">Agenda</span>
-    </button>
+      <!-- Lanjut Surah (Lompat Surah) -->
+      <button 
+        onclick={jumpToNextSurah}
+        class="flex flex-col items-center justify-center gap-1 w-12 sm:w-14 text-zinc-400 hover:text-emerald-400 active:scale-90 transition-all cursor-pointer"
+        title="Surah Selanjutnya"
+      >
+        <SkipForward class="w-[26px] h-[26px]" />
+        <span class="text-[9px] sm:text-[10px] font-bold tracking-wide">Next</span>
+      </button>
+
+      <!-- Agenda (Jadwal Sholat popup) -->
+      <button 
+        onclick={() => showAgendaModal = true}
+        class="flex flex-col items-center justify-center gap-1 w-12 sm:w-14 text-zinc-400 hover:text-emerald-400 active:scale-90 transition-all cursor-pointer"
+      >
+        <Calendar class="w-[26px] h-[26px]" />
+        <span class="text-[9px] sm:text-[10px] font-bold tracking-wide">Agenda</span>
+      </button>
+      
+    </div>
   </div>
 
   <!-- NAVIGATION INDEX MODAL (ISI) -->
@@ -1207,14 +1253,23 @@
             <!-- Surat column -->
             <div class="flex flex-col gap-1.5">
               <span class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Surat</span>
-              <select 
-                bind:value={selectedSurahNum}
-                class="w-full py-2.5 px-2 rounded-xl glass border border-white/10 text-xs font-semibold text-white focus:outline-none focus:border-emerald-500 bg-emerald-950"
-              >
+              <input 
+                type="text"
+                list="surah-datalist"
+                bind:value={surahInputText}
+                oninput={(e) => {
+                  const match = e.currentTarget.value.match(/^(\d+)/);
+                  if (match) selectedSurahNum = parseInt(match[1]);
+                }}
+                onclick={(e) => e.currentTarget.select()}
+                placeholder="Pilih/Ketik Surat"
+                class="w-full py-2.5 px-2 rounded-xl glass border border-white/10 text-[11px] sm:text-xs font-semibold text-white focus:outline-none focus:border-emerald-500 bg-emerald-950"
+              />
+              <datalist id="surah-datalist">
                 {#each allSurahs as s (s.nomor)}
-                  <option value={s.nomor} class="bg-zinc-950 text-white">{s.nomor}. {s.namaLatin}</option>
+                  <option value="{s.nomor}. {s.namaLatin}"></option>
                 {/each}
-              </select>
+              </datalist>
             </div>
 
             <!-- Ayat column -->

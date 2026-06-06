@@ -370,7 +370,7 @@
 {#if mounted}
   <div
     bind:this={layoutContainer}
-    class="min-h-screen md:h-screen md:overflow-hidden flex flex-col md:flex-row islamic-bg soft-gradient {$isPremium
+    class="min-h-[100dvh] md:h-screen md:overflow-hidden flex flex-col md:flex-row islamic-bg soft-gradient {$isPremium
       ? 'premium-theme'
       : ''}"
   >
@@ -612,7 +612,7 @@
 
     <!-- MAIN APP CONTAINER -->
     <main
-      class="flex-1 min-w-0 pb-[120px] md:pb-6 overflow-y-auto px-4 md:px-8 py-6 max-w-7xl mx-auto w-full"
+      class="flex-1 min-w-0 pb-[120px] md:pb-6 md:overflow-y-auto px-4 md:px-8 py-6 max-w-7xl mx-auto w-full"
     >
       {#if children}
         {@render children()}

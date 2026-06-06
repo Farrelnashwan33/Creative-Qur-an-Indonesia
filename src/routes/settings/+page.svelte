@@ -15,7 +15,6 @@
     Info, 
     Star,
     Bell,
-    ArrowLeft,
     Crown,
     Smartphone,
     X,
@@ -216,16 +215,13 @@
 {#if mounted}
 <div class="ios-settings-container mx-auto">
   
-  <!-- STICKY PAGE HEADER -->
-  <header class="ios-header sticky top-0 z-40 backdrop-blur-xl border-b border-white/5 pb-3 pt-2">
+  <!-- PAGE HEADER -->
+  <header class="ios-header border-b border-white/5 pb-3 pt-2">
     <div class="flex items-center justify-between px-2 py-1.5">
-      <a 
-        href={$lastRead ? `/quran/${$lastRead.surahNumber}` : '/quran'}
-        class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors"
-      >
-        <ArrowLeft class="w-5 h-5" />
-        <span class="text-sm font-bold">Pengaturan</span>
-      </a>
+      <div class="flex items-center gap-1.5">
+        <Settings class="w-4 h-4 text-emerald-400" />
+        <span class="text-sm font-bold text-zinc-200">Pengaturan</span>
+      </div>
 
       <button 
         onclick={resetSettings}
@@ -259,7 +255,7 @@
   </header>
 
   <!-- SETTINGS SECTIONS -->
-  <div class="mt-4 px-2 space-y-4 pb-16">
+  <div class="mt-4 px-2 space-y-4 pb-24">
 
     <!-- SECTION 7: PREMIUM CARD (Top Priority but compact) -->
     {#if match("Creative Qur'an Premium", ["premium", "royal gold", "langganan", "tajwid", "makhraj", "ai"])}
