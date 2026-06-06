@@ -87,6 +87,8 @@ export interface AppSettings {
   theme: 'light' | 'dark';
   keepScreenOn: boolean;
   fullscreen: boolean;
+  clickAction: 'audio' | 'tafsir' | 'detail';
+  longPressAction: 'copy' | 'share' | 'favorite';
 }
 
 export const defaultSettings: AppSettings = {
@@ -104,7 +106,9 @@ export const defaultSettings: AppSettings = {
   qori: 'afasy',
   theme: 'dark',
   keepScreenOn: false,
-  fullscreen: false
+  fullscreen: false,
+  clickAction: 'audio',
+  longPressAction: 'copy'
 };
 
 export const settings = createPersistentStore<AppSettings>('quran_settings', defaultSettings);

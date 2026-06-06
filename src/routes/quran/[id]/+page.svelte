@@ -772,7 +772,7 @@
         {@const isActive = $murotal.activeAyahNum === ayah.nomorAyat && $murotal.surah?.nomor === surahId}
         <div 
           id={`ayah-${ayah.nomorAyat}`}
-          class="glass border rounded-3xl p-5 lg:p-6 transition-all duration-300 flex flex-col gap-6 relative
+          class="md3-card p-5 lg:p-6 transition-all duration-300 flex flex-col gap-6 relative
             {isActive 
               ? 'border-emerald-500/30 bg-emerald-950/10 shadow-lg shadow-emerald-500/5' 
               : 'border-white/5 hover:border-white/10 bg-white/[0.02]'}"

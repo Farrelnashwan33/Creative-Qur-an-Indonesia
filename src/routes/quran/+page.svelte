@@ -318,7 +318,7 @@
         {#each juzList as item (item.juz)}
           <a 
             href="/quran/{juzRouteMap[item.juz]}" 
-            class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 hover:shadow-lg hover:shadow-emerald-950/10 cursor-pointer relative overflow-hidden"
+            class="md3-card md3-ripple p-5 flex items-center justify-between hover:border-emerald-500/20 group cursor-pointer relative overflow-hidden"
           >
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-emerald-600/10 flex items-center justify-center font-extrabold text-xs text-emerald-400 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
