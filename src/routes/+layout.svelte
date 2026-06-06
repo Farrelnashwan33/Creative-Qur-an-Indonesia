@@ -47,7 +47,7 @@
   let mounted = $state(false);
   let sidebarCollapsed = $state(false);
   let activeTab = $derived($page.url.pathname);
-  let showPremiumBtn = $derived(activeTab === "/" || activeTab === "/settings");
+  let showPremiumBtn = $derived(activeTab === "/");
   let isReaderPage = $derived(
     activeTab.startsWith("/quran/") && activeTab !== "/quran",
   );
@@ -370,7 +370,7 @@
 {#if mounted}
   <div
     bind:this={layoutContainer}
-    class="min-h-[100dvh] md:h-screen md:overflow-hidden flex flex-col md:flex-row islamic-bg soft-gradient {$isPremium
+    class="min-h-screen md:h-screen md:overflow-hidden flex flex-col md:flex-row islamic-bg soft-gradient {$isPremium
       ? 'premium-theme'
       : ''}"
   >
@@ -612,7 +612,7 @@
 
     <!-- MAIN APP CONTAINER -->
     <main
-      class="flex-1 min-w-0 pb-[120px] md:pb-6 md:overflow-y-auto px-4 md:px-8 py-6 max-w-7xl mx-auto w-full"
+      class="flex-1 min-w-0 pb-[120px] md:pb-6 overflow-y-auto px-4 md:px-8 py-6 max-w-7xl mx-auto w-full"
     >
       {#if children}
         {@render children()}
@@ -630,7 +630,7 @@
           {@const Icon = item.icon}
           <a
             href={item.path}
-            class="flex flex-col items-center justify-center gap-1 w-16 transition-all duration-300 relative group md3-ripple
+            class="flex flex-col items-center justify-center gap-1 w-16 min-h-[44px] transition-all duration-300 relative group md3-ripple touch-manipulation
           {isActive(item.path)
               ? $isPremium
                 ? 'text-amber-400 font-extrabold'
@@ -845,7 +845,7 @@
 
     <!-- MOBILE FLOATING PREMIUM BUBBLE -->
     {#if showPremiumBtn}
-      <div class="md:hidden fixed bottom-[88px] right-4 z-40 animate-float">
+      <div class="md:hidden fixed z-30 animate-float" style="bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); right: 1rem;">
         {#if !$isPremium}
           <button
             onclick={handleActivatePremium}
