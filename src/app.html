@@ -38,6 +38,11 @@
 				}
 
 				var isChromeAndroid = /Chrome/i.test(ua) && /Android/i.test(ua);
+				var isAndroid = /Android/i.test(ua);
+
+				if (isAndroid) {
+					document.documentElement.classList.add('android-device');
+				}
 
 				if (isSamsungBrowser || isSamsungDevice || isSamsungUAData || isMali || isChromeAndroid) {
 					document.documentElement.classList.add('samsung-device');

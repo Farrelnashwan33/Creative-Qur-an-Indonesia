@@ -279,7 +279,7 @@
             {@const isFavorited = favoritedSurahIds.has(surah.nomor)}
             <a 
               href="/quran/{surah.nomor}" 
-              class="glass border border-white/5 p-5 rounded-2xl flex items-center justify-between hover:border-emerald-500/20 group transition-all duration-300 hover:shadow-lg hover:shadow-emerald-950/10 cursor-pointer relative overflow-hidden"
+              class="md3-card md3-ripple p-5 flex items-center justify-between hover:border-emerald-500/20 group cursor-pointer relative overflow-hidden"
             >
               {#if isLastReadSurah}
                 <div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>
