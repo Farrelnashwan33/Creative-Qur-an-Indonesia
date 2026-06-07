@@ -204,9 +204,15 @@ function createMurotalStore() {
     surah: null
   });
 
-  let audio: HTMLAudioElement | null = null;
+  // Dual-buffer audio untuk transisi mulus antar ayat (ping-pong buffering)
+  let buffers: [HTMLAudioElement, HTMLAudioElement] | null = null;
+  let activeIdx = 0; // indeks buffer yang sedang aktif diputar
+
   if (typeof window !== 'undefined') {
-    audio = new Audio();
+    buffers = [new Audio(), new Audio()];
+    // Preconnect agar koneksi sudah siap
+    buffers[0].preload = 'auto';
+    buffers[1].preload = 'auto';
   }
 
   function getAudioUrl(ayah: Ayah, qori: string): string {
@@ -222,46 +228,132 @@ function createMurotalStore() {
     return ayah.audio[key] || Object.values(ayah.audio)[0];
   }
 
+  function currentAudio(): HTMLAudioElement | null {
+    return buffers ? buffers[activeIdx] : null;
+  }
+
+  function nextAudio(): HTMLAudioElement | null {
+    return buffers ? buffers[activeIdx ^ 1] : null;
+  }
+
+  /** Preload ayat berikutnya ke buffer idle agar transisi instan */
+  function preloadNext(surahDetail: SurahDetail, currentAyahNum: number, qori: string) {
+    if (!buffers) return;
+    const nextAyahIdx = currentAyahNum; // nomorAyat adalah 1-based, jadi index = nomorAyat (current)
+    if (nextAyahIdx < surahDetail.ayat.length) {
+      const nextAyah = surahDetail.ayat[nextAyahIdx];
+      const url = getAudioUrl(nextAyah, qori);
+      const idle = nextAudio();
+      if (idle && idle.src !== url) {
+        idle.src = url;
+        idle.load();
+      }
+    }
+  }
+
   function stop() {
-    if (audio) {
-      audio.onended = null;
-      audio.pause();
-      audio.src = "";
+    if (buffers) {
+      buffers.forEach(b => {
+        b.onended = null;
+        b.pause();
+        b.src = "";
+      });
     }
     store.set({ isPlaying: false, activeAyahNum: null, surah: null });
   }
 
   function pause() {
-    if (audio) {
-      audio.pause();
-    }
+    const cur = currentAudio();
+    if (cur) cur.pause();
     store.update(s => ({ ...s, isPlaying: false }));
   }
 
-  function play(surahDetail: SurahDetail, ayahNum: number, qori: string) {
+  /**
+   * _playInternal: dipakai oleh auto-advance (playNext).
+   * Manfaatkan swap buffer jika sudah preloaded, tanpa pause semua buffer.
+   */
+  function _playInternal(surahDetail: SurahDetail, ayahNum: number, qori: string) {
     if (typeof window === 'undefined') return;
-    if (!audio) {
-      audio = new Audio();
-    } else {
-      audio.onended = null;
-      audio.pause();
+    if (!buffers) {
+      buffers = [new Audio(), new Audio()];
+      buffers[0].preload = 'auto';
+      buffers[1].preload = 'auto';
     }
 
     const ayah = surahDetail.ayat.find(a => a.nomorAyat === ayahNum);
     if (!ayah) return;
 
     const url = getAudioUrl(ayah, qori);
-    audio.src = url;
-    audio.load();
-    audio.play().catch(err => console.warn("Failed to play audio:", err));
-    
+    const idle = nextAudio()!;
+
+    // Hentikan buffer aktif saat ini
+    const cur = currentAudio()!;
+    cur.onended = null;
+    cur.pause();
+
+    if (idle.src === url && idle.readyState >= 3) {
+      // Buffer idle sudah preloaded dan siap — swap langsung (transisi instan)
+      activeIdx ^= 1;
+      const swapped = currentAudio()!;
+      swapped.currentTime = 0;
+      swapped.play().catch(err => console.warn("Failed to play audio:", err));
+    } else {
+      // Buffer idle belum siap — pakai buffer aktif, set src baru
+      cur.src = url;
+      cur.play().catch(err => console.warn("Failed to play audio:", err));
+    }
+
     store.set({
       isPlaying: true,
       activeAyahNum: ayahNum,
       surah: surahDetail
     });
 
-    audio.onended = () => {
+    // Preload ayat berikutnya ke buffer idle
+    preloadNext(surahDetail, ayahNum, qori);
+
+    currentAudio()!.onended = () => {
+      playNext(qori);
+    };
+  }
+
+  /**
+   * play: dipanggil user (klik ayat). Bersihkan semua buffer untuk fresh start.
+   */
+  function play(surahDetail: SurahDetail, ayahNum: number, qori: string) {
+    if (typeof window === 'undefined') return;
+    if (!buffers) {
+      buffers = [new Audio(), new Audio()];
+      buffers[0].preload = 'auto';
+      buffers[1].preload = 'auto';
+    }
+
+    // Reset semua buffer (fresh start dari user)
+    buffers.forEach(b => {
+      b.onended = null;
+      b.pause();
+      b.src = '';
+    });
+    activeIdx = 0;
+
+    const ayah = surahDetail.ayat.find(a => a.nomorAyat === ayahNum);
+    if (!ayah) return;
+
+    const url = getAudioUrl(ayah, qori);
+    const cur = currentAudio()!;
+    cur.src = url;
+    cur.play().catch(err => console.warn("Failed to play audio:", err));
+
+    store.set({
+      isPlaying: true,
+      activeAyahNum: ayahNum,
+      surah: surahDetail
+    });
+
+    // Mulai preload ayat berikutnya segera
+    preloadNext(surahDetail, ayahNum, qori);
+
+    cur.onended = () => {
       playNext(qori);
     };
   }
@@ -271,17 +363,18 @@ function createMurotalStore() {
     
     if (!currentStore || !currentStore.surah || currentStore.activeAyahNum === null) return;
     
-    const nextIdx = currentStore.activeAyahNum; // Index of next ayah is activeAyahNum (1-based index maps to 0-based index)
+    const nextIdx = currentStore.activeAyahNum; // 1-based → index berikutnya
     const surahDetail = currentStore.surah;
+
     if (nextIdx < surahDetail.ayat.length) {
       const nextAyah = surahDetail.ayat[nextIdx];
-      play(surahDetail, nextAyah.nomorAyat, qori);
+      _playInternal(surahDetail, nextAyah.nomorAyat, qori);
     } else {
       const nextSurahNum = surahDetail.nomor + 1;
       if (nextSurahNum <= 114) {
         try {
           const nextSurahDetail = await fetchSurahDetail(nextSurahNum);
-          play(nextSurahDetail, 1, qori);
+          _playInternal(nextSurahDetail, 1, qori);
         } catch (e) {
           console.error("Failed to play next surah automatically:", e);
           stop();
@@ -293,8 +386,9 @@ function createMurotalStore() {
   }
 
   function resume() {
-    if (audio) {
-      audio.play().catch(err => console.warn("Failed to resume audio:", err));
+    const cur = currentAudio();
+    if (cur) {
+      cur.play().catch(err => console.warn("Failed to resume audio:", err));
       store.update(s => ({ ...s, isPlaying: true }));
     }
   }
@@ -302,22 +396,33 @@ function createMurotalStore() {
   function changeQori(qori: string) {
     const currentStore = get(store);
     
-    if (currentStore && currentStore.isPlaying && audio && currentStore.activeAyahNum !== null && currentStore.surah) {
+    if (currentStore && currentStore.isPlaying && currentStore.activeAyahNum !== null && currentStore.surah) {
+      const cur = currentAudio();
+      if (!cur) return;
       const currentAyah = currentStore.surah.ayat.find(a => a.nomorAyat === currentStore.activeAyahNum);
       if (currentAyah) {
-        const currentTime = audio.currentTime;
-        audio.onended = null;
-        audio.pause();
+        const currentTime = cur.currentTime;
+        cur.onended = null;
+        cur.pause();
         
         const url = getAudioUrl(currentAyah, qori);
-        audio.src = url;
-        audio.load();
-        audio.currentTime = currentTime;
-        audio.play().catch(e => console.warn("Failed to automatically play new Qori audio", e));
+        cur.src = url;
+        cur.load();
+        cur.currentTime = currentTime;
+        cur.play().catch(e => console.warn("Failed to automatically play new Qori audio", e));
         
-        audio.onended = () => {
+        // Reset preload idle buffer untuk qori baru
+        if (buffers) {
+          const idle = nextAudio()!;
+          idle.src = '';
+        }
+
+        cur.onended = () => {
           playNext(qori);
         };
+
+        // Preload ayat berikutnya dengan qori baru
+        preloadNext(currentStore.surah, currentStore.activeAyahNum, qori);
       }
     }
   }
