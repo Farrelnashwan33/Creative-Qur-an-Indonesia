@@ -784,7 +784,7 @@
             </div>
             <div class="flex items-center justify-between text-xs">
               <span class="text-zinc-400 font-semibold">Jumlah Transfer</span>
-              <span class="font-extrabold text-amber-400">Rp 150.000</span>
+              <span class="font-extrabold text-amber-400">Rp 24.000</span>
             </div>
           </div>
 
@@ -793,7 +793,7 @@
             <ol class="list-decimal pl-4 space-y-1">
               <li>Buka aplikasi GoPay / E-Wallet Anda.</li>
               <li>
-                Kirim saldo sebesar **Rp 150.000** ke nomor GoPay di atas.
+                Kirim saldo sebesar **Rp 24.000** ke nomor GoPay di atas.
               </li>
               <li>
                 Kirim bukti transfer ke WhatsApp admin dengan menekan tombol
@@ -804,7 +804,7 @@
 
           <div class="space-y-3 pt-2">
             <a
-              href="https://wa.me/6285720387781?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp%20150.000%20ke%20GoPay%20081224079173%20untuk%20Creative%20Qur'an%20Premium.%20Mohon%20kirimkan%20kode%20aktivasi."
+              href="https://wa.me/6285720387781?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp%2024.000%20ke%20GoPay%20081224079173%20untuk%20Creative%20Qur'an%20Premium.%20Mohon%20kirimkan%20kode%20aktivasi."
               target="_blank"
               class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all text-center"
             >
