@@ -268,7 +268,7 @@
           
           {#if $userEmail && ALLOWED_ADMIN_EMAILS.includes($userEmail.trim().toLowerCase())}
             <div class="flex items-center gap-1.5">
-              <span class="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Mode Admin</span>
+              <span class="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Khusus Admin </span>
               <button 
                 onclick={() => {
                   $isAdmin = !$isAdmin;
@@ -306,7 +306,7 @@
           <div class="pt-2 flex items-center justify-between gap-3">
             <span class="text-[11px] font-bold text-amber-400 flex items-center gap-1">
               <Crown class="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-              Royal Gold Aktif
+              Premium Kamu Aktif
             </span>
             <button 
               onclick={() => {
@@ -320,12 +320,12 @@
           </div>
         {:else}
           <div class="pt-2 flex items-center justify-between gap-3 border-t border-white/5 mt-1.5">
-            <span class="text-[10px] text-zinc-400 font-semibold">Nikmati AI Correction & Buku Tajwid</span>
+            <span class="text-[10px] text-zinc-400 font-semibold"> Segera  AI Correction & Buku Tajwid</span>
             <button 
               onclick={handleActivatePremium}
               class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold rounded-lg transition-all shadow-md active:scale-95 cursor-pointer"
             >
-              Beli Rp150rb
+              Beli Rp 24.000 rb
             </button>
           </div>
         {/if}
@@ -358,7 +358,7 @@
                   onclick={() => updateSetting('arabicScript', 'indopak')}
                   class="ios-segment-btn {$settings.arabicScript === 'indopak' ? 'ios-segment-btn-active' : ''}"
                 >
-                  IndoPak
+                  Quran Lokal
                 </button>
               </div>
             </div>
