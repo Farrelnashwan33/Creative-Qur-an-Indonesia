@@ -712,7 +712,7 @@
         class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-[100] animate-fade-in"
       >
         <div
-          class="glass border border-amber-500/30 p-6 rounded-3xl max-w-sm w-full space-y-6 shadow-2xl relative overflow-hidden"
+          class="glass border border-amber-500/30 p-6 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl relative"
         >
           <!-- Background pattern overlay -->
           <div
