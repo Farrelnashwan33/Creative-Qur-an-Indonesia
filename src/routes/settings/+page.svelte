@@ -680,30 +680,6 @@
             </div>
           </div>
 
-          <!-- Tiny Theme Preview Mockups -->
-          <div class="grid grid-cols-2 gap-3 pt-1">
-            <!-- Light Preview -->
-            <button 
-              onclick={() => updateSetting('theme', 'light')}
-              class="rounded-xl p-2.5 border text-left space-y-1.5 transition-all text-stone-900 bg-slate-100 hover:border-emerald-500/40
-                {$settings.theme === 'light' ? 'border-emerald-500 border-2 shadow-md' : 'border-white/5'}"
-            >
-              <span class="text-[8px] font-black text-emerald-700 tracking-wider block">MODE TERANG</span>
-              <div class="w-full h-1 bg-slate-200 rounded"></div>
-              <div class="w-3/4 h-1 bg-slate-200 rounded"></div>
-            </button>
-
-            <!-- Dark Preview -->
-            <button 
-              onclick={() => updateSetting('theme', 'dark')}
-              class="rounded-xl p-2.5 border text-left space-y-1.5 transition-all text-white bg-zinc-900 hover:border-emerald-500/40
-                {$settings.theme === 'dark' ? 'border-emerald-500 border-2 shadow-md' : 'border-white/5'}"
-            >
-              <span class="text-[8px] font-black text-emerald-400 tracking-wider block">MODE GELAP</span>
-              <div class="w-full h-1 bg-zinc-800 rounded"></div>
-              <div class="w-3/4 h-1 bg-zinc-800 rounded"></div>
-            </button>
-          </div>
 
         </div>
       </div>

@@ -137,11 +137,11 @@ html.light-mode .text-content-secondary {
 
 /* Light Mode Override */
 html.light-mode {
-  background-color: #edeae3 !important; /* Soft eye-care warm paper */
+  background-color: #dfdcd2 !important; /* Darker soft warm paper */
   color: #1e293b !important;
 }
 html.light-mode body {
-  background-color: #edeae3 !important;
+  background-color: #dfdcd2 !important;
   color: #1e293b !important;
 }
 html.light-mode ::-webkit-scrollbar-thumb {
@@ -168,7 +168,7 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 }
 
 .light-mode .glass {
-  background: rgba(245, 242, 235, 0.75);
+  background: rgba(225, 222, 215, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(30, 122, 92, 0.08);
@@ -227,7 +227,7 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 .light-mode .soft-gradient {
   background: radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
               radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 45%),
-              linear-gradient(135deg, #e6efe8 0%, #edeae3 50%, #e6e3e8 100%) !important;
+              linear-gradient(135deg, #d2dfd6 0%, #dfdcd2 50%, #d8d6dc 100%) !important;
 }
 
 /* Tajwid Coloring */
@@ -315,7 +315,7 @@ html.light-mode .premium-theme {
   background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.12) 0%, transparent 45%),
               radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
               radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
-              linear-gradient(135deg, #e8ede5 0%, #f0ead6 50%, #e8e3d3 100%) !important;
+              linear-gradient(135deg, #dbe2d8 0%, #e5dfcb 50%, #d9d5c3 100%) !important;
 }
 
 html.light-mode .premium-theme::before {
@@ -339,7 +339,7 @@ html.light-mode .premium-theme::before {
 
 html.light-mode.samsung-device .glass,
 html.light-mode.android-device .glass {
-  background: rgba(245, 242, 235, 0.98) !important;
+  background: rgba(230, 227, 220, 0.98) !important;
 }
 
 .samsung-device .glass-emerald,
@@ -434,7 +434,7 @@ html.light-mode.android-device .premium-gold-text {
   overflow: hidden;
 }
 .light-mode .md3-card {
-  background-color: #f7f5ef;
+  background-color: #e5e2d8;
   border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.04), 0px 2px 1px rgba(0, 0, 0, 0.02);
 }
@@ -513,7 +513,7 @@ html.light-mode.android-device .premium-gold-text {
   flex-direction: column;
 }
 .light-mode .ios-list-group {
-  background: rgba(245, 242, 235, 0.9);
+  background: rgba(230, 227, 220, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
