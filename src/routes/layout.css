@@ -119,10 +119,10 @@ html, body {
   color: #d4d4d8; /* zinc-300 */
 }
 html.light-mode .text-content-primary {
-  color: #0f172a !important;
+  color: #1e293b !important;
 }
 html.light-mode .text-content-secondary {
-  color: #334155 !important;
+  color: #475569 !important;
 }
 
 /* Arabic Text Rendering Optimizations */
@@ -137,12 +137,12 @@ html.light-mode .text-content-secondary {
 
 /* Light Mode Override */
 html.light-mode {
-  background-color: #f4f9f6 !important; /* Soft soothing sage/mint white */
-  color: #0f172a !important;
+  background-color: #edeae3 !important; /* Soft eye-care warm paper */
+  color: #1e293b !important;
 }
 html.light-mode body {
-  background-color: #f4f9f6 !important;
-  color: #0f172a !important;
+  background-color: #edeae3 !important;
+  color: #1e293b !important;
 }
 html.light-mode ::-webkit-scrollbar-thumb {
   background: rgba(30, 122, 92, 0.15);
@@ -168,7 +168,7 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 }
 
 .light-mode .glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(245, 242, 235, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(30, 122, 92, 0.08);
@@ -197,7 +197,7 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
 }
 
 .light-mode .glass-emerald {
-  background: linear-gradient(135deg, rgba(209, 250, 229, 0.75) 0%, rgba(240, 253, 244, 0.85) 100%);
+  background: linear-gradient(135deg, rgba(209, 240, 222, 0.75) 0%, rgba(228, 243, 234, 0.85) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(16, 185, 129, 0.25);
@@ -225,9 +225,9 @@ html.light-mode ::-webkit-scrollbar-thumb:hover {
               linear-gradient(135deg, #02110b 0%, #030712 50%, #080312 100%) !important;
 }
 .light-mode .soft-gradient {
-  background: radial-gradient(circle at 10% 10%, rgba(209, 250, 229, 0.4) 0%, transparent 45%),
-              radial-gradient(circle at 90% 90%, rgba(219, 234, 254, 0.3) 0%, transparent 45%),
-              linear-gradient(135deg, #f0fdf4 0%, #f8fafc 50%, #faf5ff 100%) !important;
+  background: radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+              radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 45%),
+              linear-gradient(135deg, #e6efe8 0%, #edeae3 50%, #e6e3e8 100%) !important;
 }
 
 /* Tajwid Coloring */
@@ -270,9 +270,9 @@ button, a {
 }
 
 html.light-mode .premium-border {
-  border: 1px solid rgba(217, 119, 6, 0.3) !important;
+  border: 1px solid rgba(217, 119, 6, 0.25) !important;
   box-shadow: 0 4px 20px rgba(217, 119, 6, 0.05) !important;
-  background: linear-gradient(135deg, rgba(209, 250, 229, 0.8) 0%, rgba(254, 243, 199, 0.8) 100%) !important;
+  background: linear-gradient(135deg, rgba(218, 242, 229, 0.8) 0%, rgba(245, 236, 203, 0.8) 100%) !important;
 }
 
 .premium-badge-gold {
@@ -312,10 +312,10 @@ html.light-mode .premium-border {
 }
 
 html.light-mode .premium-theme {
-  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.2) 0%, transparent 45%),
-              radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.22) 0%, transparent 45%),
-              radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.15) 0%, transparent 50%),
-              linear-gradient(135deg, #f0fdf4 0%, #fffbeb 50%, #fef3c7 100%) !important;
+  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.12) 0%, transparent 45%),
+              radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
+              radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+              linear-gradient(135deg, #e8ede5 0%, #f0ead6 50%, #e8e3d3 100%) !important;
 }
 
 html.light-mode .premium-theme::before {
@@ -339,7 +339,7 @@ html.light-mode .premium-theme::before {
 
 html.light-mode.samsung-device .glass,
 html.light-mode.android-device .glass {
-  background: rgba(255, 255, 255, 0.96) !important;
+  background: rgba(245, 242, 235, 0.98) !important;
 }
 
 .samsung-device .glass-emerald,
@@ -351,7 +351,7 @@ html.light-mode.android-device .glass {
 
 html.light-mode.samsung-device .glass-emerald,
 html.light-mode.android-device .glass-emerald {
-  background: linear-gradient(135deg, rgba(209, 250, 229, 0.96) 0%, rgba(240, 253, 244, 0.98) 100%) !important;
+  background: linear-gradient(135deg, rgba(218, 242, 229, 0.98) 0%, rgba(230, 245, 236, 0.98) 100%) !important;
 }
 
 .samsung-device .premium-border,
@@ -363,7 +363,7 @@ html.light-mode.android-device .glass-emerald {
 
 html.light-mode.samsung-device .premium-border,
 html.light-mode.android-device .premium-border {
-  background: linear-gradient(135deg, rgba(209, 250, 229, 0.96) 0%, rgba(254, 243, 199, 0.98) 100%) !important;
+  background: linear-gradient(135deg, rgba(218, 242, 229, 0.98) 0%, rgba(245, 236, 203, 0.98) 100%) !important;
 }
 
 /* Disable any other backdrop-blur classes on Samsung & Android devices to prevent GPU rendering artifacts and smears */
@@ -434,9 +434,9 @@ html.light-mode.android-device .premium-gold-text {
   overflow: hidden;
 }
 .light-mode .md3-card {
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 2px 1px rgba(0, 0, 0, 0.03);
+  background-color: #f7f5ef;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.04), 0px 2px 1px rgba(0, 0, 0, 0.02);
 }
 
 /* OLED dark mode surface override for MD3 Card */
@@ -513,8 +513,8 @@ html.light-mode.android-device .premium-gold-text {
   flex-direction: column;
 }
 .light-mode .ios-list-group {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(245, 242, 235, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .ios-list-item {
