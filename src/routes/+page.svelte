@@ -344,9 +344,14 @@
     </div>
 
     <!-- PRAYER TIME COUNTDOWN CARD -->
-    <div class="rounded-3xl p-6 glass flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-lg transition-all duration-300
-      {$isPremium ? 'premium-border' : 'border border-white/5'}">
-      <div class="flex items-center justify-between">
+    <div class="rounded-3xl p-6 flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-xl transition-all duration-300
+      {$isPremium 
+        ? 'bg-gradient-to-bl from-stone-950 via-amber-950 to-emerald-950 border border-amber-500/35 shadow-amber-950/20' 
+        : 'bg-gradient-to-bl from-emerald-950 via-emerald-800 to-emerald-900 border border-emerald-500/20 shadow-emerald-900/10'}">
+      <!-- Islamic background pattern overlay -->
+      <div class="absolute inset-0 opacity-10 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
+      
+      <div class="flex items-center justify-between relative z-10">
         <div class="flex items-center gap-2">
           <Clock class="w-5 h-5 animate-pulse-slow {$isPremium ? 'text-amber-400' : 'text-emerald-400'}" />
           <h3 class="font-bold text-sm text-zinc-300">Waktu Sholat</h3>
@@ -359,19 +364,19 @@
       </div>
 
       {#if loadingPrayer}
-        <div class="py-4 space-y-2 animate-pulse">
+        <div class="py-4 space-y-2 animate-pulse relative z-10">
           <div class="h-8 bg-white/5 rounded-xl w-3/4"></div>
           <div class="h-4 bg-white/5 rounded-lg w-1/2"></div>
         </div>
       {:else}
-        <div class="py-4">
+        <div class="py-4 relative z-10">
           <span class="text-xs text-zinc-400 font-semibold uppercase tracking-wider">Menuju Sholat {nextPrayerName}</span>
           <h4 class="text-4xl font-extrabold text-white tracking-wider mt-1">{nextPrayerCountdown}</h4>
           <p class="text-xs text-zinc-400 mt-1 font-semibold">Pukul {nextPrayerTime} WIB</p>
         </div>
       {/if}
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 relative z-10">
         <a href="/sholat" class="flex-1 inline-flex items-center justify-center gap-2 active:scale-95 text-white font-bold text-xs py-3.5 rounded-2xl shadow-lg transition-all
           {$isPremium 
             ? 'bg-amber-500 hover:bg-amber-400 text-black shadow-amber-950/20' 
