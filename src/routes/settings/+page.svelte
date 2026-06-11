@@ -358,7 +358,7 @@
                   onclick={() => updateSetting('arabicScript', 'indopak')}
                   class="ios-segment-btn {$settings.arabicScript === 'indopak' ? 'ios-segment-btn-active' : ''}"
                 >
-                  Quran Lokal
+                  Quran Lokalk
                 </button>
               </div>
             </div>
