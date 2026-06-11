@@ -12,6 +12,8 @@
     isPremium,
     showPremiumPaymentModal,
     isAdmin,
+    userName,
+    userAvatar,
     userEmail,
     murotal,
   } from "$lib/stores";
@@ -304,6 +306,21 @@
   });
 
   let activationCode = $state("");
+  let showProfileEditModal = $state(false);
+
+  function handleAvatarUpload(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          $userAvatar = e.target.result as string;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   function verifyActivationCode() {
     const code = activationCode.trim();
@@ -428,51 +445,103 @@
           </button>
         </div>
 
-        <!-- Navigation Links -->
-        <nav class="flex flex-col gap-2">
-          {#each menuItems as item (item.path)}
-            {@const Icon = item.icon}
-            <a
-              href={item.path}
-              class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 group relative overflow-hidden
-              {sidebarCollapsed
-                ? 'justify-center p-3.5'
-                : 'gap-3.5 px-4 py-3.5'}
-              {isActive(item.path)
-                ? $isPremium
-                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
-                  : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5 border border-transparent'}"
-              title={sidebarCollapsed ? item.name : ""}
-            >
-              <!-- Hover highlight element -->
-              <div
-                class="absolute inset-0 bg-linear-to-r transition-opacity duration-300
-              {$isPremium
-                  ? 'from-amber-500/5'
-                  : 'from-emerald-600/5'} to-transparent opacity-0 group-hover:opacity-100"
-              ></div>
-              <svelte:component
-                this={Icon}
-                class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
-              {isActive(item.path)
+        <!-- Navigation Links Grouped -->
+        <div class="flex flex-col gap-6 overflow-y-auto overflow-x-hidden pb-4 custom-scrollbar">
+          <!-- MAIN GROUP -->
+          <div class="flex flex-col gap-1">
+            {#if !sidebarCollapsed}
+              <h3 class="text-[10px] font-bold text-zinc-400 tracking-wider uppercase px-4 mb-1">Main</h3>
+            {/if}
+            {#each menuItems.slice(0, 3) as item (item.path)}
+              {@const Icon = item.icon}
+              <a
+                href={item.path}
+                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 group relative overflow-hidden
+                {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3.5 px-4 py-3'}
+                {isActive(item.path)
                   ? $isPremium
-                    ? 'text-amber-400'
-                    : 'text-emerald-400'
-                  : 'text-zinc-400 group-hover:text-zinc-200'}"
-              />
-              {#if !sidebarCollapsed}
-                <span>{item.name}</span>
-              {/if}
-              {#if isActive(item.path)}
-                <div
-                  class="absolute left-0 w-1 h-6 rounded-r-full {$isPremium
-                    ? 'bg-amber-400'
-                    : 'bg-emerald-500'}"
-                ></div>
-              {/if}
-            </a>
-          {/each}
+                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
+                    : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
+                  : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
+                title={sidebarCollapsed ? item.name : ""}
+              >
+                <svelte:component
+                  this={Icon}
+                  class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
+                {isActive(item.path)
+                    ? $isPremium ? 'text-amber-400' : 'text-emerald-400'
+                    : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'}"
+                />
+                {#if !sidebarCollapsed}
+                  <span>{item.name}</span>
+                {/if}
+              </a>
+            {/each}
+          </div>
+
+          <!-- FEATURES GROUP -->
+          <div class="flex flex-col gap-1">
+            {#if !sidebarCollapsed}
+              <h3 class="text-[10px] font-bold text-zinc-400 tracking-wider uppercase px-4 mb-1">Features</h3>
+            {/if}
+            {#each menuItems.slice(3, 4) as item (item.path)}
+              {@const Icon = item.icon}
+              <a
+                href={item.path}
+                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 group relative overflow-hidden
+                {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3.5 px-4 py-3'}
+                {isActive(item.path)
+                  ? $isPremium
+                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
+                    : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
+                  : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
+                title={sidebarCollapsed ? item.name : ""}
+              >
+                <svelte:component
+                  this={Icon}
+                  class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
+                {isActive(item.path)
+                    ? $isPremium ? 'text-amber-400' : 'text-emerald-400'
+                    : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'}"
+                />
+                {#if !sidebarCollapsed}
+                  <span>{item.name}</span>
+                {/if}
+              </a>
+            {/each}
+          </div>
+
+          <!-- ACCOUNT GROUP -->
+          <div class="flex flex-col gap-1">
+            {#if !sidebarCollapsed}
+              <h3 class="text-[10px] font-bold text-zinc-400 tracking-wider uppercase px-4 mb-1">Account</h3>
+            {/if}
+            {#each menuItems.slice(4) as item (item.path)}
+              {@const Icon = item.icon}
+              <a
+                href={item.path}
+                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 group relative overflow-hidden
+                {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3.5 px-4 py-3'}
+                {isActive(item.path)
+                  ? $isPremium
+                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
+                    : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
+                  : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
+                title={sidebarCollapsed ? item.name : ""}
+              >
+                <svelte:component
+                  this={Icon}
+                  class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
+                {isActive(item.path)
+                    ? $isPremium ? 'text-amber-400' : 'text-emerald-400'
+                    : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'}"
+                />
+                {#if !sidebarCollapsed}
+                  <span>{item.name}</span>
+                {/if}
+              </a>
+            {/each}
+          </div>
 
           {#if showPremiumBtn}
             {#if !$isPremium}
@@ -509,64 +578,38 @@
               </a>
             {/if}
           {/if}
-        </nav>
+        </div>
       </div>
 
-      <!-- Quick Last Read Info & Quick Settings -->
-      <div class="flex flex-col gap-4">
-        {#if $lastRead}
-          <a
-            href="/quran/{$lastRead.surahNumber}"
-            class="flex items-center rounded-2xl bg-white/5 border border-white/5 hover:border-emerald-500/20 group cursor-pointer {$isPremium
-              ? 'premium-border'
-              : ''}
-            {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3 p-3.5'}"
-            title={sidebarCollapsed
-              ? `Terakhir Baca: ${$lastRead.surahName} (Ayat ${$lastRead.ayahNumber})`
-              : ""}
-          >
-            <div
-              class="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-all duration-300 shrink-0"
-            >
-              <BookMarked class="w-4.5 h-4.5 text-emerald-400" />
-            </div>
-            {#if !sidebarCollapsed}
-              <div class="min-w-0">
-                <p
-                  class="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider"
-                >
-                  Terakhir Baca
-                </p>
-                <h4 class="text-xs font-bold text-zinc-200 truncate">
-                  {$lastRead.surahName}
-                </h4>
-                <p class="text-[10px] text-emerald-400 font-medium">
-                  Ayat {$lastRead.ayahNumber}
-                </p>
-              </div>
+      <!-- User Profile at the bottom -->
+      <div class="mt-auto pt-6 border-t border-black/5 dark:border-white/5">
+        <button onclick={() => showProfileEditModal = true} class="w-full flex items-center {sidebarCollapsed ? 'justify-center' : 'gap-3'} hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-2xl transition-colors cursor-pointer group text-left" title="Edit Profil">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 border border-emerald-500/30 overflow-hidden group-hover:border-emerald-500/50 transition-colors">
+            {#if $userAvatar}
+              <img src={$userAvatar} alt="User Avatar" class="w-full h-full object-cover" />
+            {:else}
+              <User class="w-5 h-5 text-emerald-500" />
             {/if}
-          </a>
-        {/if}
-
-        <!-- Quick footer -->
-        {#if !sidebarCollapsed}
-          <div
-            class="flex items-center justify-between px-2 pt-2 border-t border-white/5 text-[11px] text-zinc-600 font-medium"
-          >
-            <span class={$isPremium ? "premium-gold-text font-black" : ""}
-              >{$isPremium ? "v1.0.0 Premium" : "v1.0.0 Free"}</span
-            >
-            <span class="text-zinc-500 hover:text-emerald-400 transition-colors"
-              >CQI © 2026</span
-            >
           </div>
-        {:else}
-          <div
-            class="text-center pt-2 border-t border-white/5 text-[9px] text-zinc-600 font-medium"
-          >
-            v1.0
-          </div>
-        {/if}
+          
+          {#if !sidebarCollapsed}
+            <div class="flex-1 min-w-0">
+              <h4 class="text-sm font-bold text-zinc-800 dark:text-zinc-200 truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                {$userName || 'Hamba Allah'}
+              </h4>
+              <p class="text-[10px] text-zinc-500 truncate group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">
+                {$userEmail || 'user@email.com'}
+              </p>
+            </div>
+            <div class="p-2 rounded-full text-zinc-400 group-hover:text-emerald-500 transition-colors">
+              <div class="flex flex-col gap-0.5 items-center">
+                <div class="w-1 h-1 rounded-full bg-current"></div>
+                <div class="w-1 h-1 rounded-full bg-current"></div>
+                <div class="w-1 h-1 rounded-full bg-current"></div>
+              </div>
+            </div>
+          {/if}
+        </button>
       </div>
     </aside>
 
@@ -867,6 +910,68 @@
             <BookMarked class="w-6 h-6 text-black relative z-10" />
           </a>
         {/if}
+      </div>
+    {/if}
+
+    <!-- EDIT PROFILE MODAL -->
+    {#if showProfileEditModal}
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-[100] animate-fade-in">
+        <div class="glass border border-emerald-500/30 p-6 rounded-3xl max-w-sm w-full space-y-6 shadow-2xl relative">
+          <button
+            onclick={() => (showProfileEditModal = false)}
+            class="absolute top-4 right-4 text-xs font-bold text-zinc-500 hover:text-white cursor-pointer"
+          >
+            Tutup
+          </button>
+
+          <div class="text-center space-y-2">
+            <label for="avatarUpload" class="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto border border-emerald-500/30 cursor-pointer overflow-hidden group relative hover:border-emerald-500/60 transition-colors shadow-lg" title="Ganti Foto">
+              {#if $userAvatar}
+                <img src={$userAvatar} alt="User Avatar" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <User class="w-6 h-6 text-white" />
+                </div>
+              {:else}
+                <User class="w-8 h-8 text-emerald-500 group-hover:scale-110 transition-transform" />
+              {/if}
+            </label>
+            <input id="avatarUpload" type="file" accept="image/*" class="hidden" onchange={handleAvatarUpload} />
+            <h3 class="text-xl font-extrabold text-white tracking-wide">
+              Edit Profil
+            </h3>
+          </div>
+
+          <div class="space-y-4">
+            <div class="space-y-1.5">
+              <label for="userName" class="text-xs font-bold text-zinc-400">Nama</label>
+              <input
+                id="userName"
+                type="text"
+                bind:value={$userName}
+                placeholder="Hamba Allah"
+                class="w-full bg-stone-950/40 border border-white/10 text-white text-sm rounded-xl py-3 px-4 outline-none focus:border-emerald-500/50 transition-all font-semibold"
+              />
+            </div>
+            
+            <div class="space-y-1.5">
+              <label for="userEmail" class="text-xs font-bold text-zinc-400">Email</label>
+              <input
+                id="userEmail"
+                type="email"
+                bind:value={$userEmail}
+                placeholder="user@email.com"
+                class="w-full bg-stone-950/40 border border-white/10 text-white text-sm rounded-xl py-3 px-4 outline-none focus:border-emerald-500/50 transition-all font-semibold"
+              />
+            </div>
+          </div>
+
+          <button
+            onclick={() => (showProfileEditModal = false)}
+            class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
+          >
+            Simpan Profil
+          </button>
+        </div>
       </div>
     {/if}
 

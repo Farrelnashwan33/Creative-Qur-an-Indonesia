@@ -187,6 +187,12 @@ export const showPremiumPaymentModal = writable<boolean>(false);
 // Admin Role status (for testing role-based premium access)
 export const isAdmin = createPersistentStore<boolean>('quran_admin', false);
 
+// Registered User Name
+export const userName = createPersistentStore<string>('quran_user_name', '');
+
+// Registered User Avatar (base64 data URL)
+export const userAvatar = createPersistentStore<string>('quran_user_avatar', '');
+
 // Registered User Email for Premium/Admin verification
 export const userEmail = createPersistentStore<string>('quran_user_email', '');
 
