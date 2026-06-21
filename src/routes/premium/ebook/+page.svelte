@@ -269,7 +269,7 @@
         title: 'Idgham Bighunnah',
         subtitle: 'Dibaca Melebur dengan Mendengung',
         description: 'Bila Nun Sukun (نْ) atau Tanwin bertemu dengan huruf (ي, ن, م, و). Suara nun/tanwin dimasukkan to huruf berikutnya disertai dengung 2-3 harakat.',
-        colorClass: 'border-amber-500 bg-amber-500/5 text-amber-400',
+        colorClass: 'border-indigo-500 bg-indigo-500/5 text-indigo-400',
         examples: [
           { arabic: 'مَنْ يَقُولُ', latin: 'May yaquulu', rule: 'Nun Sukun bertemu Ya' },
           { arabic: 'مِنْ وَAL', latin: 'Miw waalin', rule: 'Nun Sukun bertemu Wau' }
@@ -311,7 +311,7 @@
         title: 'Idgham Syafawi / Mimi',
         subtitle: 'Melebur ke Mim',
         description: 'Apabila Mim Sukun (مْ) bertemu dengan sesama huruf Mim (م). Cara membacanya adalah meleburkan mim pertama ke mim kedua dengan dengung rapat.',
-        colorClass: 'border-amber-400 bg-amber-400/5 text-amber-350',
+        colorClass: 'border-indigo-400 bg-indigo-400/5 text-indigo-350',
         examples: [
           { arabic: 'عَلَيْهِمْ مُؤْصَدَةٌ', latin: '\'Alaihim mu\'shadatun', rule: 'Mim sukun bertemu Mim' },
           { arabic: 'فِي قُلُوبِهِمْ مَرَضٌ', latin: 'Fii quluubihim maradhun', rule: 'Mim sukun bertemu Mim' }
@@ -355,7 +355,7 @@
         title: 'Idgham Mutamatsilain',
         subtitle: 'Pertemuan Dua Huruf Sama',
         description: 'Pertemuan dua huruf yang sama makhraj dan sifatnya, huruf pertama sukun dan kedua berharakat. Dibaca melebur sempurna.',
-        colorClass: 'border-amber-400 bg-amber-400/5 text-amber-350',
+        colorClass: 'border-indigo-400 bg-indigo-400/5 text-indigo-350',
         examples: [
           { arabic: 'اِذْهَبْ بِكِتَابِي', latin: 'Idzhab bikitaabii', rule: 'Ba sukun bertemu Ba' },
           { arabic: 'يُدْرِكْكُمُ الْمَوْتُ', latin: 'Yudrik-kumul maut', rule: 'Kaf sukun bertemu Kaf' }
@@ -427,7 +427,7 @@
         title: 'Mad Layyin / Lin',
         subtitle: 'Lembut & Lentur saat Waqaf',
         description: 'Apabila ada wau sukun (وْ) atau ya sukun (يْ) sebelumnya berharakat fathah, dan setelahnya ada huruf hidup dibaca waqaf. Dibaca lembut sepanjang 2, 4, atau 6 harakat.',
-        colorClass: 'border-yellow-400 bg-yellow-400/5 text-yellow-350',
+        colorClass: 'border-violet-400 bg-violet-400/5 text-violet-350',
         examples: [
           { arabic: 'قُرَيْشٍ', latin: 'Quraisy(i)', rule: 'Ya sukun didahului fathah dibaca waqaf' },
           { arabic: 'لِإِيلَافِ قُرَيْشٍ إِILAAFIM', latin: 'Wash-shaif(i)', rule: 'Ya sukun didahului fathah dibaca waqaf' }
@@ -459,7 +459,7 @@
         title: 'Alif Lam Syamsiyah',
         subtitle: 'Melebur Tanpa Dibaca \'L\'',
         description: 'Apabila Alif Lam (ال) bertemu salah satu dari 14 huruf Syamsiyah. Huruf Lam tidak dibaca melainkan langsung dimasukkan (di-idghamkan) ke huruf setelahnya.',
-        colorClass: 'border-amber-500 bg-amber-500/5 text-amber-400',
+        colorClass: 'border-indigo-500 bg-indigo-500/5 text-indigo-400',
         examples: [
           { arabic: 'الشَّمْسُ', latin: 'Asy-syamsu', rule: 'Alif Lam bertemu Syin' },
           { arabic: 'الرَّحْمَنُ', latin: 'Ar-rahman', rule: 'Alif Lam bertemu Ra' }
@@ -503,35 +503,35 @@
 {#if !$isPremium}
   <!-- LOCK SCREEN FOR NON-PREMIUM -->
   <div class="min-h-[80vh] flex items-center justify-center px-4">
-    <div class="glass border border-amber-500/30 p-8 rounded-3xl text-center max-w-md w-full space-y-6 shadow-2xl relative overflow-hidden premium-theme">
+    <div class="glass border border-indigo-500/30 p-8 rounded-3xl text-center max-w-md w-full space-y-6 shadow-2xl relative overflow-hidden premium-theme">
       <div class="absolute inset-0 opacity-5 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
       
       <div class="relative z-10 space-y-4">
-        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto animate-pulse-slow">
-          <Lock class="w-8 h-8 text-amber-400" />
+        <div class="w-16 h-16 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mx-auto animate-pulse-slow">
+          <Lock class="w-8 h-8 text-indigo-400" />
         </div>
         
         <div>
           <h2 class="text-2xl font-black text-white tracking-wide">E-Book Tajwid & Makharij</h2>
-          <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-widest block mt-1">Eksklusif Fitur Royal Premium</span>
+          <span class="text-[10px] text-indigo-400 font-extrabold uppercase tracking-widest block mt-1">Eksklusif Fitur Royal Premium</span>
           <p class="text-xs text-zinc-400 mt-3.5 leading-relaxed font-semibold">
             Buka e-book interaktif pembelajaran Tajwid lengkap dan diagram cara melafalkan huruf hijaiyah (Makhorijul Huruf) secara tepat dengan visual mewah.
           </p>
         </div>
 
-        <div class="bg-amber-950/15 border border-amber-500/10 rounded-2xl p-4 text-left space-y-2">
-          <span class="text-[10px] text-amber-300 font-bold uppercase tracking-wider block">Yang Akan Anda Dapatkan:</span>
+        <div class="bg-indigo-950/15 border border-indigo-500/10 rounded-2xl p-4 text-left space-y-2">
+          <span class="text-[10px] text-indigo-300 font-bold uppercase tracking-wider block">Yang Akan Anda Dapatkan:</span>
           <ul class="space-y-1.5 text-xs text-zinc-300">
             <li class="flex items-center gap-2">
-              <span class="text-amber-400">✦</span>
+              <span class="text-indigo-400">✦</span>
               <span>Visual makhraj interaktif per huruf</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-amber-400">✦</span>
+              <span class="text-indigo-400">✦</span>
               <span>Audio pelafalan makhraj orisinil</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-amber-400">✦</span>
+              <span class="text-indigo-400">✦</span>
               <span>Panduan hukum tajwid terlengkap</span>
             </li>
           </ul>
@@ -540,7 +540,7 @@
         <div class="pt-2 space-y-2.5">
           <button 
             onclick={() => showPremiumPaymentModal.set(true)}
-            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-300 text-black font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
+            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-300 text-black font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
           >
             <Crown class="w-4 h-4 text-black fill-black" />
             <span>Yuu Langganan Sekarang (Rp 150rb)</span>
@@ -563,28 +563,28 @@
     <!-- TOP BAR NAVIGATION -->
     <div class="flex items-center justify-between pb-2 border-b border-white/5">
       <a href="/" class="inline-flex items-center gap-2.5 text-zinc-400 hover:text-zinc-200 group">
-        <div class="w-9 h-9 rounded-xl glass border border-white/5 flex items-center justify-center group-hover:border-amber-500/20">
+        <div class="w-9 h-9 rounded-xl glass border border-white/5 flex items-center justify-center group-hover:border-indigo-500/20">
           <ArrowLeft class="w-4.5 h-4.5" />
         </div>
         <span class="text-xs font-bold">Kembali ke Home</span>
       </a>
       
-      <div class="flex items-center gap-2 text-amber-400 font-black text-xs bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20">
-        <Crown class="w-3.5 h-3.5 fill-amber-400" />
+      <div class="flex items-center gap-2 text-indigo-400 font-black text-xs bg-indigo-500/10 px-3 py-1.5 rounded-xl border border-indigo-500/20">
+        <Crown class="w-3.5 h-3.5 fill-indigo-400" />
         <span>Royal Premium E-Book</span>
       </div>
     </div>
 
     <!-- BOOK COVER & INTRO HEADER -->
-    <div class="relative overflow-hidden rounded-3xl p-6 lg:p-8 bg-gradient-to-tr from-emerald-950/80 via-stone-950 to-amber-950/70 border border-amber-500/25 shadow-xl text-center space-y-4">
+    <div class="relative overflow-hidden rounded-3xl p-6 lg:p-8 bg-gradient-to-tr from-emerald-950/80 via-stone-950 to-indigo-950/70 border border-indigo-500/25 shadow-xl text-center space-y-4">
       <div class="absolute inset-0 opacity-5 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
       
       <!-- Sparkle animations -->
-      <div class="absolute top-4 left-6 w-1.5 h-1.5 rounded-full bg-amber-400 premium-sparkle"></div>
-      <div class="absolute bottom-6 right-8 w-2 h-2 rounded-full bg-yellow-300 premium-sparkle" style="animation-delay: 1.5s"></div>
+      <div class="absolute top-4 left-6 w-1.5 h-1.5 rounded-full bg-indigo-400 premium-sparkle"></div>
+      <div class="absolute bottom-6 right-8 w-2 h-2 rounded-full bg-violet-300 premium-sparkle" style="animation-delay: 1.5s"></div>
 
       <div class="relative z-10 max-w-2xl mx-auto space-y-3">
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mx-auto text-indigo-400">
           <GraduationCap class="w-6 h-6" />
         </div>
         
@@ -594,11 +594,11 @@
         </p>
 
         <!-- BOOK SEGMENT TABS -->
-        <div class="flex flex-wrap justify-center p-1 rounded-xl glass border border-amber-500/20 w-fit mx-auto mt-4 gap-1">
+        <div class="flex flex-wrap justify-center p-1 rounded-xl glass border border-indigo-500/20 w-fit mx-auto mt-4 gap-1">
           <button 
             onclick={() => activeTab = 'makhraj'}
             class="px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5
-              {activeTab === 'makhraj' ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
+              {activeTab === 'makhraj' ? 'bg-indigo-500 text-black shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
           >
             <Compass class="w-4 h-4" />
             <span>1. Makhorijul Huruf</span>
@@ -606,7 +606,7 @@
           <button 
             onclick={() => activeTab = 'tajwid'}
             class="px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5
-              {activeTab === 'tajwid' ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
+              {activeTab === 'tajwid' ? 'bg-indigo-500 text-black shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
           >
             <BookOpen class="w-4 h-4" />
             <span>2. Hukum Tajwid</span>
@@ -614,7 +614,7 @@
           <button 
             onclick={() => activeTab = 'explorer'}
             class="px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5
-              {activeTab === 'explorer' ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
+              {activeTab === 'explorer' ? 'bg-indigo-500 text-black shadow-md' : 'text-zinc-400 hover:text-zinc-200'}"
           >
             <Sparkles class="w-4 h-4" />
             <span>3. Bank Contoh (30 Juz)</span>
@@ -642,7 +642,7 @@
                 onclick={() => selectedLetter = l.letter}
                 class="aspect-square bg-white/5 border rounded-2xl p-3 flex flex-col justify-between items-center transition-all duration-300 active:scale-95 text-center
                   {selectedLetter === l.letter 
-                    ? 'border-amber-500/50 bg-amber-500/10 text-amber-400' 
+                    ? 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400' 
                     : 'border-white/10 hover:border-white/20 hover:bg-white/10 text-zinc-400'}"
               >
                 <span class="text-3xl font-arabic-utsmani font-bold">{l.arabic}</span>
@@ -659,16 +659,16 @@
         <div class="flex flex-col gap-6">
           
           <!-- Letter Details Card -->
-          <div class="glass border border-amber-500/20 rounded-3xl p-6 flex flex-col justify-between space-y-6 bg-gradient-to-b from-amber-950/10 to-transparent relative">
+          <div class="glass border border-indigo-500/20 rounded-3xl p-6 flex flex-col justify-between space-y-6 bg-gradient-to-b from-indigo-950/10 to-transparent relative">
             <div class="space-y-5">
               <!-- Big Letter Avatar -->
               <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-4xl font-arabic-utsmani font-black text-amber-400">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-4xl font-arabic-utsmani font-black text-indigo-400">
                   {selectedMakhrajData.arabic}
                 </div>
                 <div>
                   <h4 class="font-black text-lg text-white">{selectedMakhrajData.letter}</h4>
-                  <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider">{selectedMakhrajData.category}</span>
+                  <span class="text-[10px] text-indigo-400 font-extrabold uppercase tracking-wider">{selectedMakhrajData.category}</span>
                 </div>
               </div>
 
@@ -685,7 +685,7 @@
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-white/[0.02] border border-white/5">
-                  <span class="text-[9px] text-amber-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span class="text-[9px] text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                     <Info class="w-3.5 h-3.5" />
                     Tips Pelafalan Benar
                   </span>
@@ -697,7 +697,7 @@
             <!-- Sound Player Trigger -->
             <button 
               onclick={() => playLetterSound(selectedMakhrajData.pronunciation)}
-              class="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all"
+              class="w-full inline-flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-400 text-black font-black text-xs py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all"
             >
               {#if isPlaying}
                 <div class="w-3 h-3 rounded-full border-2 border-t-black border-black/20 animate-spin"></div>
@@ -723,7 +723,7 @@
             onclick={() => activeTajwidSection = 'nun-sukun'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'nun-sukun' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Nun Sukun & Tanwin</span>
@@ -734,7 +734,7 @@
             onclick={() => activeTajwidSection = 'mim-sukun'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'mim-sukun' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Hukum Mim Sukun</span>
@@ -745,7 +745,7 @@
             onclick={() => activeTajwidSection = 'qalqalah'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'qalqalah' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Hukum Qalqalah</span>
@@ -756,7 +756,7 @@
             onclick={() => activeTajwidSection = 'idgham'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'idgham' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Hukum Idgham</span>
@@ -767,7 +767,7 @@
             onclick={() => activeTajwidSection = 'mad'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'mad' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Hukum Mad</span>
@@ -778,7 +778,7 @@
             onclick={() => activeTajwidSection = 'alif-lam'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'alif-lam' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Hukum Alif Lam</span>
@@ -789,7 +789,7 @@
             onclick={() => activeTajwidSection = 'hukum-ra'}
             class="w-full flex items-center justify-between p-3.5 rounded-xl border text-left text-xs font-bold transition-all duration-300
               {activeTajwidSection === 'hukum-ra' 
-                ? 'border-amber-500/25 bg-amber-500/10 text-amber-400' 
+                ? 'border-indigo-500/25 bg-indigo-500/10 text-indigo-400' 
                 : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}"
           >
             <span>Hukum Ra</span>
@@ -841,7 +841,7 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-4">
           <div>
             <h3 class="font-extrabold text-base text-white flex items-center gap-2">
-              <Sparkles class="w-5 h-5 text-amber-400 animate-pulse-slow" />
+              <Sparkles class="w-5 h-5 text-indigo-400 animate-pulse-slow" />
               Bank Contoh Tajwid Otomatis (30 Juz)
             </h3>
             <p class="text-xs text-zinc-500 font-semibold mt-1">Sistem memindai seluruh ayat dalam Al-Qur'an secara real-time untuk menghasilkan ribuan contoh tajwid.</p>
@@ -854,7 +854,7 @@
               <span class="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Pilih Surah</span>
               <select 
                 bind:value={selectedSurah}
-                class="py-2 px-3 rounded-xl glass border border-white/10 text-xs font-semibold text-white focus:outline-none focus:border-amber-500 bg-zinc-950"
+                class="py-2 px-3 rounded-xl glass border border-white/10 text-xs font-semibold text-white focus:outline-none focus:border-indigo-500 bg-zinc-950"
               >
                 {#each surahList as s (s.nomor)}
                   <option value={s.nomor} class="bg-zinc-950 text-white">{s.nomor}. {s.namaLatin} ({s.jumlahAyat} Ayat)</option>
@@ -867,7 +867,7 @@
               <span class="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Hukum Tajwid</span>
               <select 
                 bind:value={selectedRule}
-                class="py-2 px-3 rounded-xl glass border border-white/10 text-xs font-semibold text-white focus:outline-none focus:border-amber-500 bg-zinc-950"
+                class="py-2 px-3 rounded-xl glass border border-white/10 text-xs font-semibold text-white focus:outline-none focus:border-indigo-500 bg-zinc-950"
               >
                 <option value="qalqalah" class="bg-zinc-950 text-white">Hukum Qalqalah</option>
                 <option value="ghunnah" class="bg-zinc-950 text-white">Hukum Ghunnah</option>
@@ -880,7 +880,7 @@
 
         {#if scannerLoading}
           <div class="py-20 text-center flex flex-col items-center justify-center gap-3">
-            <div class="w-8 h-8 rounded-full border-4 border-t-amber-400 border-amber-500/20 animate-spin"></div>
+            <div class="w-8 h-8 rounded-full border-4 border-t-indigo-400 border-indigo-500/20 animate-spin"></div>
             <span class="text-xs text-zinc-500 font-bold animate-pulse">Memindai seluruh ayat untuk mencari contoh tajwid...</span>
           </div>
         {:else if scannedExamples.length === 0}
@@ -893,17 +893,17 @@
           <div class="space-y-4">
             <div class="flex items-center justify-between text-xs text-zinc-500 px-1">
               <span>Menemukan <strong>{scannedExamples.length} contoh</strong> hukum tajwid</span>
-              <span class="text-amber-400 font-bold">Terverifikasi Sistem Pintar AI</span>
+              <span class="text-indigo-400 font-bold">Terverifikasi Sistem Pintar AI</span>
             </div>
 
             <!-- List scrollable -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin">
               {#each scannedExamples as ex (ex.ayahNum)}
                 <!-- Removed .glass class to prevent nested glassmorphism rendering ghost layers -->
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-4.5 space-y-3 relative hover:border-amber-500/20 hover:bg-white/10 transition-all text-left">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4.5 space-y-3 relative hover:border-indigo-500/20 hover:bg-white/10 transition-all text-left">
                   <div class="flex items-center justify-between pb-2 border-b border-white/5">
                     <span class="text-[9px] text-zinc-500 font-bold">Ayat {ex.ayahNum}</span>
-                    <span class="text-[9px] text-amber-400 font-extrabold uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/25">Hukum Cocok</span>
+                    <span class="text-[9px] text-indigo-400 font-extrabold uppercase tracking-wider bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/25">Hukum Cocok</span>
                   </div>
 
                   <!-- Arabic text with highlighted matching parts -->
@@ -931,7 +931,7 @@
 
 <style>
   :global(.tajwid-ghunnah) {
-    color: #f59e0b !important; /* amber-500 */
+    color: #f59e0b !important; /* indigo-500 */
     text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
     font-weight: bold;
   }

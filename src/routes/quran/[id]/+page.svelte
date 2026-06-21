@@ -863,7 +863,7 @@
                   expandedPerKataAyah = null; // Close per kata if open
                   expandedTafsirAyah = expandedTafsirAyah === ayah.nomorAyat ? null : ayah.nomorAyat;
                 }}
-                class="p-2 rounded-xl text-zinc-500 hover:text-amber-500 hover:bg-white/5 active:scale-90 {expandedTafsirAyah === ayah.nomorAyat ? 'text-amber-400 bg-white/5' : ''}"
+                class="p-2 rounded-xl text-zinc-500 hover:text-indigo-500 hover:bg-white/5 active:scale-90 {expandedTafsirAyah === ayah.nomorAyat ? 'text-indigo-400 bg-white/5' : ''}"
                 title="Buka Tafsir"
               >
                 <Book class="w-4.5 h-4.5" />
@@ -1300,13 +1300,13 @@
           <!-- PREMIUM CALL TO ACTION -->
           <button 
             onclick={() => { showNavigationModal = false; showPremiumPaymentModal.set(true); }}
-            class="w-full py-3.5 px-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-left text-xs font-bold text-amber-400 hover:bg-amber-500/20 transition-all cursor-pointer"
+            class="w-full py-3.5 px-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between text-left text-xs font-bold text-indigo-400 hover:bg-indigo-500/20 transition-all cursor-pointer"
           >
             <div class="flex items-center gap-2">
-              <Crown class="w-4 h-4 text-amber-400 fill-amber-400" />
+              <Crown class="w-4 h-4 text-indigo-400 fill-indigo-400" />
               <span>Buka Pemilih Premium Wheel 3-Kolom</span>
             </div>
-            <span class="text-[10px] font-extrabold text-amber-300">UPGRADE</span>
+            <span class="text-[10px] font-extrabold text-indigo-300">UPGRADE</span>
           </button>
 
           <!-- Action Buttons matching screenshot exactly -->

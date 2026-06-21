@@ -263,7 +263,7 @@
   <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2 relative overflow-hidden rounded-3xl p-6 lg:p-8 flex flex-col justify-between min-h-[260px] transition-all duration-300
       {$isPremium 
-        ? 'bg-gradient-to-tr from-emerald-950 via-amber-950 to-stone-950 border border-amber-500/35 shadow-amber-950/20' 
+        ? 'bg-gradient-to-tr from-emerald-950 via-indigo-950 to-stone-950 border border-indigo-500/35 shadow-indigo-950/20' 
         : 'bg-gradient-to-tr from-emerald-900 via-emerald-800 to-emerald-950 border border-emerald-500/20 shadow-emerald-900/10'} shadow-xl group">
       <!-- Islamic background pattern overlay -->
       <div class="absolute inset-0 opacity-10 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
@@ -271,19 +271,19 @@
       {#if $isPremium}
         <!-- Golden particles/sparkles layout -->
         <div class="absolute inset-0 pointer-events-none opacity-20 flex justify-around items-center">
-          <div class="w-1.5 h-1.5 rounded-full bg-amber-400 premium-sparkle"></div>
-          <div class="w-1 h-1 rounded-full bg-yellow-300 premium-sparkle" style="animation-delay: 1s"></div>
-          <div class="w-2 h-2 rounded-full bg-amber-500 premium-sparkle" style="animation-delay: 2s"></div>
+          <div class="w-1.5 h-1.5 rounded-full bg-indigo-400 premium-sparkle"></div>
+          <div class="w-1 h-1 rounded-full bg-violet-300 premium-sparkle" style="animation-delay: 1s"></div>
+          <div class="w-2 h-2 rounded-full bg-indigo-500 premium-sparkle" style="animation-delay: 2s"></div>
         </div>
       {/if}
       
       <div class="relative z-10 space-y-2">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider
           {$isPremium 
-            ? 'bg-amber-500/10 border border-amber-400/30 text-amber-400' 
+            ? 'bg-indigo-500/10 border border-indigo-400/30 text-indigo-400' 
             : 'bg-emerald-500/10 border border-emerald-400/20 text-emerald-400'}">
           {#if $isPremium}
-            <Crown class="w-3.5 h-3.5 fill-amber-400" />
+            <Crown class="w-3.5 h-3.5 fill-indigo-400" />
             <span>Creative Qur'an Premium</span>
           {:else}
             <Sparkles class="w-3.5 h-3.5" />
@@ -294,7 +294,7 @@
         <p class="text-zinc-300 text-sm max-w-lg leading-relaxed mt-2 font-medium">
           "{dailyQuote.text}"
         </p>
-        <span class="block text-xs font-bold mt-1 {$isPremium ? 'text-amber-400' : 'text-emerald-400'}">{dailyQuote.surah}</span>
+        <span class="block text-xs font-bold mt-1 {$isPremium ? 'text-indigo-400' : 'text-emerald-400'}">{dailyQuote.surah}</span>
       </div>
 
       <!-- CONTINUE READING CARD (Inside Hero Section) -->
@@ -346,18 +346,18 @@
     <!-- PRAYER TIME COUNTDOWN CARD -->
     <div class="rounded-3xl p-6 flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-xl transition-all duration-300
       {$isPremium 
-        ? 'bg-gradient-to-bl from-stone-950 via-amber-950 to-emerald-950 border border-amber-500/35 shadow-amber-950/20' 
+        ? 'bg-gradient-to-bl from-stone-950 via-indigo-950 to-emerald-950 border border-indigo-500/35 shadow-indigo-950/20' 
         : 'bg-gradient-to-bl from-emerald-950 via-emerald-800 to-emerald-900 border border-emerald-500/20 shadow-emerald-900/10'}">
       <!-- Islamic background pattern overlay -->
       <div class="absolute inset-0 opacity-10 bg-repeat bg-[size:30px] pointer-events-none islamic-bg"></div>
       
       <div class="flex items-center justify-between relative z-10">
         <div class="flex items-center gap-2">
-          <Clock class="w-5 h-5 animate-pulse-slow {$isPremium ? 'text-amber-400' : 'text-emerald-400'}" />
+          <Clock class="w-5 h-5 animate-pulse-slow {$isPremium ? 'text-indigo-400' : 'text-emerald-400'}" />
           <h3 class="font-bold text-sm text-zinc-300">Waktu Sholat</h3>
         </div>
         <div class="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full
-          {$isPremium ? 'text-amber-400 bg-amber-500/10' : 'text-emerald-400 bg-emerald-500/10'}">
+          {$isPremium ? 'text-indigo-400 bg-indigo-500/10' : 'text-emerald-400 bg-emerald-500/10'}">
           <MapPin class="w-3.5 h-3.5" />
           <span>{locationInfo.city}</span>
         </div>
@@ -379,7 +379,7 @@
       <div class="flex gap-2 relative z-10">
         <a href="/sholat" class="flex-1 inline-flex items-center justify-center gap-2 active:scale-95 text-white font-bold text-xs py-3.5 rounded-2xl shadow-lg transition-all
           {$isPremium 
-            ? 'bg-amber-500 hover:bg-amber-400 text-black shadow-amber-950/20' 
+            ? 'bg-indigo-500 hover:bg-indigo-400 text-black shadow-indigo-950/20' 
             : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-950/20'}">
           <Compass class="w-4 h-4" />
           <span>Jadwal & Arah Kiblat</span>
@@ -408,17 +408,17 @@
   <!-- PREMIUM E-BOOK PROMO / QUICK ENTRY -->
   <section class="rounded-3xl p-5.5 glass border transition-all duration-300 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md
     {$isPremium 
-      ? 'border-amber-500/25 bg-gradient-to-r from-emerald-950/40 to-amber-950/30' 
+      ? 'border-indigo-500/25 bg-gradient-to-r from-emerald-950/40 to-indigo-950/30' 
       : 'border-white/5 bg-white/[0.01]'}"
   >
     <div class="flex items-center gap-4 text-left">
       <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0
         {$isPremium 
-          ? 'bg-amber-500/10 text-amber-400' 
+          ? 'bg-indigo-500/10 text-indigo-400' 
           : 'bg-zinc-800 text-zinc-500'}"
       >
         {#if $isPremium}
-          <Crown class="w-6 h-6 fill-amber-400" />
+          <Crown class="w-6 h-6 fill-indigo-400" />
         {:else}
           <Lock class="w-5 h-5 text-zinc-500" />
         {/if}
@@ -426,7 +426,7 @@
       <div>
         <h4 class="font-extrabold text-sm text-white flex items-center gap-2">
           E-Book Tajwid & Makhorijul Huruf
-          <span class="text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">PREMIUM</span>
+          <span class="text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">PREMIUM</span>
         </h4>
         <p class="text-xs text-zinc-400 leading-relaxed font-semibold mt-1">Pelajari kaidah tajwid lengkap beserta diagram interaktif makhorijul huruf dengan suara pelafalan.</p>
       </div>
@@ -435,7 +435,7 @@
       {#if $isPremium}
         <a 
           href="/premium/ebook" 
-          class="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-yellow-300 text-black font-black text-xs px-5 py-3 rounded-xl active:scale-95 shadow-md transition-all"
+          class="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-indigo-500 to-violet-300 text-black font-black text-xs px-5 py-3 rounded-xl active:scale-95 shadow-md transition-all"
         >
           <span>Buka E-Book</span>
           <ArrowRight class="w-4 h-4" />
@@ -445,7 +445,7 @@
           onclick={() => showPremiumPaymentModal.set(true)}
           class="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-white/5 hover:bg-white/10 text-zinc-300 font-bold text-xs px-5 py-3 rounded-xl border border-white/10 active:scale-95 transition-all cursor-pointer"
         >
-          <Crown class="w-4 h-4 text-amber-400 fill-amber-400" />
+          <Crown class="w-4 h-4 text-indigo-400 fill-indigo-400" />
           <span>Yuu Langganan</span>
         </button>
       {/if}
@@ -477,7 +477,7 @@
       </a>
 
       <a href="/sholat" class="glass border border-white/5 p-4 rounded-2xl flex flex-col items-center text-center gap-3 hover:border-emerald-500/20 group">
-        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-all duration-300 text-amber-400">
+        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500/20 transition-all duration-300 text-indigo-400">
           <Compass class="w-6 h-6" />
         </div>
         <div>
@@ -544,7 +544,7 @@
       </div>
 
       <div class="glass border border-white/5 rounded-3xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
           <Sparkles class="w-6 h-6" />
         </div>
         <div>

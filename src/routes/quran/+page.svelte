@@ -392,8 +392,8 @@
         </button>
 
         <div class="space-y-2">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mx-auto">
-            <Smartphone class="w-6 h-6 text-amber-400" />
+          <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mx-auto">
+            <Smartphone class="w-6 h-6 text-indigo-400" />
           </div>
           <h3 class="font-extrabold text-sm text-white tracking-wide">Segera Hadir di Play Store & App Store</h3>
           <p class="text-[11px] text-zinc-400 leading-relaxed font-semibold">

@@ -422,11 +422,11 @@
         >
           <div class="relative w-full h-full flex items-center justify-center">
             <!-- Glow indicator on top -->
-            <div class="absolute top-4 w-4 h-4 rounded-full bg-amber-500/30 animate-ping"></div>
+            <div class="absolute top-4 w-4 h-4 rounded-full bg-indigo-500/30 animate-ping"></div>
             <!-- Needle line -->
-            <div class="w-0.5 h-32 bg-linear-to-b from-amber-400 via-emerald-500 to-transparent"></div>
+            <div class="w-0.5 h-32 bg-linear-to-b from-indigo-400 via-emerald-500 to-transparent"></div>
             <!-- 3D SVG Kaaba Icon at the tip of the needle pointing to Kaaba -->
-            <svg class="w-8 h-8 absolute -top-3.5 drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-8 h-8 absolute -top-3.5 drop-shadow-[0_0_12px_rgba(129, 140, 248,0.6)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Top roof -->
               <path d="M12 3L20 7.5L12 12L4 7.5L12 3Z" fill="#1C1917" />
               <!-- Left face -->
@@ -434,9 +434,9 @@
               <!-- Right face -->
               <path d="M12 12L20 7.5V16.5L12 21V12Z" fill="#2E2A24" />
               <!-- Kiswah Gold line left -->
-              <path d="M4 10.5L12 15V15.8L4 11.3V10.5Z" fill="#fbbf24" />
+              <path d="M4 10.5L12 15V15.8L4 11.3V10.5Z" fill="#818cf8" />
               <!-- Kiswah Gold line right -->
-              <path d="M20 10.5L12 15V15.8L20 11.3V10.5Z" fill="#fbbf24" />
+              <path d="M20 10.5L12 15V15.8L20 11.3V10.5Z" fill="#818cf8" />
               <!-- Door of Kaaba (gold) -->
               <path d="M14 13L17 14.7V18.2L14 16.5V13Z" fill="#f59e0b" />
             </svg>
@@ -448,7 +448,7 @@
         {#if requiresIOSPermission && !iosPermissionGranted}
           <button 
             onclick={requestIOSCompassPermission}
-            class="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-amber-500 to-yellow-300 hover:from-amber-400 hover:to-yellow-200 text-black font-black text-xs py-3 px-4 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer mb-2"
+            class="w-full inline-flex items-center justify-center gap-2 bg-linear-to-r from-indigo-500 to-violet-300 hover:from-indigo-400 hover:to-violet-200 text-black font-black text-xs py-3 px-4 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer mb-2"
           >
             <Navigation class="w-3.5 h-3.5" />
             <span>Aktifkan Kompas (iOS)</span>

@@ -45,12 +45,12 @@ canvas {
   --color-emerald-900: #0a291f;
   --color-emerald-950: #04120e;
   
-  --color-gold-50: #fffbeb;
-  --color-gold-100: #fef3c7;
-  --color-gold-400: #f4c542;
-  --color-gold-500: #e5b32f;
-  --color-gold-600: #c2931b;
-  --color-gold-700: #9e7410;
+  --color-indigo-50: #fffbeb;
+  --color-indigo-100: #fef3c7;
+  --color-indigo-400: #f4c542;
+  --color-indigo-500: #e5b32f;
+  --color-indigo-600: #c2931b;
+  --color-indigo-700: #9e7410;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -256,30 +256,30 @@ button, a {
 
 /* Premium Gold-Emerald Theme styles */
 .premium-gold-text {
-  background: linear-gradient(to right, #ffe58f 0%, #fbbf24 50%, #d97706 100%);
+  background: linear-gradient(to right, #e0e7ff 0%, #818cf8 50%, #4f46e5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 10px rgba(251, 191, 36, 0.1);
+  text-shadow: 0 0 10px rgba(129, 140, 248, 0.1);
 }
 
 .premium-border {
-  border: 1px solid rgba(251, 191, 36, 0.25) !important;
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.08) !important;
+  border: 1px solid rgba(129, 140, 248, 0.25) !important;
+  box-shadow: 0 0 15px rgba(129, 140, 248, 0.08) !important;
   background: linear-gradient(135deg, rgba(2, 44, 34, 0.6) 0%, rgba(20, 15, 5, 0.65) 100%) !important;
 }
 
 html.light-mode .premium-border {
-  border: 1px solid rgba(217, 119, 6, 0.25) !important;
-  box-shadow: 0 4px 20px rgba(217, 119, 6, 0.05) !important;
+  border: 1px solid rgba(79, 70, 229, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.05) !important;
   background: linear-gradient(135deg, rgba(218, 242, 229, 0.8) 0%, rgba(245, 236, 203, 0.8) 100%) !important;
 }
 
 .premium-badge-gold {
-  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%);
   color: #000 !important;
   text-shadow: 0 0.5px 0px rgba(255,255,255,0.4);
-  box-shadow: 0 2px 10px rgba(217, 119, 6, 0.3);
+  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.3);
 }
 
 @keyframes gold-sparkle {
@@ -293,9 +293,9 @@ html.light-mode .premium-border {
 
 /* Premium Theme Background and Geometric Patterns */
 .premium-theme {
-  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 40%),
+  background: radial-gradient(circle at 10% 20%, rgba(129, 140, 248, 0.15) 0%, transparent 40%),
               radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
-              radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 50% 80%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
               linear-gradient(135deg, #01140f 0%, #030907 40%, #150f02 100%) !important;
   position: relative;
 }
@@ -307,19 +307,19 @@ html.light-mode .premium-border {
   z-index: 0;
   pointer-events: none;
   opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z M30 10 L50 30 L30 50 L10 30 Z' fill='%23fbbf24' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z M30 10 L50 30 L30 50 L10 30 Z' fill='%23818cf8' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
   background-size: 60px 60px;
 }
 
 html.light-mode .premium-theme {
-  background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.12) 0%, transparent 45%),
+  background: radial-gradient(circle at 10% 20%, rgba(129, 140, 248, 0.12) 0%, transparent 45%),
               radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
-              radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 50% 80%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
               linear-gradient(135deg, #dbe2d8 0%, #e5dfcb 50%, #d9d5c3 100%) !important;
 }
 
 html.light-mode .premium-theme::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z M30 10 L50 30 L30 50 L10 30 Z' fill='%23d97706' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z M30 10 L50 30 L30 50 L10 30 Z' fill='%234f46e5' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
 /* Responsive Desktop Sidebar Override */
@@ -395,13 +395,13 @@ html.light-mode.android-device .premium-border {
 .android-device .premium-gold-text {
   background: none !important;
   -webkit-text-fill-color: initial !important;
-  color: #fbbf24 !important; /* solid gold fallback */
+  color: #818cf8 !important; /* solid gold fallback */
   text-shadow: none !important;
 }
 
 html.light-mode.samsung-device .premium-gold-text,
 html.light-mode.android-device .premium-gold-text {
-  color: #d97706 !important; /* solid dark gold fallback for light mode */
+  color: #4f46e5 !important; /* solid dark gold fallback for light mode */
 }
 
 /* OLED dark mode backgrounds for Android/Samsung */

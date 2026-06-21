@@ -404,7 +404,7 @@
             <div
               class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 shrink-0
             {$isPremium
-                ? 'bg-linear-to-tr from-amber-500 to-yellow-300 shadow-amber-950/20'
+                ? 'bg-linear-to-tr from-indigo-500 to-violet-300 shadow-indigo-950/20'
                 : 'bg-linear-to-tr from-emerald-600 to-emerald-400 shadow-emerald-950/20'}"
             >
               {#if $isPremium}
@@ -460,7 +460,7 @@
                 {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3.5 px-4 py-3'}
                 {isActive(item.path)
                   ? $isPremium
-                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
+                    ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/25 shadow-md shadow-indigo-950/10'
                     : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
                 title={sidebarCollapsed ? item.name : ""}
@@ -469,7 +469,7 @@
                   this={Icon}
                   class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
                 {isActive(item.path)
-                    ? $isPremium ? 'text-amber-400' : 'text-emerald-400'
+                    ? $isPremium ? 'text-indigo-400' : 'text-emerald-400'
                     : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'}"
                 />
                 {#if !sidebarCollapsed}
@@ -492,7 +492,7 @@
                 {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3.5 px-4 py-3'}
                 {isActive(item.path)
                   ? $isPremium
-                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
+                    ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/25 shadow-md shadow-indigo-950/10'
                     : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
                 title={sidebarCollapsed ? item.name : ""}
@@ -501,7 +501,7 @@
                   this={Icon}
                   class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
                 {isActive(item.path)
-                    ? $isPremium ? 'text-amber-400' : 'text-emerald-400'
+                    ? $isPremium ? 'text-indigo-400' : 'text-emerald-400'
                     : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'}"
                 />
                 {#if !sidebarCollapsed}
@@ -524,7 +524,7 @@
                 {sidebarCollapsed ? 'justify-center p-3.5' : 'gap-3.5 px-4 py-3'}
                 {isActive(item.path)
                   ? $isPremium
-                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25 shadow-md shadow-amber-950/10'
+                    ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/25 shadow-md shadow-indigo-950/10'
                     : 'bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-950/10'
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
                 title={sidebarCollapsed ? item.name : ""}
@@ -533,7 +533,7 @@
                   this={Icon}
                   class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
                 {isActive(item.path)
-                    ? $isPremium ? 'text-amber-400' : 'text-emerald-400'
+                    ? $isPremium ? 'text-indigo-400' : 'text-emerald-400'
                     : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'}"
                 />
                 {#if !sidebarCollapsed}
@@ -547,14 +547,14 @@
             {#if !$isPremium}
               <button
                 onclick={handleActivatePremium}
-                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in
+                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 border border-indigo-500/25 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in
                 {sidebarCollapsed
                   ? 'justify-center p-3.5'
                   : 'gap-3.5 px-4 py-3.5'}"
                 title={sidebarCollapsed ? "Yuu Langganan" : ""}
               >
                 <Crown
-                  class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow shrink-0"
+                  class="w-5 h-5 text-indigo-400 fill-indigo-400 animate-pulse-slow shrink-0"
                 />
                 {#if !sidebarCollapsed}
                   <span>Yuu Langganan</span>
@@ -563,14 +563,14 @@
             {:else}
               <a
                 href="/premium/ebook"
-                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in
+                class="flex items-center rounded-2xl text-sm font-semibold transition-all duration-300 border border-indigo-500/25 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 mt-2 shadow-sm cursor-pointer animate-fade-in
                 {sidebarCollapsed
                   ? 'justify-center p-3.5'
                   : 'gap-3.5 px-4 py-3.5'}"
                 title={sidebarCollapsed ? "Buka E-Book Tajwid" : ""}
               >
                 <BookMarked
-                  class="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse-slow shrink-0"
+                  class="w-5 h-5 text-indigo-400 fill-indigo-400 animate-pulse-slow shrink-0"
                 />
                 {#if !sidebarCollapsed}
                   <span>Buka E-Book Tajwid</span>
@@ -624,7 +624,7 @@
           <div
             class="w-8 h-8 rounded-lg flex items-center justify-center
           {$isPremium
-              ? 'bg-linear-to-tr from-amber-500 to-yellow-300'
+              ? 'bg-linear-to-tr from-indigo-500 to-violet-300'
               : 'bg-linear-to-tr from-emerald-600 to-emerald-400'}"
           >
             {#if $isPremium}
@@ -666,7 +666,7 @@
     {#if !isReaderPage}
       <nav
         class="md:hidden mobile-bottom-nav fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 px-2 pt-2.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,12px))] flex justify-around items-center z-40 {$isPremium
-          ? 'border-t border-amber-500/20'
+          ? 'border-t border-indigo-500/20'
           : ''}"
       >
         {#each menuItems as item (item.path)}
@@ -676,7 +676,7 @@
             class="flex flex-col items-center justify-center gap-1 w-16 min-h-[44px] transition-all duration-300 relative group md3-ripple touch-manipulation
           {isActive(item.path)
               ? $isPremium
-                ? 'text-amber-400 font-extrabold'
+                ? 'text-indigo-400 font-extrabold'
                 : 'text-emerald-400 font-extrabold'
               : 'text-zinc-500'}"
           >
@@ -684,7 +684,7 @@
               class="p-1 rounded-xl transition-all duration-300
               {isActive(item.path)
                 ? $isPremium
-                  ? 'bg-amber-500/10 scale-110 text-amber-400'
+                  ? 'bg-indigo-500/10 scale-110 text-indigo-400'
                   : 'bg-emerald-500/10 scale-110 text-emerald-400'
                 : 'group-hover:text-zinc-350'}"
             >
@@ -694,7 +694,7 @@
             {#if isActive(item.path)}
               <span
                 class="absolute -top-1.5 w-1 h-1 rounded-full {$isPremium
-                  ? 'bg-amber-400'
+                  ? 'bg-indigo-400'
                   : 'bg-emerald-400'}"
               ></span>
             {/if}
@@ -755,7 +755,7 @@
         class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-[100] animate-fade-in"
       >
         <div
-          class="glass border border-amber-500/30 p-6 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl relative"
+          class="glass border border-indigo-500/30 p-6 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl relative"
         >
           <!-- Background pattern overlay -->
           <div
@@ -771,20 +771,20 @@
 
           <div class="text-center space-y-2">
             <Crown
-              class="w-12 h-12 text-amber-400 mx-auto fill-amber-400 animate-pulse-slow"
+              class="w-12 h-12 text-indigo-400 mx-auto fill-indigo-400 animate-pulse-slow"
             />
             <h3 class="text-xl font-extrabold text-white tracking-wide">
               Akses Royal Premium
             </h3>
             <span
-              class="text-[9px] text-amber-400 font-extrabold uppercase tracking-wider block"
+              class="text-[9px] text-indigo-400 font-extrabold uppercase tracking-wider block"
               >Creative Qur'an Indonesia</span
             >
           </div>
 
           <!-- Fitur Premium List -->
           <div
-            class="border border-white/10 rounded-2xl p-4.5 bg-amber-950/10 text-left space-y-2.5"
+            class="border border-white/10 rounded-2xl p-4.5 bg-indigo-950/10 text-left space-y-2.5"
           >
             <p
               class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider"
@@ -793,11 +793,11 @@
             </p>
             <ul class="space-y-2 text-xs text-zinc-300">
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 text-[10px] mt-0.5">✦</span>
+                <span class="text-indigo-400 text-[10px] mt-0.5">✦</span>
                 <span>Bisa akses e-book lengkap belajar tajwid</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 text-[10px] mt-0.5">✦</span>
+                <span class="text-indigo-400 text-[10px] mt-0.5">✦</span>
                 <span
                   >Pengoreksi makhraj huruf menggunakan sistem pintar <strong
                     >AI Islamic Correction</strong
@@ -805,14 +805,14 @@
                 >
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 text-[10px] mt-0.5">✦</span>
+                <span class="text-indigo-400 text-[10px] mt-0.5">✦</span>
                 <span>Tampilan jadwal sholat yang lebih bagus</span>
               </li>
             </ul>
           </div>
 
           <div
-            class="border border-white/10 rounded-2xl p-4 space-y-3.5 bg-amber-950/15"
+            class="border border-white/10 rounded-2xl p-4 space-y-3.5 bg-indigo-950/15"
           >
             <div class="flex items-center justify-between text-xs">
               <span class="text-zinc-400 font-semibold">Metode Pembayaran</span>
@@ -821,13 +821,13 @@
             </div>
             <div class="flex items-center justify-between text-xs">
               <span class="text-zinc-400 font-semibold">Nomor GoPay</span>
-              <span class="font-extrabold select-all text-amber-300"
+              <span class="font-extrabold select-all text-indigo-300"
                 >081224079173</span
               >
             </div>
             <div class="flex items-center justify-between text-xs">
               <span class="text-zinc-400 font-semibold">Jumlah Transfer</span>
-              <span class="font-extrabold text-amber-400">Rp 24.000</span>
+              <span class="font-extrabold text-indigo-400">Rp 24.000</span>
             </div>
           </div>
 
@@ -864,11 +864,11 @@
                   type="text"
                   bind:value={activationCode}
                   placeholder="Masukkan kode..."
-                  class="flex-1 bg-stone-950/40 border border-white/10 text-white text-xs rounded-xl py-2.5 px-3 outline-none focus:border-amber-500/50 transition-all font-semibold uppercase"
+                  class="flex-1 bg-stone-950/40 border border-white/10 text-white text-xs rounded-xl py-2.5 px-3 outline-none focus:border-indigo-500/50 transition-all font-semibold uppercase"
                 />
                 <button
                   onclick={verifyActivationCode}
-                  class="px-4 py-2.5 rounded-xl bg-linear-to-r from-amber-500 to-yellow-300 hover:from-amber-400 hover:to-yellow-200 text-black font-black text-xs active:scale-95 transition-all cursor-pointer"
+                  class="px-4 py-2.5 rounded-xl bg-linear-to-r from-indigo-500 to-violet-300 hover:from-indigo-400 hover:to-violet-200 text-black font-black text-xs active:scale-95 transition-all cursor-pointer"
                 >
                   Aktifkan
                 </button>
@@ -892,19 +892,19 @@
         {#if !$isPremium}
           <button
             onclick={handleActivatePremium}
-            class="w-14 h-14 rounded-full bg-linear-to-tr from-amber-500 to-yellow-300 shadow-xl shadow-amber-500/30 flex items-center justify-center border border-amber-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative group"
+            class="w-14 h-14 rounded-full bg-linear-to-tr from-indigo-500 to-violet-300 shadow-xl shadow-indigo-500/30 flex items-center justify-center border border-indigo-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative group"
             aria-label="Aktivasi Premium"
           >
             <!-- Pulsing gold ring overlay -->
             <span
-              class="absolute inset-0 rounded-full bg-amber-400/30 animate-ping"
+              class="absolute inset-0 rounded-full bg-indigo-400/30 animate-ping"
             ></span>
             <Crown class="w-6 h-6 text-black fill-black relative z-10" />
           </button>
         {:else}
           <a
             href="/premium/ebook"
-            class="w-14 h-14 rounded-full bg-linear-to-tr from-amber-500 to-yellow-300 shadow-xl shadow-amber-500/30 flex items-center justify-center border border-amber-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative"
+            class="w-14 h-14 rounded-full bg-linear-to-tr from-indigo-500 to-violet-300 shadow-xl shadow-indigo-500/30 flex items-center justify-center border border-indigo-400/50 cursor-pointer active:scale-90 transition-transform duration-200 relative"
             aria-label="Buka E-Book"
           >
             <BookMarked class="w-6 h-6 text-black relative z-10" />
@@ -1031,9 +1031,9 @@
     <!-- TOAST ALERTS -->
     {#if showToast}
       <div
-        class="fixed top-20 left-1/2 -translate-x-1/2 px-5 py-3.5 bg-amber-600 border border-amber-500/30 text-white text-xs font-bold rounded-2xl shadow-xl z-[200] animate-fade-in flex items-center gap-2"
+        class="fixed top-20 left-1/2 -translate-x-1/2 px-5 py-3.5 bg-indigo-600 border border-indigo-500/30 text-white text-xs font-bold rounded-2xl shadow-xl z-[200] animate-fade-in flex items-center gap-2"
       >
-        <Crown class="w-4 h-4 text-amber-100 fill-amber-100" />
+        <Crown class="w-4 h-4 text-indigo-100 fill-indigo-100" />
         <span>{toastMessage}</span>
       </div>
     {/if}

@@ -271,7 +271,7 @@
       <div class="premium-setting-card {$isPremium ? 'premium-border' : ''}">
         <div class="flex items-center justify-between border-b border-white/5 pb-2">
           <div class="flex items-center gap-2">
-            <Crown class="w-4.5 h-4.5 {$isPremium ? 'text-amber-400' : 'text-emerald-400'}" />
+            <Crown class="w-4.5 h-4.5 {$isPremium ? 'text-indigo-400' : 'text-emerald-400'}" />
             <h3 class="font-bold text-xs text-zinc-200">Creative Qur'an Premium</h3>
           </div>
           
@@ -313,8 +313,8 @@
 
         {#if $isPremium}
           <div class="pt-2 flex items-center justify-between gap-3">
-            <span class="text-[11px] font-bold text-amber-400 flex items-center gap-1">
-              <Crown class="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span class="text-[11px] font-bold text-indigo-400 flex items-center gap-1">
+              <Crown class="w-3.5 h-3.5 text-indigo-400 fill-indigo-400" />
               Premium Kamu Aktif
             </span>
             <button 
@@ -838,7 +838,7 @@
               class="ios-row ios-row-interactive text-left w-full"
             >
               <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                <div class="w-7 h-7 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
                   <Star class="w-4 h-4" />
                 </div>
                 <div>
@@ -956,7 +956,7 @@
       </button>
 
       <div class="space-y-2">
-        <Star class="w-12 h-12 text-amber-400 mx-auto fill-amber-400" />
+        <Star class="w-12 h-12 text-indigo-400 mx-auto fill-indigo-400" />
         <h3 class="text-lg font-extrabold text-white">Beri Nilai Aplikasi</h3>
         <p class="text-xs text-zinc-400">Bagikan masukan berharga Anda untuk pengembangan Creative Qur'an Indonesia.</p>
       </div>
@@ -966,10 +966,10 @@
         {#each Array.from({ length: 5 }, (_, i) => i + 1) as star (star)}
           <button 
             onclick={() => ratingStars = star}
-            class="text-zinc-650 hover:text-amber-400 transition-colors duration-200"
+            class="text-zinc-650 hover:text-indigo-400 transition-colors duration-200"
           >
             <Star 
-              class="w-7 h-7 {star <= ratingStars ? 'text-amber-400 fill-amber-400' : 'text-zinc-600'}" 
+              class="w-7 h-7 {star <= ratingStars ? 'text-indigo-400 fill-indigo-400' : 'text-zinc-600'}" 
             />
           </button>
         {/each}
@@ -1084,8 +1084,8 @@
       </button>
 
       <div class="space-y-2">
-        <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mx-auto">
-          <Smartphone class="w-5.5 h-5.5 text-amber-400" />
+        <div class="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mx-auto">
+          <Smartphone class="w-5.5 h-5.5 text-indigo-400" />
         </div>
         <h3 class="font-extrabold text-sm text-white tracking-wide">Segera Hadir di Play Store & App Store</h3>
         <p class="text-[11px] text-zinc-400 leading-relaxed font-semibold">
@@ -1262,15 +1262,15 @@
 
   /* Premium Golden Card */
   .premium-setting-card {
-    background: rgba(251, 191, 36, 0.05);
-    border: 1px solid rgba(251, 191, 36, 0.15);
+    background: rgba(129, 140, 248, 0.05);
+    border: 1px solid rgba(129, 140, 248, 0.15);
     border-radius: 18px;
     padding: 12px 14px;
-    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.03);
+    box-shadow: 0 4px 15px rgba(129, 140, 248, 0.03);
   }
   :global(.light-mode) .premium-setting-card {
     background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(251, 191, 36, 0.25);
+    border: 1px solid rgba(129, 140, 248, 0.25);
   }
 
   /* Android & Samsung Material Design 3 overrides */
