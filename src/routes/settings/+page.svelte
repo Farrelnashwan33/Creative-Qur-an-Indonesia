@@ -18,6 +18,7 @@
     Crown,
     Smartphone,
     X,
+    ChevronLeft,
     ChevronRight,
     Search,
     HelpCircle,
@@ -219,6 +220,14 @@
   <header class="ios-header border-b border-white/5 pb-3 pt-2">
     <div class="flex items-center justify-between px-2 py-1.5">
       <div class="flex items-center gap-1.5">
+        <button
+          onclick={() => history.back()}
+          class="p-1.5 rounded-xl text-zinc-400 hover:text-zinc-200 active:scale-95 transition-all"
+          title="Kembali"
+          aria-label="Kembali"
+        >
+          <ChevronLeft class="w-4 h-4" />
+        </button>
         <Settings class="w-4 h-4 text-emerald-400" />
         <span class="text-sm font-bold text-zinc-200">Pengaturan</span>
       </div>
