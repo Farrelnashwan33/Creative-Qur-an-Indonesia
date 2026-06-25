@@ -465,8 +465,7 @@
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
                 title={sidebarCollapsed ? item.name : ""}
               >
-                <svelte:component
-                  this={Icon}
+                <Icon
                   class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
                 {isActive(item.path)
                     ? $isPremium ? 'text-indigo-400' : 'text-emerald-400'
@@ -497,8 +496,7 @@
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
                 title={sidebarCollapsed ? item.name : ""}
               >
-                <svelte:component
-                  this={Icon}
+                <Icon
                   class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
                 {isActive(item.path)
                     ? $isPremium ? 'text-indigo-400' : 'text-emerald-400'
@@ -529,8 +527,7 @@
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}"
                 title={sidebarCollapsed ? item.name : ""}
               >
-                <svelte:component
-                  this={Icon}
+                <Icon
                   class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 shrink-0
                 {isActive(item.path)
                     ? $isPremium ? 'text-indigo-400' : 'text-emerald-400'
@@ -688,7 +685,7 @@
                   : 'bg-emerald-500/10 scale-110 text-emerald-400'
                 : 'group-hover:text-zinc-350'}"
             >
-              <svelte:component this={Icon} class="w-5.5 h-5.5 transition-transform duration-300 active:scale-90" />
+              <Icon class="w-5.5 h-5.5 transition-transform duration-300 active:scale-90" />
             </div>
             <span class="text-[9px] font-semibold tracking-wide">{item.name}</span>
             {#if isActive(item.path)}
